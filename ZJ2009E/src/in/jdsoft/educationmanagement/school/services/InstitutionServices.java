@@ -17,6 +17,7 @@ import in.jdsoft.educationmanagement.school.dao.InstituteLedgerAccountDAO;
 import in.jdsoft.educationmanagement.school.dao.InstitutionDAO;
 import in.jdsoft.educationmanagement.school.dao.MasterUserTypeDAO;
 import in.jdsoft.educationmanagement.school.dao.UserDAO;
+import in.jdsoft.educationmanagement.school.exceptions.AcademicYearException;
 import in.jdsoft.educationmanagement.school.exceptions.InstitutionException;
 import in.jdsoft.educationmanagement.school.model.AcademicYear;
 import in.jdsoft.educationmanagement.school.model.AcademicYearFeesTerm;
@@ -206,7 +207,7 @@ public class InstitutionServices {
 	}
 	
 	@Transactional
-	public ArrayList<AcademicYearFeesTerm> getCurrentAcademicYearFeesTerms(Integer institutionId){
+	public ArrayList<AcademicYearFeesTerm> getCurrentAcademicYearFeesTerms(Integer institutionId) throws AcademicYearException{
 		Institution institution= institutionDAO.getInstitutionById(institutionId);
 	 	Set<AcademicYear> institutionAcademicYears=institution.getAcademicYears();
 		Iterator<AcademicYear> iterator=institutionAcademicYears.iterator();
@@ -220,7 +221,12 @@ public class InstitutionServices {
 		}
 		
 		ArrayList<AcademicYearFeesTerm> academicYearFeesTerms=new ArrayList<AcademicYearFeesTerm>();
-		 academicYearFeesTerms.addAll(academicYear.getAcademicYearFeesTerms());
+		if(academicYear!=null){
+			academicYearFeesTerms.addAll(academicYear.getAcademicYearFeesTerms());	
+		}
+		else{
+			throw new AcademicYearException(new Message("nullpointer", "No Active Academic Year Found. Create Academic Year"));
+		}
 		return  academicYearFeesTerms;
 	}
 }

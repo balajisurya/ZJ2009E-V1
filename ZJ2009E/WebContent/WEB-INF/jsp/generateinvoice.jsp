@@ -57,6 +57,14 @@
       
       
       </style>
+       <c:if test="${!empty errorMessage}">
+       		<script type="text/javascript">
+		       	$(document).ready(function(){
+			 		var message='${errorMessage.getMessage()}';
+					alert(message);
+		         });
+       		</script>
+       </c:if>
      
 </head> 
                 <%@ include file="master_menu.jsp" %>

@@ -133,9 +133,12 @@ public class UserService {
 	@Transactional
 	public User getUserByEmail(String email){
 		User user=userdao.getUserByEmail(email);
-		Hibernate.initialize(user.getInstitution());
-		Hibernate.initialize(user.getReceivedPortalTask());
-		Hibernate.initialize(user.getReceivedPortalNotifications());
+		if(user!=null){
+			Hibernate.initialize(user.getInstitution());
+			Hibernate.initialize(user.getReceivedPortalTask());
+			Hibernate.initialize(user.getReceivedPortalNotifications());
+		}
+		
 		return user;
 	}
 	
