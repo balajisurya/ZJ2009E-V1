@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import in.jdsoft.educationmanagement.components.NumberToEnglishWords;
+import in.jdsoft.educationmanagement.school.exceptions.AcademicYearException;
 import in.jdsoft.educationmanagement.school.exceptions.StudentException;
 import in.jdsoft.educationmanagement.school.model.AcademicYear;
 import in.jdsoft.educationmanagement.school.model.Class;
@@ -56,7 +57,7 @@ public class InvoiceController {
 	NumberToEnglishWords numberConverter;
 	
 	@RequestMapping 
-	public ModelAndView displayGenerateInvoicePage(HttpServletRequest request){
+	public ModelAndView displayGenerateInvoicePage(HttpServletRequest request,RedirectAttributes attributes) throws Exception{
 		try {
 			Integer instituteId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
 			ModelAndView modelandview=new ModelAndView("generateinvoice");
@@ -66,8 +67,17 @@ public class InvoiceController {
 			modelandview.addObject("academicFeesTerms",institutionServices.getCurrentAcademicYearFeesTerms(instituteId));
 			return modelandview;
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
+			if(e.getClass().equals(AcademicYearException.class)){
+				ModelAndView modelandview=new ModelAndView("redirect:/academicYear");
+				System.out.println("Enetered");
+				AcademicYearException ex=(AcademicYearException)e;
+				attributes.addFlashAttribute("errorMessage", ex.getCustomMessage());
+				
+				return modelandview;
+			}
+			else{
+				throw e;
+			}
 		}
 		
 	}
