@@ -47,6 +47,7 @@ import in.jdsoft.educationmanagement.school.model.Message;
 import in.jdsoft.educationmanagement.school.model.Section;
 import in.jdsoft.educationmanagement.school.model.SpecialCategory;
 import in.jdsoft.educationmanagement.school.model.Student;
+import in.jdsoft.educationmanagement.school.model.StudentInvoice;
 import in.jdsoft.educationmanagement.school.model.StudentStatus;
 
 
@@ -567,6 +568,7 @@ public class StudentServices {
 	 
 	 @Transactional
 	 public ArrayList<Student> getActiveStudentFromClassAndSection(Class clazz,Section section){
+		 ArrayList<Student> actualStudent=new ArrayList<Student>();
 		ArrayList<Student> students= (ArrayList<Student>)studentDAO.getStudentsByClassAndSection(clazz, section);
 		Iterator<Student> iterator=students.iterator();
 		while(iterator.hasNext()){
@@ -575,17 +577,22 @@ public class StudentServices {
 				iterator.remove();
 			}
 			else{
-				 Hibernate.initialize(student.getStudentClass());
-				 Hibernate.initialize(student.getSection());
-				 Hibernate.initialize(student.getBloodGroup());
-				 Hibernate.initialize(student.getCategory());
-				 Hibernate.initialize(student.getSpecialCategory());
-				 Hibernate.initialize(student.getStudentStatus());
-				 Hibernate.initialize(student.getJoinedAcademicYear());
-				 Hibernate.initialize(student.getJoinedClass());
+				if(!checkForStudentInvoiceGenerated(student)){
+					Hibernate.initialize(student.getStudentClass());
+					 Hibernate.initialize(student.getSection());
+					 Hibernate.initialize(student.getBloodGroup());
+					 Hibernate.initialize(student.getCategory());
+					 Hibernate.initialize(student.getSpecialCategory());
+					 Hibernate.initialize(student.getStudentStatus());
+					 Hibernate.initialize(student.getJoinedAcademicYear());
+					 Hibernate.initialize(student.getJoinedClass());
+					 actualStudent.add(student);
+				}
+
+				 
 			}
 		}
-		 return students; 
+		 return actualStudent; 
 	 }
 	 
 	 @Transactional
@@ -917,8 +924,14 @@ public class StudentServices {
 		 StudentStatus studentStatus= studentStatusDAO.getStudentStatusById(1);
 		 Student student=studentDAO.getActiveStudentByAdmissionNo(admissionNo,studentStatus);
 		 if(student!=null){
-			 Hibernate.initialize(student.getStudentClass());
-			 Hibernate.initialize(student.getSection());
+			 if(checkForStudentInvoiceGenerated(student)){
+				 student=null;
+			}
+			 else{
+				 Hibernate.initialize(student.getStudentClass());
+				 Hibernate.initialize(student.getSection());
+			 }
+			 
 		 }
 		 return  student;
 	 }
@@ -939,7 +952,9 @@ public class StudentServices {
 						iterator.remove();
 					}
 					else{
-						 students.add(student);
+						if(!checkForStudentInvoiceGenerated(student)){
+							students.add(student);
+						}
 					}
 				}
 				
@@ -964,13 +979,46 @@ public class StudentServices {
 							iterator.remove();
 						}
 						else{
-							 Hibernate.initialize(student.getStudentClass());
-							 Hibernate.initialize(student.getSection());
-							 students.add(student);
+							if(!checkForStudentInvoiceGenerated(student)){
+								Hibernate.initialize(student.getStudentClass());
+								 Hibernate.initialize(student.getSection());
+								 students.add(student);
+							}
 						}
 					}
 			 }
 		 }
 		 return students;
 	 }
+	 
+	 
+		@Transactional
+		public boolean checkForStudentInvoiceGenerated(Student student){
+			boolean invoiceGenerated=false;
+			if(student!=null){
+				Set<StudentInvoice> studentInvoices= student.getInvoices();
+				Institution institution= student.getInstitution();
+				Set<AcademicYear> institutionAcademicYears=institution.getAcademicYears();
+				Iterator<AcademicYear> iterator=institutionAcademicYears.iterator();
+				AcademicYear academicYear=null;
+				while(iterator.hasNext()){
+					academicYear=iterator.next();
+					if(academicYear.getAcademicYearStatus()==1){
+						break;
+					}
+					academicYear=null;
+				}
+				
+				for (StudentInvoice studentInvoice : studentInvoices) {
+					if(studentInvoice.getAcademicYear().getAcademicYearId()==academicYear.getAcademicYearId()){
+						invoiceGenerated=true;
+						break;
+					}
+				}
+				return invoiceGenerated;
+			}
+			else{
+				return invoiceGenerated;
+			}
+		}
 }

@@ -18,7 +18,7 @@
       <!-- js-->
       <script src="${pageContext.request.contextPath}/resources/cdntolocal/js/jquery_1.11.2.min.js"></script>
       <script src="${pageContext.request.contextPath}/resources/cdntolocal/js/jquery_1.7.1.min.js"></script>
-      <script src="${pageContext.request.contextPath}/resources/${theme}/js/jquery-1.11.1.min.js"></script>
+      <%-- <script src="${pageContext.request.contextPath}/resources/${theme}/js/jquery-1.11.1.min.js"></script> --%>
       <script src="${pageContext.request.contextPath}/resources/${theme}/js/modernizr.custom.js"></script>
       <!--webfonts-->
       <link href='${pageContext.request.contextPath}/resources/cdntolocal/css/fonts-googleapis.css' rel='stylesheet' type='text/css'>
