@@ -1,0 +1,83 @@
+{
+  "ecmaVersion": 5,
+  "plugins": {
+<<<<<<< HEAD
+<<<<<<< HEAD
+    "guess-types": {
+      
+    },
+    "outline": {
+      
+    },
+    "angular": {
+      
+    }
+  },
+  "libs": [
+    "ecma5",
+    "browser"
+=======
+=======
+>>>>>>> refs/heads/Demo-Working-Themes
+    "outline": {
+      
+    },
+    "qunit": {
+      
+    },
+    "browser-extension": {
+      
+    },
+    "yui3": {
+      
+    },
+    "ckeditor4.4.x": {
+      
+    },
+    "extjs4.2.1": {
+      
+    },
+    "snabbt": {
+      
+    },
+    "bootstrap": {
+      
+    },
+    "jquery-ui1-12": {
+      
+    },
+    "aui1.5.x": {
+      
+    },
+    "jquery-extension": {
+      
+    },
+    "jquery-mobile1.5": {
+      
+    }
+  },
+  "libs": [
+    "ecma5",
+    "browser",
+    "jquery"
+<<<<<<< HEAD
+>>>>>>> refs/heads/Demo-Working-Themes
+=======
+=======
+    "guess-types": {
+      
+    },
+    "outline": {
+      
+    },
+    "angular": {
+      
+    }
+  },
+  "libs": [
+    "ecma5",
+    "browser"
+>>>>>>> refs/heads/balaji-surya
+>>>>>>> refs/heads/Demo-Working-Themes
+  ]
+}

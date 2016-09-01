@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<monthly>
+
+
+	<event>
+		<id>1</id>
+		<name>MBA First Semester Exams</name>
+		<startdate>2016-07-20</startdate>
+		<enddate>2016-07-21</enddate>
+		<starttime>10:00</starttime>
+		
+		
+		<url></url>
+	</event>
+
+	<event>
+		<id>2</id>
+		<name>Sha's BirthDay</name>
+		<startdate>2016-3-15</startdate>
+		<enddate></enddate>
+		<starttime></starttime>
+		<endtime></endtime>
+		<color>#28cbff</color>
+		<url></url>
+	</event>
+
+	<event>
+		<id>3</id>
+		<name>Principal's Address</name>
+		<startdate>2016-3-29</startdate>
+		<enddate></enddate>
+		<starttime>9:00</starttime>
+		<endtime>12:00</endtime>
+		<color>#9cc370</color>
+		<url></url>
+	</event>
+
+	<event>
+		<id>4</id>
+		<name>Pongal Holidays</name>
+		<startdate>2016-1-14</startdate>
+		<enddate>2016-1-17</enddate>
+		<starttime></starttime>
+		<endtime></endtime>
+		<color>#9f4b99</color>
+		<url></url>
+	</event>
+<event>
+		<id>5</id>
+		<name>Memorial Day</name>
+		<startdate>2016-06-02</startdate>
+		<enddate>2016-06-02</enddate>
+		<starttime></starttime>
+		<endtime></endtime>
+		<color>#9f4b99</color>
+		<url>http://edumaat.com/</url>
+	</event>
+<event>
+		<id>6</id>
+		<name>JD Soft</name>
+		<startdate>2016-06-11</startdate>
+		<enddate>2016-06-15</enddate>
+		<starttime></starttime>
+		<endtime></endtime>
+		<color>#9f4b99</color>
+		<url>http://jdsoft.in/</url>
+	</event>
+</monthly>
