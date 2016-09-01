@@ -181,7 +181,6 @@ public class Student implements java.io.Serializable {
 	
 	
 	private Set<StudentInvoice> invoices=new HashSet<StudentInvoice>(0);
-	private Set<StudentInvoiceFineDetail> invoicesFineDetails=new HashSet<StudentInvoiceFineDetail>(0);
 	private Set<StudentReceipt> studentReceipts=new HashSet<StudentReceipt>(0);
 	
 
@@ -598,15 +597,6 @@ public class Student implements java.io.Serializable {
 		this.rollNo = rollNo;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
-	@ForeignKey(name="studentInStudentInvoiceFineDetails")
-	public Set<StudentInvoiceFineDetail> getInvoicesFineDetails() {
-		return invoicesFineDetails;
-	}
-
-	public void setInvoicesFineDetails(Set<StudentInvoiceFineDetail> invoicesFineDetails) {
-		this.invoicesFineDetails = invoicesFineDetails;
-	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
 	@ForeignKey(name="studentInStudentReceipts")

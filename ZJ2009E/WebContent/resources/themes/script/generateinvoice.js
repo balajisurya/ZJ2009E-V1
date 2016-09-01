@@ -173,7 +173,10 @@ $(document).ready(function() {
 			        			            });
 			        			    
 			        			    if(termfeeslists!=null && selectedstudentid!=null){
-								  		  $.post(ctx+'/invoice/generate',{studentIds:selectedstudentid,academicTermIds:termfeeslists})
+								  		  $.post(ctx+'/invoice/generate',{studentIds:selectedstudentid,
+								  			  academicTermIds:termfeeslists},function(){
+								  				location.reload();
+								  			  })
 								  	
 								  	 }
 			        			   

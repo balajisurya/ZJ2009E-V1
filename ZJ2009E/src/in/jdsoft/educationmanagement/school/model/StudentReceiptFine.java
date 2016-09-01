@@ -14,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -36,22 +35,24 @@ public class StudentReceiptFine implements Serializable {
 	
 	public StudentReceiptFine() {}
 	
-	public StudentReceiptFine(StudentReceipt studentReceipt, StudentInvoiceFineDetail studentInvoiceFineDetail,
+	public StudentReceiptFine(StudentReceipt studentReceipt,Double fineAmount,
 			String createdBy, String modifiedBy) {
 		this.studentReceipt = studentReceipt;
-		this.studentInvoiceFineDetail = studentInvoiceFineDetail;
 		this.createdBy = createdBy;
+		this.fineTitle="Fine Amount";
+		this.fineAmount=fineAmount;
 		this.modifiedBy = modifiedBy;
 		this.createdDate = new Timestamp(Calendar.getInstance().getTime().getTime());
 	}
 	
 	private Integer studentReceiptFineId;
 	private StudentReceipt studentReceipt;
-	private StudentInvoiceFineDetail studentInvoiceFineDetail;
+	private String fineTitle;
 	private String createdBy;
 	private String modifiedBy;
 	private Date createdDate;
 	private Date modifiedDate;
+	private Double fineAmount;
 
 	
 	@Id
@@ -78,16 +79,7 @@ public class StudentReceiptFine implements Serializable {
 		this.studentReceipt = studentReceipt;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "student_invoice_fine_detail_id", nullable =false)
-	@ForeignKey(name="studentReceiptFineInStudentInvoiceFineDetail")
-	public StudentInvoiceFineDetail getStudentInvoiceFineDetail() {
-		return studentInvoiceFineDetail;
-	}
 
-	public void setStudentInvoiceFineDetail(StudentInvoiceFineDetail studentInvoiceFineDetail) {
-		this.studentInvoiceFineDetail = studentInvoiceFineDetail;
-	}
 
 	@Column(name = "created_by", nullable = false,length=100)
 	public String getCreatedBy() {
@@ -125,5 +117,23 @@ public class StudentReceiptFine implements Serializable {
 
 	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
+	}
+
+	@Column(name = "fine_amount", nullable = false)
+	public Double getFineAmount() {
+		return fineAmount;
+	}
+
+	public void setFineAmount(Double fineAmount) {
+		this.fineAmount = fineAmount;
+	}
+
+	@Column(name = "fine_title", nullable = false,length=100)
+	public String getFineTitle() {
+		return fineTitle;
+	}
+
+	public void setFineTitle(String fineTitle) {
+		this.fineTitle = fineTitle;
 	}
 }

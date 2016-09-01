@@ -1,8 +1,6 @@
 package in.jdsoft.educationmanagement.school.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,7 +24,6 @@ import in.jdsoft.educationmanagement.school.model.SpecialCategory;
 import in.jdsoft.educationmanagement.school.model.Student;
 import in.jdsoft.educationmanagement.school.model.StudentInvoice;
 import in.jdsoft.educationmanagement.school.model.StudentInvoiceDetail;
-import in.jdsoft.educationmanagement.school.model.StudentInvoiceFineDetail;
 import in.jdsoft.educationmanagement.school.services.AcademicYearServices;
 import in.jdsoft.educationmanagement.school.services.ClassAndSectionServices;
 import in.jdsoft.educationmanagement.school.services.FeesStructureServices;
@@ -211,7 +208,7 @@ public class InvoiceController {
 		}
 	}
 	
-	@RequestMapping(value="studentInvoice/fineitems",method=RequestMethod.GET)
+	/*@RequestMapping(value="studentInvoice/fineitems",method=RequestMethod.GET)
 	@ResponseBody
 	public ArrayList<StudentInvoiceFineDetail> getStudentPendingInvoiceFineItems(HttpServletRequest request){
 		try {
@@ -221,7 +218,7 @@ public class InvoiceController {
 			e.printStackTrace();
 			throw e;
 		}
-	}
+	}*/
 	
 	
 	@RequestMapping(value="studentInvoice/finalitemdetails",method=RequestMethod.GET)
@@ -250,7 +247,7 @@ public class InvoiceController {
 		}
 	}
 	
-	@RequestMapping(value="studentInvoice/finalFineitemdetails",method=RequestMethod.GET)
+/*	@RequestMapping(value="studentInvoice/finalFineitemdetails",method=RequestMethod.GET)
 	@ResponseBody
 	public ArrayList<StudentInvoiceFineDetail> getStudentPendingInvoiceFineItemsForPayment(HttpServletRequest request){
 		try {
@@ -271,7 +268,7 @@ public class InvoiceController {
 			e.printStackTrace();
 			throw e;
 		}
-	}
+	}*/
 	
 	
 	@RequestMapping(value="invoiceAndReceipt")
@@ -363,7 +360,7 @@ public class InvoiceController {
 		
 	}
 	
-	@RequestMapping(value="dues/pending",method=RequestMethod.GET)
+	/*@RequestMapping(value="dues/pending",method=RequestMethod.GET)
 	@ResponseBody
 	public ArrayList<StudentInvoice> getPendingDueInvoicesOfDateRange(HttpServletRequest request,RedirectAttributes redirectattributes) throws Exception{
 		try {
@@ -378,7 +375,7 @@ public class InvoiceController {
 			e.printStackTrace();
 			throw e;
 		}
-	}
+	}*/
 
 
 /*	@RequestMapping(value="penalty",method=RequestMethod.POST)
