@@ -72,7 +72,7 @@ public class StudentInvoice implements Serializable{
 	private double invoiceAmount;
 	
 	private Set<StudentInvoiceDetail> studentInvoiceDetails=new HashSet<StudentInvoiceDetail>(0);
-	private Set<StudentInvoiceFineDetail> studentInvoiceFineDetails=new HashSet<StudentInvoiceFineDetail>(0);
+	
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -159,16 +159,7 @@ public class StudentInvoice implements Serializable{
 		this.studentInvoiceDetails = studentInvoiceDetails;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "studentInvoice")
-	@ForeignKey(name="studentInvoiceInStudentInvoiceFineDetails")
-	public Set<StudentInvoiceFineDetail> getStudentInvoiceFineDetails() {
-		return studentInvoiceFineDetails;
-	}
 
-	
-	public void setStudentInvoiceFineDetails(Set<StudentInvoiceFineDetail> studentInvoiceFineDetails) {
-		this.studentInvoiceFineDetails = studentInvoiceFineDetails;
-	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "academic_year_id", nullable = false)

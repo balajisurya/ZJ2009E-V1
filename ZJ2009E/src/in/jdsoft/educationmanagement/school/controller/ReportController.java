@@ -32,7 +32,7 @@ public class ReportController {
 	@Autowired
 	ReceiptServices receiptServices;
 	
-	@RequestMapping(value="byInstitution")
+	/*@RequestMapping(value="byInstitution")
 	public ModelAndView getInstitutionWiseReport(HttpServletRequest request){
 		try {
 			ModelAndView mv=new ModelAndView("institutionwise");
@@ -41,7 +41,7 @@ public class ReportController {
 		} catch (Exception e) {
 			throw e;
 		}
-	}
+	}*/
 	
 	@RequestMapping(value="/byFeesItem")	
 	public ModelAndView getFeesItemWiseReport(HttpServletRequest request){

@@ -16,7 +16,6 @@ import in.jdsoft.educationmanagement.school.dao.PaymentStatusDAO;
 import in.jdsoft.educationmanagement.school.dao.StudentDAO;
 import in.jdsoft.educationmanagement.school.dao.StudentInvoiceDAO;
 import in.jdsoft.educationmanagement.school.dao.StudentInvoiceDetailDAO;
-import in.jdsoft.educationmanagement.school.dao.StudentInvoiceFineDetailDAO;
 import in.jdsoft.educationmanagement.school.dao.StudentReceiptDAO;
 import in.jdsoft.educationmanagement.school.exceptions.ReceiptException;
 import in.jdsoft.educationmanagement.school.exceptions.StudentReceiptException;
@@ -31,10 +30,8 @@ import in.jdsoft.educationmanagement.school.model.SpecialCategory;
 import in.jdsoft.educationmanagement.school.model.Student;
 import in.jdsoft.educationmanagement.school.model.StudentInvoice;
 import in.jdsoft.educationmanagement.school.model.StudentInvoiceDetail;
-import in.jdsoft.educationmanagement.school.model.StudentInvoiceFineDetail;
 import in.jdsoft.educationmanagement.school.model.StudentReceipt;
 import in.jdsoft.educationmanagement.school.model.StudentReceiptDetail;
-import in.jdsoft.educationmanagement.school.model.StudentReceiptFine;
 
 @Service
 public class ReceiptServices {
@@ -50,8 +47,6 @@ public class ReceiptServices {
 	@Autowired
 	StudentInvoiceDAO studentInvoiceDAO;
 	@Autowired
-	StudentInvoiceFineDetailDAO studentInvoiceFineDetailDAO;
-	@Autowired
 	StudentDAO studentDAO;
 	@Autowired
 	InstitutionDAO institutionDAO;
@@ -65,7 +60,7 @@ public class ReceiptServices {
 		StudentInvoice studentInvoice=null;
 		PaymentStatus paymentStatus=paymentStatusDAO.getPaymentStatusById(1);
 		ArrayList<StudentInvoiceDetail> studentInvoiceDetails=new ArrayList<StudentInvoiceDetail>();
-		ArrayList<StudentInvoiceFineDetail> studentInvoiceFineDetails=new ArrayList<StudentInvoiceFineDetail>();
+		
 		
 		if(paidStudentInvoiceDetails!=null){
 			for (int i = 0; i < paidStudentInvoiceDetails.length; i++) {
@@ -74,11 +69,7 @@ public class ReceiptServices {
 			
 		}
 		
-		if(paidInvoiceFines!=null){
-			for (int i = 0; i < paidInvoiceFines.length; i++) {
-				studentInvoiceFineDetails.add(studentInvoiceFineDetailDAO.getStudentInvoiceFineDetailById(paidInvoiceFines[i]));
-			}
-		}
+		
 		
 		if(paidStudentInvoiceDetails!=null){
 			int count=1;
@@ -87,20 +78,6 @@ public class ReceiptServices {
 				if(count==1){
 					StudentInvoiceDetail studentInvoiceDetail=studentInvoices.next();
 					studentInvoice= studentInvoiceDetail.getStudentInvoice();
-					Hibernate.initialize(studentInvoice.getStudentInvoiceDetails());
-				    student=studentInvoice.getStudent();
-				    academicYear=studentInvoice.getAcademicYear();
-				    institution=studentInvoice.getInstitution();
-				   break;
-				}
-			}
-		}else if(studentInvoiceFineDetails!=null){
-			int count=1;
-			Iterator<StudentInvoiceFineDetail> studentInvoiceFineDetailIterator= studentInvoiceFineDetails.iterator();
-			while(studentInvoiceFineDetailIterator.hasNext()){
-				if(count==1){
-					StudentInvoiceFineDetail studentInvoiceFineDetail=studentInvoiceFineDetailIterator.next();
-					studentInvoice= studentInvoiceFineDetail.getStudentInvoice();
 					Hibernate.initialize(studentInvoice.getStudentInvoiceDetails());
 				    student=studentInvoice.getStudent();
 				    academicYear=studentInvoice.getAcademicYear();
@@ -122,12 +99,7 @@ public class ReceiptServices {
 			studentReceipt.getReceiptDetails().add(studentReceiptDetail);
 		}
 		
-		for (StudentInvoiceFineDetail studentInvoiceFineDetail : studentInvoiceFineDetails) {
-			studentInvoiceFineDetail.setFineStatus(2);
-			studentInvoiceFineDetailDAO.update(studentInvoiceFineDetail);
-			StudentReceiptFine studentReceiptFine=new StudentReceiptFine(studentReceipt, studentInvoiceFineDetail, createdBy, modifiedBy);
-			studentReceipt.getReceiptFines().add(studentReceiptFine);
-		}
+		
 		
 		 StudentReceipt persistedStudentReceipt=studentReceiptDAO.save(studentReceipt);
 		 
@@ -146,7 +118,7 @@ public class ReceiptServices {
 		StudentInvoice studentInvoice=null;
 		PaymentStatus paymentStatus=paymentStatusDAO.getPaymentStatusById(1);
 		ArrayList<StudentInvoiceDetail> studentInvoiceDetails=new ArrayList<StudentInvoiceDetail>();
-		ArrayList<StudentInvoiceFineDetail> studentInvoiceFineDetails=new ArrayList<StudentInvoiceFineDetail>();
+		/*ArrayList<StudentInvoiceFineDetail> studentInvoiceFineDetails=new ArrayList<StudentInvoiceFineDetail>();*/
 		
 		if(paidStudentInvoiceDetails!=null){
 			for (int i = 0; i < paidStudentInvoiceDetails.length; i++) {
@@ -155,11 +127,11 @@ public class ReceiptServices {
 			
 		}
 		
-		if(paidInvoiceFines!=null){
+		/*if(paidInvoiceFines!=null){
 			for (int i = 0; i < paidInvoiceFines.length; i++) {
 				studentInvoiceFineDetails.add(studentInvoiceFineDetailDAO.getStudentInvoiceFineDetailById(paidInvoiceFines[i]));
 			}
-		}
+		}*/
 		
 		if(paidStudentInvoiceDetails!=null){
 			int count=1;
@@ -175,7 +147,8 @@ public class ReceiptServices {
 				   break;
 				}
 			}
-		}else if(studentInvoiceFineDetails!=null){
+		}
+		/*else if(studentInvoiceFineDetails!=null){
 			int count=1;
 			Iterator<StudentInvoiceFineDetail> studentInvoiceFineDetailIterator= studentInvoiceFineDetails.iterator();
 			while(studentInvoiceFineDetailIterator.hasNext()){
@@ -189,7 +162,7 @@ public class ReceiptServices {
 				   break;
 				}
 			}
-		}
+		}*/
 		
 		
 		StudentReceipt studentReceipt=new StudentReceipt(institution, academicYear, paymentMode, chequeReceivedDate,totalAmountPaid, student, paymentStatus, chequeNo, chequeDate, chequeBankName, chequeBranchName, createdBy, modifiedBy);
@@ -202,12 +175,12 @@ public class ReceiptServices {
 			studentReceipt.getReceiptDetails().add(studentReceiptDetail);
 		}
 		
-		for (StudentInvoiceFineDetail studentInvoiceFineDetail : studentInvoiceFineDetails) {
+		/*for (StudentInvoiceFineDetail studentInvoiceFineDetail : studentInvoiceFineDetails) {
 			studentInvoiceFineDetail.setFineStatus(2);
 			studentInvoiceFineDetailDAO.update(studentInvoiceFineDetail);
 			StudentReceiptFine studentReceiptFine=new StudentReceiptFine(studentReceipt, studentInvoiceFineDetail, createdBy, modifiedBy);
 			studentReceipt.getReceiptFines().add(studentReceiptFine);
-		}
+		}*/
 
 		
 		
@@ -227,7 +200,7 @@ public class ReceiptServices {
 		StudentInvoice studentInvoice=null;
 		PaymentStatus paymentStatus=paymentStatusDAO.getPaymentStatusById(1);
 		ArrayList<StudentInvoiceDetail> studentInvoiceDetails=new ArrayList<StudentInvoiceDetail>();
-		ArrayList<StudentInvoiceFineDetail> studentInvoiceFineDetails=new ArrayList<StudentInvoiceFineDetail>();
+		/*ArrayList<StudentInvoiceFineDetail> studentInvoiceFineDetails=new ArrayList<StudentInvoiceFineDetail>();*/
 		
 		if(paidStudentInvoiceDetails!=null){
 			for (int i = 0; i < paidStudentInvoiceDetails.length; i++) {
@@ -236,11 +209,11 @@ public class ReceiptServices {
 			
 		}
 		
-		if(paidInvoiceFines!=null){
+		/*if(paidInvoiceFines!=null){
 			for (int i = 0; i < paidInvoiceFines.length; i++) {
 				studentInvoiceFineDetails.add(studentInvoiceFineDetailDAO.getStudentInvoiceFineDetailById(paidInvoiceFines[i]));
 			}
-		}
+		}*/
 		
 
 		if(paidStudentInvoiceDetails!=null){
@@ -257,7 +230,8 @@ public class ReceiptServices {
 				   break;
 				}
 			}
-		}else if(studentInvoiceFineDetails!=null){
+		}
+		/*else if(studentInvoiceFineDetails!=null){
 			int count=1;
 			Iterator<StudentInvoiceFineDetail> studentInvoiceFineDetailIterator= studentInvoiceFineDetails.iterator();
 			while(studentInvoiceFineDetailIterator.hasNext()){
@@ -271,7 +245,7 @@ public class ReceiptServices {
 				   break;
 				}
 			}
-		}
+		}*/
 		
 		StudentReceipt studentReceipt=new StudentReceipt(institution, academicYear, paymentMode, totalAmountPaid, student, paymentStatus,ddNo, ddDate, ddBankName, ddBranchName, ddReceivedDate, createdBy, modifiedBy);
 
@@ -282,13 +256,13 @@ public class ReceiptServices {
 			studentReceipt.getReceiptDetails().add(studentReceiptDetail);
 		}
 		
-		for (StudentInvoiceFineDetail studentInvoiceFineDetail : studentInvoiceFineDetails) {
+		/*for (StudentInvoiceFineDetail studentInvoiceFineDetail : studentInvoiceFineDetails) {
 			studentInvoiceFineDetail.setFineStatus(2);
 			studentInvoiceFineDetailDAO.update(studentInvoiceFineDetail);
 			StudentReceiptFine studentReceiptFine=new StudentReceiptFine(studentReceipt, studentInvoiceFineDetail, createdBy, modifiedBy);
 			studentReceipt.getReceiptFines().add(studentReceiptFine);
 		}
-
+*/
 		
 			StudentReceipt persistedStudentReceipt=studentReceiptDAO.save(studentReceipt);
 		if (checKForInvoiceClosing(studentInvoice)) {
@@ -302,7 +276,7 @@ public class ReceiptServices {
 	@Transactional
 	public boolean checKForInvoiceClosing(StudentInvoice studentInvoice){
 		boolean closeStatus=false;
-		if(studentInvoiceDetailDAO.getStudentPendingInvoiceFeesItems(studentInvoice).isEmpty() && studentInvoiceFineDetailDAO.getPendingStudentInvoiceFineItems(studentInvoice).isEmpty()){
+		if(studentInvoiceDetailDAO.getStudentPendingInvoiceFeesItems(studentInvoice).isEmpty()){
 			closeStatus=true;
 		}
 		return closeStatus;
@@ -371,16 +345,7 @@ public class ReceiptServices {
 			  }
 			  
 		  }
-		  Set<StudentReceiptFine> receiptFine=studentReceipt.getReceiptFines();
-		  if(receiptFine!=null){
-			  for (StudentReceiptFine studentReceiptFine : receiptFine) {
-				studentReceiptFine.getStudentInvoiceFineDetail().setFineStatus(1);
-				if(!openInvoice){
-					studentInvoice=studentReceiptFine.getStudentInvoiceFineDetail().getStudentInvoice();
-					openInvoice=true;
-				}
-			  }
-		  }
+		  
 		  studentReceipt.setPaymentStatus(paymentStatus);
 		  studentReceiptDAO.update(studentReceipt);
 		  if(!checKForInvoiceClosing(studentInvoice)){
@@ -419,16 +384,7 @@ public class ReceiptServices {
 			  }
 			  
 		  }
-		  Set<StudentReceiptFine> receiptFine=studentReceipt.getReceiptFines();
-		  if(receiptFine!=null){
-			  for (StudentReceiptFine studentReceiptFine : receiptFine) {
-				studentReceiptFine.getStudentInvoiceFineDetail().setFineStatus(1);
-				if(!openInvoice){
-					studentInvoice=studentReceiptFine.getStudentInvoiceFineDetail().getStudentInvoice();
-					openInvoice=true;
-				}
-			  }
-		  }
+		  
 		  studentReceipt.setPaymentStatus(paymentStatus);
 		  studentReceiptDAO.update(studentReceipt);
 		  if(!checKForInvoiceClosing(studentInvoice)){
@@ -453,10 +409,6 @@ public class ReceiptServices {
 		}
 	
 		Hibernate.initialize(studentReceipt.getReceiptFines());
-		Set<StudentReceiptFine> studentReceiptFines=studentReceipt.getReceiptFines();
-		for (StudentReceiptFine studentReceiptFine : studentReceiptFines) {
-			Hibernate.initialize(studentReceiptFine.getStudentInvoiceFineDetail());
-		}
 		Hibernate.initialize(studentReceipt.getStudent().getSpecialCategory());
 		Hibernate.initialize(studentReceipt.getPaymentMode());
 		Hibernate.initialize(studentReceipt.getInstitution());
@@ -512,10 +464,6 @@ public class ReceiptServices {
 		 ArrayList<StudentReceipt> receipts=(ArrayList<StudentReceipt>) studentReceiptDAO.getStudentReceiptInByDate(startDate, endDate, institutionDAO.getInstitutionById(institutionId));
 		 for (StudentReceipt studentReceipt : receipts) {
 			Hibernate.initialize(studentReceipt.getReceiptFines());
-			Set<StudentReceiptFine> receiptFines=studentReceipt.getReceiptFines();
-			for (StudentReceiptFine studentReceiptFine : receiptFines) {
-				Hibernate.initialize(studentReceiptFine.getStudentInvoiceFineDetail());
-			}
 			Hibernate.initialize(studentReceipt.getPaymentStatus());
 			
 		}

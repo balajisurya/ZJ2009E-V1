@@ -18,7 +18,7 @@
       <!-- js-->
       <script src="${pageContext.request.contextPath}/resources/cdntolocal/js/jquery_1.11.2.min.js"></script>
       <script src="${pageContext.request.contextPath}/resources/cdntolocal/js/jquery_1.7.1.min.js"></script>
-      <script src="${pageContext.request.contextPath}/resources/${theme}/js/jquery-1.11.1.min.js"></script>
+      <%-- <script src="${pageContext.request.contextPath}/resources/${theme}/js/jquery-1.11.1.min.js"></script> --%>
       <script src="${pageContext.request.contextPath}/resources/${theme}/js/modernizr.custom.js"></script>
       <!--webfonts-->
       <link href='${pageContext.request.contextPath}/resources/cdntolocal/css/fonts-googleapis.css' rel='stylesheet' type='text/css'>
@@ -57,6 +57,14 @@
       
       
       </style>
+       <c:if test="${!empty errorMessage}">
+       		<script type="text/javascript">
+		       	$(document).ready(function(){
+			 		var message='${errorMessage.getMessage()}';
+					alert(message);
+		         });
+       		</script>
+       </c:if>
      
 </head> 
                 <%@ include file="master_menu.jsp" %>

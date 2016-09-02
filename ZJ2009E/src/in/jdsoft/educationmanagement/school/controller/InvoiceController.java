@@ -1,8 +1,6 @@
 package in.jdsoft.educationmanagement.school.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import in.jdsoft.educationmanagement.components.NumberToEnglishWords;
+import in.jdsoft.educationmanagement.school.exceptions.AcademicYearException;
 import in.jdsoft.educationmanagement.school.exceptions.StudentException;
 import in.jdsoft.educationmanagement.school.model.AcademicYear;
 import in.jdsoft.educationmanagement.school.model.Class;
@@ -26,7 +25,6 @@ import in.jdsoft.educationmanagement.school.model.SpecialCategory;
 import in.jdsoft.educationmanagement.school.model.Student;
 import in.jdsoft.educationmanagement.school.model.StudentInvoice;
 import in.jdsoft.educationmanagement.school.model.StudentInvoiceDetail;
-import in.jdsoft.educationmanagement.school.model.StudentInvoiceFineDetail;
 import in.jdsoft.educationmanagement.school.services.AcademicYearServices;
 import in.jdsoft.educationmanagement.school.services.ClassAndSectionServices;
 import in.jdsoft.educationmanagement.school.services.FeesStructureServices;
@@ -59,7 +57,7 @@ public class InvoiceController {
 	NumberToEnglishWords numberConverter;
 	
 	@RequestMapping 
-	public ModelAndView displayGenerateInvoicePage(HttpServletRequest request){
+	public ModelAndView displayGenerateInvoicePage(HttpServletRequest request,RedirectAttributes attributes) throws Exception{
 		try {
 			Integer instituteId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
 			ModelAndView modelandview=new ModelAndView("generateinvoice");
@@ -69,8 +67,17 @@ public class InvoiceController {
 			modelandview.addObject("academicFeesTerms",institutionServices.getCurrentAcademicYearFeesTerms(instituteId));
 			return modelandview;
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
+			if(e.getClass().equals(AcademicYearException.class)){
+				ModelAndView modelandview=new ModelAndView("redirect:/academicYear");
+				System.out.println("Enetered");
+				AcademicYearException ex=(AcademicYearException)e;
+				attributes.addFlashAttribute("errorMessage", ex.getCustomMessage());
+				
+				return modelandview;
+			}
+			else{
+				throw e;
+			}
 		}
 		
 	}
@@ -211,7 +218,7 @@ public class InvoiceController {
 		}
 	}
 	
-	@RequestMapping(value="studentInvoice/fineitems",method=RequestMethod.GET)
+	/*@RequestMapping(value="studentInvoice/fineitems",method=RequestMethod.GET)
 	@ResponseBody
 	public ArrayList<StudentInvoiceFineDetail> getStudentPendingInvoiceFineItems(HttpServletRequest request){
 		try {
@@ -221,7 +228,7 @@ public class InvoiceController {
 			e.printStackTrace();
 			throw e;
 		}
-	}
+	}*/
 	
 	
 	@RequestMapping(value="studentInvoice/finalitemdetails",method=RequestMethod.GET)
@@ -250,7 +257,7 @@ public class InvoiceController {
 		}
 	}
 	
-	@RequestMapping(value="studentInvoice/finalFineitemdetails",method=RequestMethod.GET)
+/*	@RequestMapping(value="studentInvoice/finalFineitemdetails",method=RequestMethod.GET)
 	@ResponseBody
 	public ArrayList<StudentInvoiceFineDetail> getStudentPendingInvoiceFineItemsForPayment(HttpServletRequest request){
 		try {
@@ -271,7 +278,7 @@ public class InvoiceController {
 			e.printStackTrace();
 			throw e;
 		}
-	}
+	}*/
 	
 	
 	@RequestMapping(value="invoiceAndReceipt")
@@ -363,7 +370,7 @@ public class InvoiceController {
 		
 	}
 	
-	@RequestMapping(value="dues/pending",method=RequestMethod.GET)
+	/*@RequestMapping(value="dues/pending",method=RequestMethod.GET)
 	@ResponseBody
 	public ArrayList<StudentInvoice> getPendingDueInvoicesOfDateRange(HttpServletRequest request,RedirectAttributes redirectattributes) throws Exception{
 		try {
@@ -378,7 +385,7 @@ public class InvoiceController {
 			e.printStackTrace();
 			throw e;
 		}
-	}
+	}*/
 
 
 /*	@RequestMapping(value="penalty",method=RequestMethod.POST)

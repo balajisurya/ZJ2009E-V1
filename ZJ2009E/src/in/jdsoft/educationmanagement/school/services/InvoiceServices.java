@@ -1,7 +1,7 @@
 package in.jdsoft.educationmanagement.school.services;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.hibernate.Hibernate;
@@ -9,14 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import in.jdsoft.educationmanagement.reports.model.SevenFieldReports;
 import in.jdsoft.educationmanagement.school.dao.AcademicYearFeesTermDAO;
 import in.jdsoft.educationmanagement.school.dao.FeesTemplateDAO;
 import in.jdsoft.educationmanagement.school.dao.InstitutionDAO;
 import in.jdsoft.educationmanagement.school.dao.StudentDAO;
 import in.jdsoft.educationmanagement.school.dao.StudentInvoiceDAO;
 import in.jdsoft.educationmanagement.school.dao.StudentInvoiceDetailDAO;
-import in.jdsoft.educationmanagement.school.dao.StudentInvoiceFineDetailDAO;
 import in.jdsoft.educationmanagement.school.model.AcademicYear;
 import in.jdsoft.educationmanagement.school.model.AcademicYearFeesTerm;
 import in.jdsoft.educationmanagement.school.model.Class;
@@ -29,10 +27,6 @@ import in.jdsoft.educationmanagement.school.model.SpecialCategory;
 import in.jdsoft.educationmanagement.school.model.Student;
 import in.jdsoft.educationmanagement.school.model.StudentInvoice;
 import in.jdsoft.educationmanagement.school.model.StudentInvoiceDetail;
-import in.jdsoft.educationmanagement.school.model.StudentInvoiceFineDetail;
-import in.jdsoft.educationmanagement.school.model.StudentReceipt;
-import in.jdsoft.educationmanagement.school.model.StudentReceiptDetail;
-import in.jdsoft.educationmanagement.school.model.StudentReceiptFine;
 
 @Service
 public class InvoiceServices {
@@ -45,8 +39,7 @@ public class InvoiceServices {
 	StudentInvoiceDetailDAO studentInvoiceDetailDAO;
 	@Autowired
 	InstitutionDAO institutionDAO;
-	@Autowired
-	StudentInvoiceFineDetailDAO studentInvoiceFineDetailDAO;
+
 	@Autowired
 	AcademicYearFeesTermDAO academicYearFeesTermDAO;
 	@Autowired
@@ -84,7 +77,6 @@ public class InvoiceServices {
 		for (StudentInvoice studentInvoice : students) {
 			Hibernate.initialize(studentInvoice.getStudentInvoiceDetails());
 			Hibernate.initialize(student.getStudentClass());
-			Hibernate.initialize(studentInvoice.getStudentInvoiceFineDetails());
 		}
 		return students;
 	}
@@ -100,11 +92,7 @@ public class InvoiceServices {
 	}
 	
 	
-	@Transactional
-	public ArrayList<StudentInvoiceFineDetail> getStudentPendingInvoiceFineItems(Integer invoiceId){
-		StudentInvoice studentInvoice=studentInvoiceDAO.getStudentInvoiceById(invoiceId);
-		 return studentInvoiceFineDetailDAO.getPendingStudentInvoiceFineItems(studentInvoice);
-	}
+	
 	
 	@Transactional
 	public ArrayList<StudentInvoice> getAllStudentInvoices(AcademicYear academicYear,Class clazz,Section section){
@@ -115,7 +103,6 @@ public class InvoiceServices {
 			for (StudentInvoice studentInvoice : studentInvoices1) {
 				Hibernate.initialize(studentInvoice.getAcademicYear());
 				Hibernate.initialize(studentInvoice.getStudentInvoiceDetails());
-				Hibernate.initialize(studentInvoice.getStudentInvoiceFineDetails());
 			}
 			studentInvoices.addAll(studentInvoices1);
 		}
@@ -131,7 +118,6 @@ public class InvoiceServices {
 			for (StudentInvoice studentInvoice : studentInvoices1) {
 				Hibernate.initialize(studentInvoice.getAcademicYear());
 				Hibernate.initialize(studentInvoice.getStudentInvoiceDetails());
-				Hibernate.initialize(studentInvoice.getStudentInvoiceFineDetails());
 			}
 			studentInvoices.addAll(studentInvoices1);
 		}
@@ -146,7 +132,6 @@ public class InvoiceServices {
 		for (StudentInvoice studentInvoice : studentInvoices) {
 			Hibernate.initialize(studentInvoice.getAcademicYear());
 			Hibernate.initialize(studentInvoice.getStudentInvoiceDetails());
-			Hibernate.initialize(studentInvoice.getStudentInvoiceFineDetails());
 		}
 		studentInvoices.addAll(studentInvoices1);
 		return studentInvoices;
@@ -164,14 +149,7 @@ public class InvoiceServices {
 		return studentInvoiceDetails;
 	}
 	
-	@Transactional
-	public ArrayList<StudentInvoiceFineDetail> getStudentInvoiceFineItemByIds(Integer []studentInvoiceFineItemsIds){
-		ArrayList<StudentInvoiceFineDetail> studentInvoiceFineDetails=new ArrayList<StudentInvoiceFineDetail>();
-		for (int i = 0; i < studentInvoiceFineItemsIds.length; i++) {
-			studentInvoiceFineDetails.add(studentInvoiceFineDetailDAO.getStudentInvoiceFineDetailById(studentInvoiceFineItemsIds[i]));
-		}
-		return studentInvoiceFineDetails;
-	}
+	
 	/*@Transactional
 	public ArrayList<StudentInvoiceDetail> getStudentInvoiceDetailItemsFromIds(Integer []studentInvoiceDetailIds){
 		ArrayList<StudentInvoiceDetail> studentInvoiceDetails=new ArrayList<StudentInvoiceDetail>();
@@ -186,7 +164,7 @@ public class InvoiceServices {
 		return studentInvoiceDetails;
 	}*/
 	
-	@Transactional
+/*	@Transactional
 	public ArrayList<SevenFieldReports> getInstitutionWiseInvoiceReport(){
 		    ArrayList<Institution> institutions=(ArrayList<Institution>) institutionDAO.getList();
 		    ArrayList<SevenFieldReports> sevenFieldReports=new ArrayList<SevenFieldReports>();
@@ -239,7 +217,7 @@ public class InvoiceServices {
 		    	sevenFieldReports.add(new SevenFieldReports(institution,totalInvoiceAmount,totalInvoiceFine, totalReceiptAmount,totalReceiptFine, totalPendingAmount,totalPendingFine));
 			}
 		    return sevenFieldReports; 
-	}
+	}*/
 	
 	
 	/*@Transactional
@@ -269,7 +247,7 @@ public class InvoiceServices {
 		 return sevenFieldReports;
 	}
 	*/
-	@Transactional
+/*	@Transactional
 	public ArrayList<StudentInvoice> getPendingDuesOfRange(Date startDate,Date endDate,Integer institutionId){
 		Institution institution=institutionDAO.getInstitutionById(institutionId);
 		ArrayList<StudentInvoice> studentInvoices=(ArrayList<StudentInvoice>) studentInvoiceDAO.getStudentInvoicesForDueRange(startDate, endDate,institution);
@@ -280,7 +258,7 @@ public class InvoiceServices {
 			Hibernate.initialize(studentInvoice.getStudentInvoiceFineDetails());
 		}
 		return studentInvoices;
-	}
+	}*/
 	
 	/*@Transactional
 	public void applyPenaltyForInvoices(Integer invoicesId[],Date nextDueDate,double penaltyAmount,String fineName,String createdBy,String modifiedBy){
@@ -300,9 +278,11 @@ public class InvoiceServices {
 		for (StudentInvoiceDetail studentInvoiceDetail : studentInvoicedetails) {
 			Hibernate.initialize(studentInvoiceDetail.getFeesTemplateItem());
 		}
-		Hibernate.initialize(studentInvoice.getStudentInvoiceFineDetails());
 		Hibernate.initialize(studentInvoice.getStudent().getSpecialCategory());
 		Hibernate.initialize(studentInvoice.getInstitution());
 		return studentInvoice;
 	}
+	
+
 }
+
