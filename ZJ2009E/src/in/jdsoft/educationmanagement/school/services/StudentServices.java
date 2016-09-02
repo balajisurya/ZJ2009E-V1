@@ -597,6 +597,7 @@ public class StudentServices {
 	 
 	 @Transactional
 	 public ArrayList<Student> getActiveStudentFromClassAndSectionBySpecialCategory(Class clazz,Section section,SpecialCategory specialCategory){
+		 ArrayList<Student> actualStudent=new ArrayList<Student>();
 		 ArrayList<Student> students= (ArrayList<Student>) studentDAO.getStudentsByClassSectionAndSpecialCategory(clazz, section, specialCategory);
 		 Iterator<Student> iterator=students.iterator();
 			while(iterator.hasNext()){
@@ -605,18 +606,22 @@ public class StudentServices {
 					iterator.remove();
 				}
 				else{
-					 Hibernate.initialize(student.getStudentClass());
-					 Hibernate.initialize(student.getSection());
-					 Hibernate.initialize(student.getBloodGroup());
-					 Hibernate.initialize(student.getCategory());
-					 Hibernate.initialize(student.getSpecialCategory());
-					 Hibernate.initialize(student.getStudentStatus());
-					 Hibernate.initialize(student.getJoinedAcademicYear());
-					 Hibernate.initialize(student.getJoinedClass());
+					if(!checkForStudentInvoiceGenerated(student)){
+						 Hibernate.initialize(student.getStudentClass());
+						 Hibernate.initialize(student.getSection());
+						 Hibernate.initialize(student.getBloodGroup());
+						 Hibernate.initialize(student.getCategory());
+						 Hibernate.initialize(student.getSpecialCategory());
+						 Hibernate.initialize(student.getStudentStatus());
+						 Hibernate.initialize(student.getJoinedAcademicYear());
+						 Hibernate.initialize(student.getJoinedClass());
+						 actualStudent.add(student);
+					}
+					
 				}
 				
 			}
-			 return students;
+			 return actualStudent;
 	 }
 	 
 	 

@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import org.apache.commons.lang.WordUtils;
 import org.hibernate.annotations.ForeignKey;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
@@ -292,6 +293,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "institution")
 	@ForeignKey(name="institutionInAcademicYears")
+	@JsonBackReference
 	public Set<AcademicYear> getAcademicYears() {
 		return academicYears;
 	}

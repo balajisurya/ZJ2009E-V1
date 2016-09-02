@@ -69,10 +69,8 @@ public class InvoiceController {
 		} catch (Exception e) {
 			if(e.getClass().equals(AcademicYearException.class)){
 				ModelAndView modelandview=new ModelAndView("redirect:/academicYear");
-				System.out.println("Enetered");
 				AcademicYearException ex=(AcademicYearException)e;
 				attributes.addFlashAttribute("errorMessage", ex.getCustomMessage());
-				
 				return modelandview;
 			}
 			else{
@@ -164,7 +162,6 @@ public class InvoiceController {
 	@ResponseStatus(value=HttpStatus.OK)
 	public void generateStudentInvoice(HttpServletRequest request) throws Exception{
 		try {
-			System.out.println("Generated");
 			String []studentIds=request.getParameterValues("studentIds[]");
 			ArrayList<FeesTermAndFeesStructure> feesTermsAndFeesStructures=new ArrayList<FeesTermAndFeesStructure>();
 			

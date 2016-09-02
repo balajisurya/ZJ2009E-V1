@@ -44,6 +44,7 @@ public class BackupAndRestoreController {
 		
 	}
 
+	@SuppressWarnings("deprecation")
 	@RequestMapping(value="backup",method=RequestMethod.POST)
 	public String Backup(HttpServletRequest request) throws Exception{
 		BufferedOutputStream  stream=null;

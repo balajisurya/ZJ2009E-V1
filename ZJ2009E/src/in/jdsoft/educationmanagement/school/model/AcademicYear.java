@@ -20,6 +20,7 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.ForeignKey;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "tbl_academic_year",uniqueConstraints={@UniqueConstraint(columnNames={"academic_year_title","institution_id"})})
@@ -71,6 +72,7 @@ public class AcademicYear {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "institution_id", nullable =true)
 	@ForeignKey(name="academicYearInInstitution")
+	@JsonManagedReference
 	public Institution getInstitution() {
 		return institution;
 	}

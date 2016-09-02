@@ -1,7 +1,6 @@
 package in.jdsoft.educationmanagement.school.services;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.hibernate.Hibernate;
