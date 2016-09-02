@@ -304,6 +304,7 @@ public class InvoiceServices {
 	public String checkInvoicePayable(Integer studentInvoiceId){
 		if(studentInvoiceId!=null){
 		  StudentInvoice studentInvoice=studentInvoiceDAO.getStudentInvoiceById(studentInvoiceId);
+		  AcademicYear academicYear=studentInvoice.getAcademicYear();
 		}
 	}*/
 }

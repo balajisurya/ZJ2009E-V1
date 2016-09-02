@@ -441,13 +441,13 @@ public class InvoiceController {
 		
 	}
 	
-	/*@RequestMapping(value="invoicePayable")
+/*	@RequestMapping(value="invoicePayable")
 	@ResponseBody
 	public String checkInvoicePayable(HttpServletRequest request){
 		try {
 			Integer studentInvoiceId=Integer.parseInt(request.getParameter("studentInvoiceId"));
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 		}
 		
 	}*/
