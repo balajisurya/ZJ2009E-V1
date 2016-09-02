@@ -23,6 +23,7 @@ INSERT INTO `tbl_menu_level2` (`level2_id`, `level1_id`, `menu_name`, `order_no`
 INSERT INTO `tbl_menu_level2` (`level2_id`, `level1_id`, `menu_name`, `order_no`, `link`, `user_type`) VALUES (16, 6, 'Fees/Fine Collection Reports', 3, '/report/collections', '#Admin');
 INSERT INTO `tbl_menu_level2` (`level2_id`, `level1_id`, `menu_name`, `order_no`, `link`, `user_type`) VALUES (17, 4, 'Reconcillation', 5, '/receipt/reconcillation', '#Admin');
 INSERT INTO `tbl_menu_level2` (`level2_id`, `level1_id`, `menu_name`, `order_no`, `link`, `user_type`) VALUES (18, 3, 'Fees Terms', 5, '/feestemplate/feesterm', '#Admin');
+INSERT INTO `tbl_menu_level2` (`level2_id`, `level1_id`, `menu_name`, `order_no`, `link`, `user_type`) VALUES (19, 4, 'Manage Invoice', 8, '/invoice/manageInvoice', '#Admin');
 INSERT INTO `tbl_master_user_type` (`type_id`, `user_type_name`, `user_theme`, `user_type_status`) VALUES (1, 'Admin', 'themes/staff', 1);
 INSERT INTO `tbl_master_user_type` (`type_id`, `user_type_name`, `user_theme`, `user_type_status`) VALUES (2, 'Subadmin', 'themes/staff', 1);
 INSERT INTO `tbl_geographical_location` (`location_id`, `name`, `location_type`, `parent_id`, `is_visible`) VALUES (1, 'Aruba', 0, 0, 0);
