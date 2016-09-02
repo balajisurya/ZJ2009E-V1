@@ -9,7 +9,7 @@ INSERT INTO `tbl_menu_level2` (`level2_id`, `level1_id`, `menu_name`, `order_no`
 INSERT INTO `tbl_menu_level2` (`level2_id`, `level1_id`, `menu_name`, `order_no`, `link`, `user_type`) VALUES (2, 2, 'Student Profile', 2, '/student/studentdetails','#Admin#Subadmin');
 INSERT INTO `tbl_menu_level2` (`level2_id`, `level1_id`, `menu_name`, `order_no`, `link`, `user_type`) VALUES (3, 4, 'Create Fees Item', 1, '/feestemplate/item','#Admin');
 INSERT INTO `tbl_menu_level2` (`level2_id`, `level1_id`, `menu_name`, `order_no`, `link`, `user_type`) VALUES (4, 4, 'Create Fees Structure',2, '/feestemplate','#Admin#Subadmin');
-INSERT INTO `tbl_menu_level2` (`level2_id`, `level1_id`, `menu_name`, `order_no`, `link`, `user_type`) VALUES (5, 4, 'Generate Invoice', 3, '/invoice','#Admin#Subadmin');
+INSERT INTO `tbl_menu_level2` (`level2_id`, `level1_id`, `menu_name`, `order_no`, `link`, `user_type`) VALUES (5, 4, 'Generate Fees', 3, '/invoice','#Admin#Subadmin');
 INSERT INTO `tbl_menu_level2` (`level2_id`, `level1_id`, `menu_name`, `order_no`, `link`, `user_type`) VALUES (6, 4, 'Fees Collection Record', 4, '/receipt','#Admin#Subadmin');
 INSERT INTO `tbl_menu_level2` (`level2_id`, `level1_id`, `menu_name`, `order_no`, `link`, `user_type`) VALUES (7, 4, 'Invoice / FCR', 6, '/invoice/invoiceAndReceipt','#Admin#Subadmin');
 INSERT INTO `tbl_menu_level2` (`level2_id`, `level1_id`, `menu_name`, `order_no`, `link`, `user_type`) VALUES (8, 4, 'Fees Dues', 7, '/invoice/dues','#Admin#Subadmin');
