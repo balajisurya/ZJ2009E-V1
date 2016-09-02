@@ -107,8 +107,7 @@ public class AuthenticationController {
 						stream.close();
 				} catch (Exception e) {
 					e.printStackTrace();
-					redirectAttributes.addFlashAttribute("message",new Message("errorMessage",e.getMessage()));
-					return "redirect:/";
+					throw e;
 				}finally
 				{
 					stream.close();
