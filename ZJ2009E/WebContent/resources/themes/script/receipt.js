@@ -8,7 +8,7 @@ $(document).ready(function() {
 					  $.ajax(	
 					    {
 					        type: "GET",
-					        url:ctx+'/invoice/studentInvoices' ,
+					        url:ctx+'/invoice/studentInvoices',
 					        data:{admissionNo:admissionNo},
 					        contentType: "application/json; charset=utf-8",
 					        dataType: "json",
@@ -19,16 +19,12 @@ $(document).ready(function() {
 					        	  datatable.clear().draw();
 									$.each(data, function (i, item) {
 										var totalInvoiceAmount=0.0;
-										var totalFineAmount=0.0;
 										$.each(item.studentInvoiceDetails, function (j, studentInvoiceDetail) {
 											totalInvoiceAmount+=studentInvoiceDetail.studentInvoiceElementTotalAmount;
 										});
-										$.each(item.studentInvoiceFineDetails, function (k, studentInvoiceFineDetail) {
-											totalFineAmount+=studentInvoiceFineDetail.fineAmount;
-										});
 										
-										datatable.row.add([item.invoiceNo,item.student.studentClass.className,totalInvoiceAmount,totalFineAmount,'<a href="#" id="feesitem"  type="button" data-href="#" data-id='+item.studentInvoiceId+' data-toggle="modal" onclick="showFeesItemDiv('+item.studentInvoiceId+')" >'
-				                                           +'<span class="glyphicon glyphicon-credit-card"></span>'
+										datatable.row.add(['<input type="checkbox" unchecked name="studentInvoice" value='+item.studentInvoiceId+' class="case"></input>',item.academicYear.academicYearTitle,item.academicYearFeesTerm.feesTermTitle,totalInvoiceAmount,'<a href="#" id="feesitem"  type="button" data-href="#" data-id='+item.studentInvoiceId+' data-toggle="modal" onclick="showFeesItemDiv('+item.studentInvoiceId+')" >'
+				                                           +'<span class="glyphicon glyphicon-list-alt"></span>'
 			                                                +'</a>']).draw( false );
 								});
 					      
@@ -40,6 +36,37 @@ $(document).ready(function() {
 				  
 		  });	 
 	});
+	
+	$('#studentInvoicesTable tbody').on( 'click', 'tr td input[class=case]:checkbox', function () {
+		$(this).prop('checked', false);
+		var studentInvoiceId= $(this).val();
+		alert(studentInvoiceId);
+		$.ajax(	
+				    {
+				        type: "GET",
+				        url:ctx+'',
+				        data:{studentInvoiceId:studentInvoiceId},
+				        contentType: "application/json; charset=utf-8",
+				        dataType: "json",
+				        cache: false,
+				        success: function (response) {
+				        	if(response.status=='true'){
+				        		
+				        		$(this).prop('checked', true);
+				        }
+				        	else{
+				        		
+				        		$(this).prop('checked', false);
+				        
+				        	}
+				    
+				        }
+				      
+				    });
+		   
+		});
+	
+	
 	 
 	
 	
@@ -91,11 +118,9 @@ $(document).ready(function() {
 
 function showFeesItemDiv(invoiceId){
 	
-	
 	var ctx= window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
 	if(document.getElementById('feesItemFormDiv').style.display=="none"){
 	document.getElementById('feesItemFormDiv').style.display="block";
-	document.getElementById('ListDiv').style.display="none";
 	document.getElementById('FormDiv').style.display="none";
 	}
 	
@@ -123,36 +148,7 @@ function showFeesItemDiv(invoiceId){
 					 	{
 							$.each(data, function (i, item) {
 								i=i+1;
-							   datatable.row.add([i,item.feesTemplateItem.templateItemName,item.studentInvoiceElementTotalAmount,'<input class="case" name="invoiceFeesItem" value='+item.studentInvoiceDetailId+' type="checkbox" />']).draw( false );
-						   });
-					}
-					
-			        }
-			      
-			    });
-		
-		$.ajax(	
-			    {
-			        type: "GET",
-			        url:ctx+'/invoice/studentInvoice/fineitems' ,
-			        data:{studentInvoiceId:studentInvoiceId},
-			        contentType: "application/json; charset=utf-8",
-			        dataType: "json",
-			        cache: false,
-			        success: function (fineItems) {
-			        	var datatable = $('#studentInvoiceFineItems').DataTable();
-			        	 $(".form-horizontal").trigger('reset'); 
-			        	datatable.row('.even').remove().draw( false );  
-			        	datatable.row('.odd').remove().draw( false );  
-			        	if (!$.trim(fineItems)){ 
-							datatable.row('.even').remove().draw( false );  
-							datatable.row('.odd').remove().draw( false );  
-					 	}
-						else
-					 	{
-							$.each(fineItems, function (j, fineItem) {
-								j=j+1;
-							   datatable.row.add([j,fineItem.fineName,fineItem.fineAmount,'<input class="case" name="invoiceFineItem" value='+fineItem.studentInvoiceFineDetaiId+' type="checkbox" />']).draw( false );
+							   datatable.row.add([i,item.feesTemplateItem.templateItemName,item.studentInvoiceElementTotalAmount]).draw( false );
 						   });
 					}
 					
@@ -161,29 +157,26 @@ function showFeesItemDiv(invoiceId){
 			    });
 		
 		
-		/* $('#studentInvoiceFeesItems').change(function() {*/
-			 	  $("#proceedForPayment").click(function(event){
+		
+		
+			 	 /* $("#proceedForPayment").click(function(event){
 			 		 var  feesitemidlists=[];
 					  $.each($("[name=invoiceFeesItem]:checked"), function(){
 						  feesitemidlists.push($(this).attr('value'));
 					   });
 					  
-					  var fineItemList=[];
-					  $.each($("[name=invoiceFineItem]:checked"), function(){
-						  fineItemList.push($(this).attr('value'));
-					   });
 					  
-						if(feesitemidlists.length>0 || fineItemList.length>0){
+						if(feesitemidlists.length>0){
 					    	var datatable = $('#finalPaymentDetailTable').DataTable();
 				        	 $(".form-horizontal").trigger('reset'); 
 				        	datatable.row('.even').remove().draw( false );  
 				        	datatable.row('.odd').remove().draw( false );  
-							/*if (!$.trim(feesItemJson) && $.trim(fineItemJson)){ 
+							if (!$.trim(feesItemJson) && $.trim(fineItemJson)){ 
 								datatable.row('.even').remove().draw( false );  
 								datatable.row('.odd').remove().draw( false );  
 						 	}
 							else
-						 	{*/
+						 	{
 								var serialNo=0;
 								var amountToBePaid=0.0;
 								if(feesitemidlists.length>0){
@@ -204,31 +197,9 @@ function showFeesItemDiv(invoiceId){
 										      });
 									        }
 									    });
-						    	}
+						    	   }
 						    	
-								if(fineItemList.length>0){
-						    		 $.ajax({
-								        type: "GET",
-								        url:ctx+'/invoice/studentInvoice/finalFineitemdetails' ,
-								        data:{fineItemList:fineItemList},
-								        contentType: "application/json; charset=utf-8",
-								        dataType: "json",
-								        async:false,
-								        cache: false,
-								        success: function (data) {
-								        	$.each(data, function (i, fineitemRecord) {
-								        		serialNo=serialNo+1;
-								        		datatable.row.add([serialNo,fineitemRecord.fineName,fineitemRecord.fineAmount]).draw( false );
-								        		$("#hiddenPaidFine").append('<input type="hidden" value='+fineitemRecord.studentInvoiceFineDetaiId+' name="paidFineId"/>');
-										         amountToBePaid=amountToBePaid+fineitemRecord.fineAmount;
-									      });
-								        }
-								    });
-						    	}
-								
-				            /*}*/ //finish of  datatable else
-					    			
-					    	
+							
 					    	 $('#amount').val(amountToBePaid);
 				    			$('#feesItemFormDiv').hide();
 				    			$('#confirmedfeesItemFormDiv').show();
@@ -242,8 +213,8 @@ function showFeesItemDiv(invoiceId){
 					    	alert("Please Select Atleast one");
 					    }
 			   
-				  });
-			/*}); */
+				  });*/
+			
 		
 
 	}

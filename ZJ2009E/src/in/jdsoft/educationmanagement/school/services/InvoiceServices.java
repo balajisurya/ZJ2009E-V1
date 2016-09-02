@@ -75,7 +75,8 @@ public class InvoiceServices {
 		ArrayList<StudentInvoice> students=studentInvoiceDAO.getStudentPendingInvoices(student);
 		for (StudentInvoice studentInvoice : students) {
 			Hibernate.initialize(studentInvoice.getStudentInvoiceDetails());
-			Hibernate.initialize(student.getStudentClass());
+			Hibernate.initialize(studentInvoice.getAcademicYear());
+			Hibernate.initialize(studentInvoice.getAcademicYearFeesTerm());
 		}
 		return students;
 	}
@@ -283,5 +284,11 @@ public class InvoiceServices {
 	}
 	
 
+	/*@Transactional
+	public String checkInvoicePayable(Integer studentInvoiceId){
+		if(studentInvoiceId!=null){
+		  StudentInvoice studentInvoice=studentInvoiceDAO.getStudentInvoiceById(studentInvoiceId);
+		}
+	}*/
 }
 

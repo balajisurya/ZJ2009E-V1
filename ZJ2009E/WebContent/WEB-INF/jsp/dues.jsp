@@ -99,7 +99,7 @@
                               <thead>
                                  <tr>
                                  <th> <input name="select_all" value="1" id="example-select-all" type="checkbox"/>
-                                 <th>Due Date</th>
+                                    <th>Due Date</th>
                                     <th>Invoice No</th>
                                   	<th>Student Name</th>
                                  	<th>Class/Section</th>

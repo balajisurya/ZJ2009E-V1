@@ -149,7 +149,7 @@ public class StudentInvoice implements Serializable{
 		this.institution = institution;
 	}
     
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "studentInvoice",cascade=CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "studentInvoice",cascade={CascadeType.ALL,CascadeType.REMOVE})
 	@ForeignKey(name="studentInvoiceInStudentInvoiceDetails")
 	public Set<StudentInvoiceDetail> getStudentInvoiceDetails() {
 		return studentInvoiceDetails;

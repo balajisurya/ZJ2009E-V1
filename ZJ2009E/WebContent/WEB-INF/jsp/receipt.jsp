@@ -63,13 +63,7 @@
 		<!-- main content start-->
 		<div id="page-wrapper">
 		<div class="main-page">
-                <div id="ListDiv" style="display:block;">
-               <div class="form-group">
-                  <button type="button" class="btn btn-info col-md-3" onclick="showDiv()">Collect Fees</button>
-               </div>
-             </div>
-          
-          <div id="FormDiv" style="display:none;">
+          <div id="FormDiv" style="display:block;">
                <div class="forms">
                   <div class="row">
                      <h3 class="title1">Create Receipt</h3>
@@ -87,7 +81,7 @@
 									</div>
 									  <div class="row">
                                  <div class="col-sm-offset-3">
-                                    <button style="float:right" type="submit"  id="getdetails" class="btn btn-success">Get Invoices for the Student </button>
+                                    <button style="float:right" type="submit"  id="getdetails" class="btn btn-success">Get Term  Fees Details </button>
                                 
                                                                      </div>
                               </div>
@@ -102,23 +96,28 @@
                   </div>  
                </div>
                <br />
-                               <h3 class="title1">Invoice Details</h3>
+                               <h3 class="title1">Student Fees Details</h3>
                   
                      <div class="tables">
                          <div class="table-responsive bs-example widget-shadow">
                              <table class="table table-bordered" id="studentInvoicesTable">
                               <thead>
                                  <tr>
-                                    <th>Invoice No</th>
-                                  	<th>Student Class</th>
-                                 	<th>Actual Invoice Amount</th>
-                                 	<th>Invoice Fine</th>
-                                   	<th>Action</th>
+                                    <th></th>
+                                    <th>Academic Year</th>
+                                    <th>Term</th>
+                                  	<th>Invoice Amount</th>
+                                 	<th>Details</th>
                                	</tr>
                               </thead>
                       
                            </table>
                         </div>
+                         <div class="row">
+                                 <div class="col-sm-offset-3">
+                                    <button style="float:right" type="button" id="proceedForPayment"  class="btn btn-success">Proceed For Payment</button>
+                                 </div>
+                              </div>
                         </div>
                                
                
@@ -136,7 +135,7 @@
              <div id="feesItemFormDiv" style="display:none;">
                          <div class="forms">
                   <div class="row">
-                     <h3 class="title1">Fees Item Details</h3>
+                     <h3 class="title1">Term Fees Details</h3>
                      <div class="form-three widget-shadow">
                        	 <div class="tables">
                          		<div class="table-responsive bs-example widget-shadow">
@@ -146,39 +145,18 @@
 			                                    <th>Serial No</th>
 			                                  	<th>Fees Item Name</th>
 			                                 	<th>Fees Amount</th>
-			                                   <th>Action</th>
-			                               		
-			                                 </tr>
+			                                </tr>
 			                              </thead>
                            			</table>
                         		</div>
                         	 </div>
-                        	 
-                        	  <div class="tables">
-                         		<div class="table-responsive bs-example widget-shadow">
-                             		<table class="table table-bordered" id="studentInvoiceFineItems">
-			                              <thead>
-			                                 <tr>
-			                                    <th>Serial No</th>
-			                                  	<th>Fine Name</th>
-			                                 	<th>Fine Amount</th>
-			                                   <th>Action</th>
-			                               		
-			                                 </tr>
-			                              </thead>
-                           			</table>
-                        		</div>
-                        	 </div>
-                        	 
-                        	 
-                            <div class="row">
-                                 <div class="col-sm-offset-3">
-                                    <button style="float:right" type="button" id="proceedForPayment"  class="btn btn-success">Proceed For Payment</button>
-                                 </div>
-                              </div>
                         </div>
                 </div> </div>
              </div>
+             
+             
+             
+             
              
              	<div id="confirmedfeesItemFormDiv" style="display:none;">
                          <div class="forms">

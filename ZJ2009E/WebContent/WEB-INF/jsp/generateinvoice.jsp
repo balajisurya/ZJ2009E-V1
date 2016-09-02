@@ -18,7 +18,7 @@
       <!-- js-->
       <script src="${pageContext.request.contextPath}/resources/cdntolocal/js/jquery_1.11.2.min.js"></script>
       <script src="${pageContext.request.contextPath}/resources/cdntolocal/js/jquery_1.7.1.min.js"></script>
-      <%-- <script src="${pageContext.request.contextPath}/resources/${theme}/js/jquery-1.11.1.min.js"></script> --%>
+      <script src="${pageContext.request.contextPath}/resources/${theme}/js/jquery-1.11.1.min.js"></script>
       <script src="${pageContext.request.contextPath}/resources/${theme}/js/modernizr.custom.js"></script>
       <!--webfonts-->
       <link href='${pageContext.request.contextPath}/resources/cdntolocal/css/fonts-googleapis.css' rel='stylesheet' type='text/css'>
@@ -74,7 +74,7 @@
 		 <div class="loader"  style="display: none"></div>
 		<!-- main content start-->
 		<div id="page-wrapper">
-		  <h3 class="title1">Select to Create Invoices</h3>
+		  <h3 class="title1">Select Criteria To List Student's</h3>
 		<div class="main-page">
 		<div class="form-three widget-shadow">
 		   <form class="form-horizontal" id="studentDetailsForm">
@@ -160,7 +160,7 @@
                 
                                  
      
-                   		<h3 class="title1">Select Student(s) to Generate Invoice with Fees Structure and Due Date</h3>
+                   		<h3 class="title1">Select Student(s) to Generate Fees</h3>
                    		 
                     
                     

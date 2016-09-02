@@ -355,6 +355,7 @@ public class InvoiceController {
 		}
 		
 	}
+	
 	@RequestMapping(value="dues")
 	public ModelAndView duesPage(HttpServletRequest request){
 		try {
@@ -367,47 +368,16 @@ public class InvoiceController {
 		
 	}
 	
-	/*@RequestMapping(value="dues/pending",method=RequestMethod.GET)
+	/*@RequestMapping(value="invoicePayable")
 	@ResponseBody
-	public ArrayList<StudentInvoice> getPendingDueInvoicesOfDateRange(HttpServletRequest request,RedirectAttributes redirectattributes) throws Exception{
+	public String checkInvoicePayable(HttpServletRequest request){
 		try {
-			Integer institutionId=(Integer)request.getSession().getAttribute("instituteId");
-			SimpleDateFormat dateFormatter=new SimpleDateFormat("MM/dd/yyyy");
-			String starAndEndDatet= request.getParameter("startAndEndDate");
-		 	String dates[]= starAndEndDatet.split("-");
-		 	Date startDate=dateFormatter.parse(dates[0].trim());
-		 	Date endDate= dateFormatter.parse(dates[1].trim());
-			return invoiceServices.getPendingDuesOfRange(startDate, endDate, institutionId);
+			Integer studentInvoiceId=Integer.parseInt(request.getParameter("studentInvoiceId"));
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
+			// TODO: handle exception
 		}
+		
 	}*/
+	
 
-
-/*	@RequestMapping(value="penalty",method=RequestMethod.POST)
-	public String applyPenaltyForInvoices(HttpServletRequest request) throws Exception{
-		try {
-			
-			String invoiceId[]=request.getParameterValues("selectedStudentIds");
-			SimpleDateFormat formatter=new SimpleDateFormat("MM/dd/yyyy");
-			Date nextDueDate=formatter.parse(request.getParameter("nextduedate"));
-			double penaltyAmount=Double.parseDouble(request.getParameter("penaltyamount"));
-			String fineName=request.getParameter("fineName");
-			for (String invoieId : invoiceId) 
-			 {
-				 String stuid[] =invoieId.split(",");
-					Integer invoicesId[]=new Integer[stuid.length];
-					for(int i=0;i<stuid.length;i++){
-						invoicesId[i]=Integer.parseInt(stuid[i]);
-						
-					}
-					invoiceServices.applyPenaltyForInvoices(invoicesId, nextDueDate, penaltyAmount, fineName,request.getSession().getAttribute("username").toString(), request.getSession().getAttribute("username").toString());
-					
-			 }
-			return "redirect:/invoice/dues";
-		} catch (Exception e) {
-			throw e;
-		}
-	}*/
 }

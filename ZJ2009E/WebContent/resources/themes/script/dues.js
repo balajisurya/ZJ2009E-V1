@@ -146,10 +146,6 @@ $(document).ready(function() {
 	      var rows = datatable.rows({ 'search': 'applied' }).nodes();
 	      $('input[type="checkbox"]', rows).prop('checked', this.checked);
 	      
-	      
-	      
-	      
-	      
 	   });
   $('#penaltyInvoicesTable').on('change', 'input[type="checkbox"]', function(){
 	      // If checkbox is not checked
