@@ -109,6 +109,7 @@ public class InvoiceServices {
 			for (StudentInvoice studentInvoice : studentInvoices1) {
 				Hibernate.initialize(studentInvoice.getAcademicYear());
 				Hibernate.initialize(studentInvoice.getStudentInvoiceDetails());
+				Hibernate.initialize(studentInvoice.getAcademicYearFeesTerm());
 			}
 			studentInvoices.addAll(studentInvoices1);
 		}
@@ -124,6 +125,7 @@ public class InvoiceServices {
 			for (StudentInvoice studentInvoice : studentInvoices1) {
 				Hibernate.initialize(studentInvoice.getAcademicYear());
 				Hibernate.initialize(studentInvoice.getStudentInvoiceDetails());
+				Hibernate.initialize(studentInvoice.getAcademicYearFeesTerm());
 			}
 			studentInvoices.addAll(studentInvoices1);
 		}
@@ -132,12 +134,13 @@ public class InvoiceServices {
 	
 	@Transactional
 	public ArrayList<StudentInvoice> getStudentInvoicesByAdmisssionNo(String admissionNo){
-		Student student=studentDAO.getStudentByAdmissionNo(admissionNo);
 		ArrayList<StudentInvoice> studentInvoices=new ArrayList<StudentInvoice>();
-		Set<StudentInvoice> studentInvoices1=student.getInvoices();
-		for (StudentInvoice studentInvoice : studentInvoices) {
+		Set<StudentInvoice> studentInvoices1=studentDAO.getStudentByAdmissionNo(admissionNo).getInvoices();
+		for (StudentInvoice studentInvoice : studentInvoices1) {
 			Hibernate.initialize(studentInvoice.getAcademicYear());
 			Hibernate.initialize(studentInvoice.getStudentInvoiceDetails());
+			Hibernate.initialize(studentInvoice.getStudent());
+			Hibernate.initialize(studentInvoice.getAcademicYearFeesTerm());
 		}
 		studentInvoices.addAll(studentInvoices1);
 		return studentInvoices;
@@ -286,6 +289,8 @@ public class InvoiceServices {
 		}
 		Hibernate.initialize(studentInvoice.getStudent().getSpecialCategory());
 		Hibernate.initialize(studentInvoice.getInstitution());
+		Hibernate.initialize(studentInvoice.getAcademicYear());
+		Hibernate.initialize(studentInvoice.getAcademicYearFeesTerm());
 		return studentInvoice;
 	}
 	
@@ -300,17 +305,17 @@ public class InvoiceServices {
 					if(studentInvoice.getInvoiceStatus()==0){
 						throw new StudentInvoiceException(new Message("cannotdelete", "Cannot delete term fees for student ! Please uncheck the student with admission no : "+studentInvoice.getStudent().getAdmissionNo()));
 					}
-					else
-					{ 
-						studentInvoiceDAO.delete(studentInvoice);
-					}
+				}
+				 for (StudentInvoice studentInvoice : studentInvoices) {
+					 studentInvoiceDAO.delete(studentInvoice);
+				 }
 					
 				}
 			}
 		
 		}
 		
-	}
+	
 
 	/*@Transactional
 	public String checkInvoicePayable(Integer studentInvoiceId){

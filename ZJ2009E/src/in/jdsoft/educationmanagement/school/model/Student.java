@@ -25,6 +25,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.ForeignKey;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -549,6 +550,7 @@ public class Student implements java.io.Serializable {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
 	@ForeignKey(name="studentInStudentInvoices")
+	@JsonBackReference
 	public Set<StudentInvoice> getInvoices() {
 		return invoices;
 	}

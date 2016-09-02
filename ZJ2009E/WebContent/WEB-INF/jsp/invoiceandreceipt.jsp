@@ -185,14 +185,12 @@
                              <table class="table table-bordered" id="invoicedatatable">
                               <thead>
                                  <tr>
-                                 	<th>Invoice No</th>
+                                 	<th>Academic Year</th>
+                                 	<th>Term</th>
                                     <th>Admission No</th>
                                     <th>Student Name</th>
-                                  	<th>Due Date</th>
                                   	<th>Fees Amount</th>
-                                  	<th>Paid Amount</th>
-                                  	<th>Penalty</th>
-                                    <th>Action</th>
+                                  	<th>Action</th>
                                  </tr>
                               </thead>
                               

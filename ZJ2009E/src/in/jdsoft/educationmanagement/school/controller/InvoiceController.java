@@ -302,7 +302,7 @@ public class InvoiceController {
 	}*/
 	
 	
-	@RequestMapping(value="studentInvoice/finalitemdetails",method=RequestMethod.GET)
+	/*@RequestMapping(value="studentInvoice/finalitemdetails",method=RequestMethod.GET)
 	@ResponseBody
 	public ArrayList<StudentInvoiceDetail> getStudentPendingInvoiceFeesItemsForPayment(HttpServletRequest request){
 		try {
@@ -326,7 +326,7 @@ public class InvoiceController {
 			e.printStackTrace();
 			throw e;
 		}
-	}
+	}*/
 	
 /*	@RequestMapping(value="studentInvoice/finalFineitemdetails",method=RequestMethod.GET)
 	@ResponseBody

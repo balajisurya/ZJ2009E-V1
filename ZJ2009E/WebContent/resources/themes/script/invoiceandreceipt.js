@@ -93,27 +93,14 @@ $(document).ready(function() {
 									        	 $(".form-horizontal").trigger('reset'); 
 													      datatable.clear().draw();
 													  $.each(invoices, function (i,invoices) {
-													     var totalPaidAmount=0.0;
-													     var totalPenalty=0.0;
-														  $.each(invoices.studentInvoiceDetails,function(j,invoicedetail){
-															  if(invoicedetail.studentInvoiceElementPaymentStatus!=1){
-																  totalPaidAmount=totalPaidAmount+invoicedetail.studentInvoiceElementTotalAmount
-															  }
-															  
-														  });
-														  
-														  $.each(invoices.studentInvoiceFineDetails,function(j,invoicefinedetail){
-															  totalPenalty=totalPenalty+invoicefinedetail.fineAmount;
-														  });
-														  
-														  var url=ctx+"/invoice/print?invoiceId="+invoices.studentInvoiceId;
+													      var url=ctx+"/invoice/print?invoiceId="+invoices.studentInvoiceId;
 												        	var name;
 												        	if(invoices.student.lastName!=null){
 												        		name=invoices.student.firstName+' '+invoices.student.lastName;
 												        	}else{
 												        		name=invoices.student.firstName;
 												        	}
-												            datatable.row.add([invoices.invoiceNo,invoices.student.admissionNo,name,invoices.dueDate,invoices.invoiceAmount,totalPaidAmount,totalPenalty,'<a href='+url+' id="viewinvoice" target="__blank" class="invoice" type="button"data-href="#" data-id="" data-toggle="modal" >'
+												            datatable.row.add([invoices.academicYear.academicYearTitle,invoices.academicYearFeesTerm.feesTermTitle,invoices.student.admissionNo,name,invoices.invoiceAmount,'<a href='+url+' id="viewinvoice" target="__blank" class="invoice" type="button"data-href="#" data-id="" data-toggle="modal" >'
 								                               +'<span class="glyphicon glyphicon-eye-open"></span></a>'
 									                              + '<a href="" class="print" id="invoiceprint"  type="button" data-toggle="modal" data-id='+invoices.studentInvoiceId+' data-target="#invprint">'
 									                                   +'<span class="glyphicon glyphicon-print"></span></a> '

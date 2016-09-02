@@ -23,6 +23,8 @@
 			       <div id="company">
 			         <div style="margin-top: -55px;margin-bottom: 4px;"> <span style="margin-left:-7px">INVOICE NO&nbsp&nbsp:</span>${studentInvoice.getInvoiceNo()}<br></div>
 					 <div style="margin-bottom: 4px;"><span style="margin-right:15px">DATE&nbsp&nbsp:</span>${studentInvoice.getCreatedDate()}</div><br>
+					 <div style="margin-bottom: 4px;"><span style="margin-right:15px">Academic Year&nbsp&nbsp:</span>${studentInvoice.getAcademicYear().getAcademicYearTitle()}</div><br>
+					 <div style="margin-bottom: 10px;"><span style="margin-right:15px">Term&nbsp&nbsp:</span>${studentInvoice.getAcademicYearFeesTerm().getFeesTermTitle()}</div><br>
 			       </div>
 	  				<br>	  
 	  				<h1></h1>
@@ -30,7 +32,7 @@
 				        <div style="margin-bottom: 4px;"><span>NAME<label style="margin-left:68px;">:</label>  </span><label style="margin-left:0px;">${studentInvoice.getStudent().getFirstName()} ${studentInvoice.getStudent().getLastName()}</label></div>
 				        <div style="margin-bottom: 4px;"><span>ADMISSION.NO <label style="margin-left:28px;">:</label></span><label style="margin-left:0px;">${studentInvoice.getStudent().getAdmissionNo()}</label></div>
 				        <div ><span>SPECIAL CATEGORY&nbsp&nbsp:</span><label style="margin-left:5px;">${studentInvoice.getStudent().getSpecialCategory().getSpecialCategoryName()}</label></div>
-			        </div>
+				    </div>
            </header>
      		<main>
   
@@ -56,19 +58,7 @@
 						        </tr>
                             </c:forEach>
                       </c:if>
-                       <c:if test="${!empty studentInvoice.getStudentInvoiceFineDetails()}">
-                     		<c:forEach items="${studentInvoice.getStudentInvoiceFineDetails()}" var="studentFineDetail">
-                     			<tr>
-						            <td class="service">${serialNumber}</td>
-						            <c:set var="serialNumber" value="${serialNumber + 1}" scope="page"/>
-						            <td class="desc">${studentFineDetail.getFineName()}</td>
-						            <td class="total">${studentFineDetail.getFineAmount()}</td>
-						            <c:set var="grandTotal"  value="${grandTotal+studentFineDetail.getFineAmount()}"/>
-			          			</tr>
-                            </c:forEach>
-                      </c:if>
-			          
-			           <tr>
+                      <tr>
 			            <td colspan="2" class="grand total">GRAND TOTAL</td>
 			            <td class="grand total">${grandTotal}</td>
 			           </tr>
