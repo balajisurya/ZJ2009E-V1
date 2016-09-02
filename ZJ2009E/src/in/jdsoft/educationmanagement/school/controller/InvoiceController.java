@@ -410,4 +410,21 @@ public class InvoiceController {
 			throw e;
 		}
 	}*/
+	
+	@RequestMapping(value="manageInvoice")
+	public ModelAndView manageInvoicePage(HttpServletRequest request){
+		try {
+			ModelAndView modelandview=new ModelAndView("manageinvoice");
+			return modelandview;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		
+		
+	}
+	
+	
+	
 }
