@@ -69,22 +69,22 @@ public class BackupAndRestoreController {
 		
 		try {
 			
-	
 			String str=multipartFile.getOriginalFilename();
 			str = str.replaceAll("[0-9]","");
+			System.out.println(str);
 			try {
 			String[] cmd = new String[]{"C:\\xampp\\mysql\\bin\\mysql",
 			"edumaat_db",
 			"--user=" + "edumaat",
 			"--password=" + "edumaat",
 			"-e",
-			"\"source " + str+ "\""
+			"\"source " + str + "\""
 
 			};
 			
 			Process proc = Runtime.getRuntime().exec(cmd);
-			
-			if (true) {
+			boolean val=true;
+			if (val) {
 			InputStream inputstream = proc.getInputStream();
 			InputStreamReader inputstreamreader = new InputStreamReader(inputstream);
 			BufferedReader bufferedreader = new BufferedReader(inputstreamreader);
