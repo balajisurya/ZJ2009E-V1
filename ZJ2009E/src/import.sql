@@ -4,7 +4,7 @@ INSERT INTO `tbl_menu_level1` (`level1_id`, `menu_name`, `order_no`, `link`, `us
 INSERT INTO `tbl_menu_level1` (`level1_id`, `menu_name`, `order_no`, `link`, `user_type`, `icon`) VALUES (4, 'Fees Management', 4, '#', '#Admin#Subadmin', 'fa fa-credit-card nav_icon');
 INSERT INTO `tbl_menu_level1` (`level1_id`, `menu_name`, `order_no`, `link`, `user_type`, `icon`) VALUES (5, 'User Management', 5, '/schooluser', '#Admin', 'fa fa-cogs nav_icon');
 INSERT INTO `tbl_menu_level1` (`level1_id`, `menu_name`, `order_no`, `link`, `user_type`, `icon`) VALUES (6, 'Reports', 6, '#', '#Admin', 'fa fa-file nav_icon');
-INSERT INTO `tbl_menu_level1` (`level1_id`, `menu_name`, `order_no`, `link`, `user_type`, `icon`) VALUES (7, 'Backup And Restore', 7, '/BackupAndRestore', '#Admin','fa fa-refresh nav_icon');
+INSERT INTO `tbl_menu_level1` (`level1_id`, `menu_name`, `order_no`, `link`, `user_type`, `icon`) VALUES (7, 'Backup', 7, '/BackupAndRestore', '#Admin','fa fa-refresh nav_icon');
 INSERT INTO `tbl_menu_level2` (`level2_id`, `level1_id`, `menu_name`, `order_no`, `link`, `user_type`) VALUES (1, 2, 'New Student', 1, '/student','#Admin#Subadmin');
 INSERT INTO `tbl_menu_level2` (`level2_id`, `level1_id`, `menu_name`, `order_no`, `link`, `user_type`) VALUES (2, 2, 'Student Profile', 2, '/student/studentdetails','#Admin#Subadmin');
 INSERT INTO `tbl_menu_level2` (`level2_id`, `level1_id`, `menu_name`, `order_no`, `link`, `user_type`) VALUES (3, 4, 'Create Fees Item', 1, '/feestemplate/item','#Admin');

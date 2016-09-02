@@ -1,11 +1,8 @@
 package in.jdsoft.educationmanagement.school.controller;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,11 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import in.jdsoft.educationmanagement.components.BackUpComponent;
+import in.jdsoft.educationmanagement.school.model.Message;
 
 
 @Controller
@@ -44,8 +41,10 @@ public class BackupAndRestoreController {
 		
 	}
 
+
+	
 	@RequestMapping(value="backup",method=RequestMethod.POST)
-	public String Backup(HttpServletRequest request) throws Exception{
+	public String Backup(HttpServletRequest request,RedirectAttributes redirectAttributes) throws Exception{
 		BufferedOutputStream  stream=null;
 		try {
 			
@@ -58,13 +57,17 @@ public class BackupAndRestoreController {
 				return "redirect:/BackupAndRestore";
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw e;
+			redirectAttributes.addFlashAttribute("message",new Message("errorMessage",e.getMessage()));
+			return "redirect:/BackupAndRestore";
+		}finally
+		{
+			stream.close();
 		}
 		
 	}
 	
 	
-	@RequestMapping(value="restore",method=RequestMethod.POST)
+	/*@RequestMapping(value="restore",method=RequestMethod.POST)
 	public String Restore(HttpServletRequest request,@RequestParam("restorefile") MultipartFile multipartFile) throws Exception{
 		
 		try {
@@ -118,6 +121,6 @@ public class BackupAndRestoreController {
 			throw e;
 		}
 		
-	}
+	}*/
 	
 }

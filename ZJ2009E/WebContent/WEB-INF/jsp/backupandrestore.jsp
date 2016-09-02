@@ -5,6 +5,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
       <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+       <% int timeout = session.getMaxInactiveInterval();response.setHeader("Refresh", timeout + "; URL =");%>
        <link rel="icon" href="${pageContext.request.contextPath}/resources/themes/images/favicon.ico" type="image/x-icon" />
       <!-- Bootstrap Core CSS -->
       <link href="${pageContext.request.contextPath}/resources/${theme}/css/bootstrap.css" rel='stylesheet' type='text/css' />
@@ -63,7 +64,7 @@
          <div id="page-wrapper">
             <div class="main-page">
                <div id="ListDiv" style="display:block;">
-                    <h3 class="title1">Backup And Restore</h3>
+                    <h3 class="title1">Backup Database</h3>
                   <div class="x_title">
                   <div class="clearfix">
                   </div>
@@ -77,13 +78,29 @@
                           
                      <button type="button" id="backup" class="btn btn-info col-md-3" >BACKUP</button>
                          </form>
-                          <form class="form-horizontal" action="${pageContext.request.contextPath}/BackupAndRestore/restore" method="post" id="restoreform">
+                        <%--   <form class="form-horizontal" action="${pageContext.request.contextPath}/BackupAndRestore/restore" method="post" id="restoreform">
                           
                          <button type="button" id="restore"  class="btn btn-danger col-md-3" >RESTORE</button>
-                  </form>
+                  </form> --%>
                   </div>
                   </div>
-                <div class="modal fade" id="browse-file" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static" data-keyboard="false">
+                     <div class="modal fade" id="backupConfirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static" data-keyboard="false">
+               <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel">Please Confirm Your Action</h4>
+                     </div>
+                     <div class="modal-body">
+                        <h5>Are you sure ?, You want to get database backup ??</h5>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" id="confirmBackup" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+               <%--  <div class="modal fade" id="browse-file" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static" data-keyboard="false">
                <div class="modal-dialog" role="document">
                   <div class="modal-content">
                   <form class="form-horizontal" enctype="multipart/form-data" id="restoreform" action="${pageContext.request.contextPath}/BackupAndRestore/restore" method="post">
@@ -107,7 +124,7 @@
                   </form>
                   </div>
                </div>
-            </div>
+            </div> --%>
                </div>
                 
            

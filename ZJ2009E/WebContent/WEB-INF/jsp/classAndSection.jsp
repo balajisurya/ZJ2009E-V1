@@ -4,6 +4,7 @@
       <title>EMS</title>
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <% int timeout = session.getMaxInactiveInterval();response.setHeader("Refresh", timeout + "; URL =");%>
       <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
       <!-- Bootstrap Core CSS -->
       <link href="${pageContext.request.contextPath}/resources/${theme}/css/bootstrap.css" rel='stylesheet' type='text/css' />
