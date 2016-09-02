@@ -50,6 +50,7 @@ public class InvoiceController {
 	SpecialCategoryServices specialCategoryServices;
 	@Autowired
 	FeesStructureServices feesStructureServices;
+	
 	@Autowired
 	InstitutionServices institutionServices;
 	@Autowired
@@ -79,8 +80,8 @@ public class InvoiceController {
 				throw e;
 			}
 		}
-		
 	}
+	
 	@RequestMapping(value="allStudent",method=RequestMethod.GET)
 	@ResponseBody
 	public ArrayList<Student> getAllStudentListForInvoice(HttpServletRequest request,RedirectAttributes redirectAttributes) throws Exception{
@@ -163,14 +164,14 @@ public class InvoiceController {
 			String admissionNo=null;
 			if(!request.getParameter("admissionNo").isEmpty()){
 				admissionNo=request.getParameter("admissionNo");
-				students.add(studentServices.getActiveStudentByAdmissionNo(admissionNo));
+				students.add(studentServices.getActiveStudentByAdmissionNoWithoutInvoices(admissionNo));
 				return students;
 			}
 			else{
 				if(classNameOrId.equals("all")){
 					String criteria=request.getParameter("criteria");
 					if(criteria.equals("all")){
-						return studentServices.getActiveStudentsFromAllClass(Integer.parseInt(request.getSession().getAttribute("instituteId").toString()));
+						return studentServices.getActiveStudentsFromAllClassWithoutInvoices(Integer.parseInt(request.getSession().getAttribute("instituteId").toString()));
 					}
 					else if(criteria.equals("specialcategory")){
 						Integer specialCategoryId=null;
@@ -178,7 +179,7 @@ public class InvoiceController {
 						if(request.getParameter("specialCategoryId")!=null){
 							specialCategoryId=Integer.parseInt(request.getParameter("specialCategoryId"));
 							specialCategory=specialCategoryServices.getSpecialCategoryById(specialCategoryId);
-							return studentServices.getActiveStudentsFromAllClassBySpecialCategory(Integer.parseInt(request.getSession().getAttribute("instituteId").toString()),specialCategory);
+							return studentServices.getActiveStudentsFromAllClassBySpecialCategoryWithoutInvoices(Integer.parseInt(request.getSession().getAttribute("instituteId").toString()),specialCategory);
 						}
 						else{
 							return null;
@@ -194,7 +195,7 @@ public class InvoiceController {
 					Section section=classAndSectionServices.getSectionById(sectionId);
 					String criteria=request.getParameter("criteria");
 					if(criteria.equals("all")){
-						return studentServices.getActiveStudentFromClassAndSection(clazz, section);
+						return studentServices.getActiveStudentFromClassAndSectionWithoutInvoices(clazz, section);
 					}
 					else if(criteria.equals("specialcategory")){
 						Integer specialCategoryId=null;
@@ -203,7 +204,7 @@ public class InvoiceController {
 							specialCategoryId=Integer.parseInt(request.getParameter("specialCategoryId"));
 							specialCategory=specialCategoryServices.getSpecialCategoryById(specialCategoryId);
 						}
-						return studentServices.getActiveStudentFromClassAndSectionBySpecialCategory(clazz, section, specialCategory);
+						return studentServices.getActiveStudentFromClassAndSectionBySpecialCategoryWithoutInvoices(clazz, section, specialCategory);
 					}
 					else{
 						return students;

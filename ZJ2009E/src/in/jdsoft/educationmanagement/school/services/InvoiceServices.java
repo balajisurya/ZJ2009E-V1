@@ -16,6 +16,7 @@ import in.jdsoft.educationmanagement.school.dao.InstitutionDAO;
 import in.jdsoft.educationmanagement.school.dao.StudentDAO;
 import in.jdsoft.educationmanagement.school.dao.StudentInvoiceDAO;
 import in.jdsoft.educationmanagement.school.dao.StudentInvoiceDetailDAO;
+import in.jdsoft.educationmanagement.school.exceptions.StudentInvoiceException;
 import in.jdsoft.educationmanagement.school.model.AcademicYear;
 import in.jdsoft.educationmanagement.school.model.AcademicYearFeesTerm;
 import in.jdsoft.educationmanagement.school.model.Class;
@@ -23,6 +24,7 @@ import in.jdsoft.educationmanagement.school.model.FeesTemplate;
 import in.jdsoft.educationmanagement.school.model.FeesTemplateItem;
 import in.jdsoft.educationmanagement.school.model.FeesTermAndFeesStructure;
 import in.jdsoft.educationmanagement.school.model.Institution;
+import in.jdsoft.educationmanagement.school.model.Message;
 import in.jdsoft.educationmanagement.school.model.Section;
 import in.jdsoft.educationmanagement.school.model.SpecialCategory;
 import in.jdsoft.educationmanagement.school.model.Student;
@@ -287,14 +289,24 @@ public class InvoiceServices {
 	}
 	
 	@Transactional
-	public void deleteStudentInvoicesByAcademicYear(Integer []studentIds,Integer academicYearId){
+	public void deleteStudentInvoicesByAcademicYear(Integer []studentIds,Integer academicYearId) throws StudentInvoiceException{
 		 AcademicYear academicYear=academicYearDAO.getAcademicYearById(academicYearId);
 		for (Integer studentId : studentIds) {
 			Student student=studentDAO.getStudentById(studentId);
 			List<StudentInvoice> studentInvoices=studentInvoiceDAO.getStudentInvoicesByAcademicYear(student, academicYear);
-			for (StudentInvoice studentInvoice : studentInvoices) {
-				studentInvoiceDAO.delete(studentInvoice);
+			if(studentInvoices!=null){
+				for (StudentInvoice studentInvoice : studentInvoices) {
+					if(studentInvoice.getInvoiceStatus()==0){
+						throw new StudentInvoiceException(new Message("cannotdelete", "Cannot delete term fees for student ! Please uncheck the student with admission no : "+studentInvoice.getStudent().getAdmissionNo()));
+					}
+					else
+					{ 
+						studentInvoiceDAO.delete(studentInvoice);
+					}
+					
+				}
 			}
+		
 		}
 		
 	}

@@ -196,6 +196,8 @@ public class StudentServices {
 		}
 		 return students; 
 	 }
+	
+
 	 
 	 @Transactional
 	 public ArrayList<Student> getStudentFromClassAndSectionBySpecialCategory(Class clazz,Section section,SpecialCategory specialCategory){
@@ -217,6 +219,8 @@ public class StudentServices {
 			 return students;
 	 }
 	 
+	 
+
 	 
 	 @Transactional
 	 public Student getStudentFromClassAndSectionByAdmissionNo(Class clazz,Section section,String admissionNo)throws StudentException{
@@ -567,7 +571,7 @@ public class StudentServices {
 	 
 	 
 	 @Transactional
-	 public ArrayList<Student> getActiveStudentFromClassAndSection(Class clazz,Section section){
+	 public ArrayList<Student> getActiveStudentFromClassAndSectionWithoutInvoices(Class clazz,Section section){
 		 ArrayList<Student> actualStudent=new ArrayList<Student>();
 		ArrayList<Student> students= (ArrayList<Student>)studentDAO.getStudentsByClassAndSection(clazz, section);
 		Iterator<Student> iterator=students.iterator();
@@ -596,7 +600,35 @@ public class StudentServices {
 	 }
 	 
 	 @Transactional
-	 public ArrayList<Student> getActiveStudentFromClassAndSectionBySpecialCategory(Class clazz,Section section,SpecialCategory specialCategory){
+	 public ArrayList<Student> getActiveStudentFromClassAndSection(Class clazz,Section section){
+		 ArrayList<Student> actualStudent=new ArrayList<Student>();
+		ArrayList<Student> students= (ArrayList<Student>)studentDAO.getStudentsByClassAndSection(clazz, section);
+		Iterator<Student> iterator=students.iterator();
+		while(iterator.hasNext()){
+			Student student=iterator.next();
+			if(student.getStudentStatus().getStudentStatusId()!=1){
+				iterator.remove();
+			}
+			else{
+				
+					 Hibernate.initialize(student.getStudentClass());
+					 Hibernate.initialize(student.getSection());
+					 Hibernate.initialize(student.getBloodGroup());
+					 Hibernate.initialize(student.getCategory());
+					 Hibernate.initialize(student.getSpecialCategory());
+					 Hibernate.initialize(student.getStudentStatus());
+					 Hibernate.initialize(student.getJoinedAcademicYear());
+					 Hibernate.initialize(student.getJoinedClass());
+					 
+					 actualStudent.add(student);
+}
+		}
+		 return actualStudent; 
+	 }
+	 
+	 
+	 @Transactional
+	 public ArrayList<Student> getActiveStudentFromClassAndSectionBySpecialCategoryWithoutInvoices(Class clazz,Section section,SpecialCategory specialCategory){
 		 ArrayList<Student> actualStudent=new ArrayList<Student>();
 		 ArrayList<Student> students= (ArrayList<Student>) studentDAO.getStudentsByClassSectionAndSpecialCategory(clazz, section, specialCategory);
 		 Iterator<Student> iterator=students.iterator();
@@ -625,73 +657,35 @@ public class StudentServices {
 	 }
 	 
 	 
-	/* @Transactional
-	 public Student getActiveStudentFromClassAndSectionByAdmissionNo(Class clazz,Section section,String admissionNo)throws StudentException{
-		try{
-		 Student student=studentDAO.getStudentsByClassSectionAndAdmissionNo(clazz, section, admissionNo);
-		  if(student.getStudentStatus().getStudentStatusId()==1){
-			  Hibernate.initialize(student.getStudentClass());
-				 Hibernate.initialize(student.getSection());
-				 Hibernate.initialize(student.getBloodGroup());
-				 Hibernate.initialize(student.getCategory());
-				 Hibernate.initialize(student.getSpecialCategory());
-				 Hibernate.initialize(student.getStudentStatus());
-				 Hibernate.initialize(student.getJoinedAcademicYear());
-				 Hibernate.initialize(student.getJoinedClass());
-				 return student;   
-		  }
-		  else{
-			  return null;
-		  }
-			 
-		}
-		catch(Exception e)
-		{
-			if(e.getClass().equals(NullPointerException.class))
-			{
-				throw new StudentException(new Message("errorMessage", "Admission Number Not Found"));
+	 @Transactional
+	 public ArrayList<Student> getActiveStudentFromClassAndSectionBySpecialCategory(Class clazz,Section section,SpecialCategory specialCategory){
+		 ArrayList<Student> actualStudent=new ArrayList<Student>();
+		 ArrayList<Student> students= (ArrayList<Student>) studentDAO.getStudentsByClassSectionAndSpecialCategory(clazz, section, specialCategory);
+		 Iterator<Student> iterator=students.iterator();
+			while(iterator.hasNext()){
+				Student student=iterator.next();
+				if(student.getStudentStatus().getStudentStatusId()!=1){
+					iterator.remove();
+				}
+				else{
+					
+						 Hibernate.initialize(student.getStudentClass());
+						 Hibernate.initialize(student.getSection());
+						 Hibernate.initialize(student.getBloodGroup());
+						 Hibernate.initialize(student.getCategory());
+						 Hibernate.initialize(student.getSpecialCategory());
+						 Hibernate.initialize(student.getStudentStatus());
+						 Hibernate.initialize(student.getJoinedAcademicYear());
+						 Hibernate.initialize(student.getJoinedClass());
+						 actualStudent.add(student);
+					
+					
+				}
+				
 			}
-			else
-			{
-				throw e;
-			}
-		}
-	}*/
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
+			 return actualStudent;
+	 }
+
 	 
 	 @Transactional(rollbackFor=StudentException.class)
 	 public Integer studentBulkUpdate(MultipartFile studentExcelFile,Integer institutionId,String createdBy) throws StudentException{
@@ -925,7 +919,7 @@ public class StudentServices {
 	 }
 
 	 @Transactional
-	 public Student getActiveStudentByAdmissionNo(String admissionNo){
+	 public Student getActiveStudentByAdmissionNoWithoutInvoices(String admissionNo){
 		 StudentStatus studentStatus= studentStatusDAO.getStudentStatusById(1);
 		 Student student=studentDAO.getActiveStudentByAdmissionNo(admissionNo,studentStatus);
 		 if(student!=null){
@@ -941,10 +935,19 @@ public class StudentServices {
 		 return  student;
 	 }
 	 
-	 
+	 @Transactional
+	 public Student getActiveStudentByAdmissionNo(String admissionNo){
+		 StudentStatus studentStatus= studentStatusDAO.getStudentStatusById(1);
+		 Student student=studentDAO.getActiveStudentByAdmissionNo(admissionNo,studentStatus);
+		 if(student!=null){
+			 	Hibernate.initialize(student.getStudentClass());
+				Hibernate.initialize(student.getSection());
+		}
+		 return  student;
+	 }
 	 
 	 @Transactional
-	 public ArrayList<Student> getActiveStudentsFromAllClass(Integer instituteId){
+	 public ArrayList<Student> getActiveStudentsFromAllClassWithoutInvoices(Integer instituteId){
 		 ArrayList<Student> students=new ArrayList<Student>();
 		 Institution institution= institutionDAO.getInstitutionById(instituteId);
 		 Set<Class> classes=institution.getClasses();
@@ -972,7 +975,36 @@ public class StudentServices {
 	 
 	 
 	 @Transactional
-	 public ArrayList<Student> getActiveStudentsFromAllClassBySpecialCategory(Integer instituteId,SpecialCategory specialCategory){
+	 public ArrayList<Student> getActiveStudentsFromAllClass(Integer instituteId){
+		 ArrayList<Student> students=new ArrayList<Student>();
+		 Institution institution= institutionDAO.getInstitutionById(instituteId);
+		 Set<Class> classes=institution.getClasses();
+		 for (Class clazz : classes) {
+			Set<Section> sections= clazz.getSections();
+			for (Section section : sections) {
+				ArrayList<Student>	students1=(ArrayList<Student>) studentDAO.getStudentsByClassAndSection(clazz, section);
+				Iterator<Student> iterator=students1.iterator();
+				 while(iterator.hasNext()){
+					Student student=iterator.next();
+					if(student.getStudentStatus().getStudentStatusId()!=1){
+						iterator.remove();
+					}
+				
+				     students.add(student);
+				
+					}
+				}
+				
+			}
+		 return students;
+	 }
+	
+
+	 
+	 
+	 
+	 @Transactional
+	 public ArrayList<Student> getActiveStudentsFromAllClassBySpecialCategoryWithoutInvoices(Integer instituteId,SpecialCategory specialCategory){
 		 ArrayList<Student> students=new ArrayList<Student>();
 		 Institution institution= institutionDAO.getInstitutionById(instituteId);
 		 Set<SpecialCategory> specialCategories=institution.getSpecialCategories();
@@ -997,7 +1029,34 @@ public class StudentServices {
 		 }
 		 return students;
 	 }
+	
 	 
+	 @Transactional
+	 public ArrayList<Student> getActiveStudentsFromAllClassBySpecialCategory(Integer instituteId,SpecialCategory specialCategory){
+		 ArrayList<Student> students=new ArrayList<Student>();
+		 Institution institution= institutionDAO.getInstitutionById(instituteId);
+		 Set<SpecialCategory> specialCategories=institution.getSpecialCategories();
+		 for (SpecialCategory specialCategory1 : specialCategories) {
+			 if(specialCategory1.getSpecialCategoryId()==specialCategory.getSpecialCategoryId()){
+				 Set<Student> students1=specialCategory1.getStudents();
+				  Iterator<Student> iterator=students1.iterator();
+					 while(iterator.hasNext()){
+						Student student=iterator.next();
+						if(student.getStudentStatus().getStudentStatusId()!=1){
+							iterator.remove();
+						}
+						else{
+							Hibernate.initialize(student.getStudentClass());
+						    Hibernate.initialize(student.getSection());
+						    students.add(student);
+							
+						}
+					}
+			 }
+		 }
+		 return students;
+	 }
+	
 	 
 		@Transactional
 		public boolean checkForStudentInvoiceGenerated(Student student){
