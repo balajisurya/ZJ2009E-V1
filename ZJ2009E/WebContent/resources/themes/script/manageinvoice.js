@@ -1,16 +1,16 @@
 $(document).ready(function() {
 			
 	var ctx= window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
-	   $('#example-select-all').on('click', function(){
+	 $('#example-select-all').on('click', function(){
 		      // Check/uncheck all checkboxes in the table
 		   var datatable = $('#invoiceList').DataTable();
 		      var rows = datatable.rows({ 'search': 'applied' }).nodes();
 		      $('input[type="checkbox"]', rows).prop('checked', this.checked);
 		   });
-	   
+	 
 	 
 	   
-	   $('#invoiceList').on('change', 'input[type="checkbox"]', function(){
+	 $('#invoiceList').on('change', 'input[type="checkbox"]', function(){
 		      // If checkbox is not checked
 		      if(!this.checked){
 		         var el = $('#example-select-all').get(0);
@@ -30,7 +30,7 @@ $(document).ready(function() {
 			  	    var classId = $("#class").val();
 			  	  $(".form-group-section").hide();
 			  	 $(".form-group-studentid").hide();
-			  	$("#termFeesSetup").hide();
+			  
 			  	    if(classId!=="all"){
 			  	    	 $(".form-group-section").show();
 			  	    	  $.get(ctx+'/class/sectionsOfClass', {
@@ -53,7 +53,7 @@ $(document).ready(function() {
 			 });
 				$("#admissionNo").click(function() {
 					        $(".form-group-groupcriteria").hide();  
-					    	$("#termFeesSetup").hide();
+					    	
 				});
 			$("#criteria").change(function() {
 				var value = $(this).val();
@@ -138,65 +138,33 @@ $(document).ready(function() {
 				 
 				
 				  });	 	  
-			$('#createTermFees').click(function() {
-				
-				
-					 var selectedstudentid = [];
-					
-					 var oTable = $('#invoiceList').dataTable();
-					 var rowcollection =  oTable.$(".case:checked", {"page": "all"});
-					 rowcollection.each(function(index,elem){
-					     selectedstudentid.push($(elem).val());
-					 });
-					
-					
-					
-				 $("#selectedStudentIds").val(selectedstudentid);	  
-					
-						if((selectedstudentid.length)>0)
-						 {
-							
-							document.getElementById('invoicedetailsdiv').style.display="none";
-							document.getElementById('termFeesSetup').style.display="block";
-							
-							$('#generateinvoice').click(function() {
-								
-						  var termfeeslists= [];
-			        			   
-						  	if($("#applyTermFeesform").valid()){
-						  		 $('.loader').show();
-									var table = $("table tbody#test");
 
-			        			    table.find('tr').each(function () {
-			        			    	
-			        			        var $tds = $(this).find('td');
-			        			        termfeeslists.push($tds.eq(0).attr('id')+"-"+$tds.eq(1).find("option:selected").attr('value'));
-			        			            });
-			        			    
-			        			    if(termfeeslists!=null && selectedstudentid!=null){
-								  		  $.post(ctx+'/invoice/generate',{studentIds:selectedstudentid,
-								  			  academicTermIds:termfeeslists},function(){
-								  				 $('.loader').hide();
-								  				location.reload();
-								  			  })
-								  	
-								  	 }
-			        			   
-							}
-								
-						  	 });
-						
-						 }
-						 else{
-							 alert(" You have to select atleast one student from invoice details table")
-						 }
+			 $('#deletegenerateinvoice').click(function() {
+					
+					
+				 var selectedstudentids = [];
 				
-					     
-						
-						
+				 var oTable = $('#invoiceList').dataTable();
+				 var rowcollection =  oTable.$(".case:checked", {"page": "all"});
+				 rowcollection.each(function(index,elem){
+					 selectedstudentids.push($(elem).val());
 				 });
-			   
-			
+				 
+				 $("#selectedStudentIds").val(selectedstudentids);
+				 if((selectedstudentids.length)>0)
+				 {
+					if($("#generateinvoiceform").valid()){
+						$("generateinvoiceform").submit();
+					}
+					 
+				 }
+				 else{
+					 
+					 alert(" You have to select atleast one student")
+					 
+					 
+				 }
+			 });
 			
 			});
 			

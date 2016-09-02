@@ -17,9 +17,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import in.jdsoft.educationmanagement.components.NumberToEnglishWords;
 import in.jdsoft.educationmanagement.school.exceptions.AcademicYearException;
 import in.jdsoft.educationmanagement.school.exceptions.StudentException;
+import in.jdsoft.educationmanagement.school.exceptions.StudentInvoiceException;
 import in.jdsoft.educationmanagement.school.model.AcademicYear;
 import in.jdsoft.educationmanagement.school.model.Class;
 import in.jdsoft.educationmanagement.school.model.FeesTermAndFeesStructure;
+import in.jdsoft.educationmanagement.school.model.Message;
 import in.jdsoft.educationmanagement.school.model.Section;
 import in.jdsoft.educationmanagement.school.model.SpecialCategory;
 import in.jdsoft.educationmanagement.school.model.Student;
@@ -79,7 +81,78 @@ public class InvoiceController {
 		}
 		
 	}
-	
+	@RequestMapping(value="allStudent",method=RequestMethod.GET)
+	@ResponseBody
+	public ArrayList<Student> getAllStudentListForInvoice(HttpServletRequest request,RedirectAttributes redirectAttributes) throws Exception{
+		try {
+			ArrayList<Student> students=new ArrayList<Student>();
+			String classNameOrId=request.getParameter("class");
+			
+			String admissionNo=null;
+			if(!request.getParameter("admissionNo").isEmpty()){
+				admissionNo=request.getParameter("admissionNo");
+				students.add(studentServices.getActiveStudentByAdmissionNo(admissionNo));
+				return students;
+			}
+			else{
+				if(classNameOrId.equals("all")){
+					String criteria=request.getParameter("criteria");
+					if(criteria.equals("all")){
+						return studentServices.getActiveStudentsFromAllClass(Integer.parseInt(request.getSession().getAttribute("instituteId").toString()));
+					}
+					else if(criteria.equals("specialcategory")){
+						Integer specialCategoryId=null;
+						SpecialCategory specialCategory=null;
+						if(request.getParameter("specialCategoryId")!=null){
+							specialCategoryId=Integer.parseInt(request.getParameter("specialCategoryId"));
+							specialCategory=specialCategoryServices.getSpecialCategoryById(specialCategoryId);
+							return studentServices.getActiveStudentsFromAllClassBySpecialCategory(Integer.parseInt(request.getSession().getAttribute("instituteId").toString()),specialCategory);
+						}
+						else{
+							return null;
+						}
+					}
+					else{
+						return null;
+					}
+				}else{
+					Integer classId=Integer.parseInt(classNameOrId);
+					Class clazz=classAndSectionServices.getClassById(classId);
+					Integer sectionId=Integer.parseInt(request.getParameter("section"));
+					Section section=classAndSectionServices.getSectionById(sectionId);
+					String criteria=request.getParameter("criteria");
+					if(criteria.equals("all")){
+						return studentServices.getActiveStudentFromClassAndSection(clazz, section);
+					}
+					else if(criteria.equals("specialcategory")){
+						Integer specialCategoryId=null;
+						SpecialCategory specialCategory=null;
+						if(request.getParameter("specialCategoryId")!=null){
+							specialCategoryId=Integer.parseInt(request.getParameter("specialCategoryId"));
+							specialCategory=specialCategoryServices.getSpecialCategoryById(specialCategoryId);
+						}
+						return studentServices.getActiveStudentFromClassAndSectionBySpecialCategory(clazz, section, specialCategory);
+					}
+					else{
+						return students;
+					}
+				}
+			}
+		} 
+		catch (Exception e) 
+		{
+			if(e.getClass().equals(StudentException.class))
+			{
+				StudentException studentException=(StudentException)e;
+				redirectAttributes.addFlashAttribute("errorMessage", studentException.getCustomMessage());
+				return null;
+			}
+			else
+			{
+				throw e;
+			}
+		}
+	}
 	@RequestMapping(value="students",method=RequestMethod.GET)
 	@ResponseBody
 	public ArrayList<Student> getStudentListForInvoice(HttpServletRequest request,RedirectAttributes redirectAttributes) throws Exception{
@@ -415,6 +488,10 @@ public class InvoiceController {
 	public ModelAndView manageInvoicePage(HttpServletRequest request){
 		try {
 			ModelAndView modelandview=new ModelAndView("manageinvoice");
+			Integer instituteId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
+			modelandview.addObject("academicYears", academicYearServices.getInstitutionAcademicYearList(instituteId));
+			modelandview.addObject("classes", classAndSectionServices.getInstitutionClassList(instituteId));
+			modelandview.addObject("specialCategories",specialCategoryServices.getInstitutionSpecialCategoryList(instituteId));
 			return modelandview;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -424,7 +501,38 @@ public class InvoiceController {
 		
 		
 	}
-	
+	@RequestMapping(value="invoiceDelete",method=RequestMethod.POST) 
+	public String deleteInvoice(HttpServletRequest request,RedirectAttributes redirectAttributes) throws Exception{
+		try {
+			 String studentIds=request.getParameter("selectedStudentIds");
+			 Integer academicYearId=Integer.parseInt(request.getParameter("academicYearId"));
+			
+			 if(studentIds!=null && academicYearId!=null){
+				 String []studentsIds=studentIds.split(",");
+				 Integer []studentsId=new Integer[studentsIds.length];
+				 Integer count=0;
+				 for (String studentId : studentsIds) {
+					studentsId[count++] =Integer.parseInt(studentId.trim());
+				 }
+				 invoiceServices.deleteStudentInvoicesByAcademicYear(studentsId, academicYearId);
+				return "redirect:/invoice/manageInvoice";
+			 }
+			 else{
+				 throw new StudentInvoiceException(new Message("invalid","No Student  Or Academic Year Selected"));
+			 }
+			 
+		} catch (Exception e) {
+			
+			if(e.getClass().equals(StudentInvoiceException.class)){
+				StudentInvoiceException ex=(StudentInvoiceException)e;
+				redirectAttributes.addFlashAttribute("errorMessage",ex.getCustomMessage());
+				return "redirect:/invoice/manageInvoice";
+			}
+			else{
+				throw e;
+			}
+		}
+	}
 	
 	
 }

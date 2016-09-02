@@ -18,7 +18,7 @@
       <!-- js-->
       <script src="${pageContext.request.contextPath}/resources/cdntolocal/js/jquery_1.11.2.min.js"></script>
       <script src="${pageContext.request.contextPath}/resources/cdntolocal/js/jquery_1.7.1.min.js"></script>
-      <%-- <script src="${pageContext.request.contextPath}/resources/${theme}/js/jquery-1.11.1.min.js"></script> --%>
+       <script src="${pageContext.request.contextPath}/resources/${theme}/js/jquery-1.11.1.min.js"></script>
       <script src="${pageContext.request.contextPath}/resources/${theme}/js/modernizr.custom.js"></script>
       <!--webfonts-->
       <link href='${pageContext.request.contextPath}/resources/cdntolocal/css/fonts-googleapis.css' rel='stylesheet' type='text/css'>
@@ -74,11 +74,12 @@
 		 <div class="loader"  style="display: none"></div>
 		<!-- main content start-->
 		<div id="page-wrapper">
-		  <h3 class="title1">Manage Invoices</h3>
+		  <h3 class="title1">Manage Generate Invoices</h3>
 		<div class="main-page">
 		<div class="form-three widget-shadow">
 		   <form class="form-horizontal" id="studentDetailsForm">
                                   <div class="form-group form-group-groupcriteria" style="display: block">
+                                  
                                  <div class="form-group">
                                  <label for="" class="col-sm-3 control-label"> Class<span class="at-required-highlight">*</span></label> 
                                  <div class="col-sm-6"> 
@@ -160,11 +161,10 @@
                 
                                  
      
-                   		<h3 class="title1">Select Student(s) to Generate Invoice with Fees Structure and Due Date</h3>
+                   		<h3 class="title1">Select Student(s) to Manage Generate Invoice with Fees Structure</h3>
                    		 
                     
                     
-                    <form class="form-horizontal" id="applyfeestructureform">
                        <div class="tables">
                          <div class="table-responsive bs-example widget-shadow">
                              <table class="table table-bordered" id="invoiceList">
@@ -185,10 +185,26 @@
                      <div class="clearfix">
                      </div>
                   </div>
-                         <!--  <input id="selectedStudentIds" name="selectedStudentIds" type="hidden"> -->
+                  <br>
+             <form class="form-horizontal" id="generateinvoiceform" method="post" action="${pageContext.request.contextPath}/invoice/invoiceDelete">
+                  
+                  <div class="form-group">
+                                 <label for="" class="col-sm-3 control-label">Academic Year<span class="at-required-highlight">*</span></label> 
+                                 <div class="col-sm-6"> 
+                                   <select name="academicYearId" id="academicYearId"  class="form-control1" required="required">
+                                       <option value="" disabled selected>Select Academic Year</option>
+                                        <c:if test="${!empty academicYears}">
+                                         <c:forEach items="${academicYears}" var="academicYear">
+                                      			 <option value="${academicYear.getAcademicYearId()}">${academicYear.getAcademicYearTitle()}</option>
+                                           </c:forEach>
+                                      	</c:if>
+                                     </select>
+                                 </div>
+                              </div>
+                         <input id="selectedStudentIds" name="selectedStudentIds" type="hidden"> 
              					 <div class="row">
                                  		<div class="col-sm-offset-3">
-                                            <button style="float:right" type="button" id="createTermFees" class="btn btn-success">Next</button>
+                                            <button style="float:right" type="submit" id="deletegenerateinvoice" class="btn btn-success">Delete Generate Invoice(s)</button>
 									   </div>
                               </div>
                         </form>  
@@ -196,58 +212,7 @@
        </div>  
        
        
-        <div id="termFeesSetup" style="display:none;">
-                 <br>
-        		<h3 class="title1">Select Fees Structure For All Terms</h3>
-                   	 <form class="form-horizontal" id="applyTermFeesform" action="${pageContext.request.contextPath}/invoice/generate" method="post">
-                       <div class="tables">
-                         <div class="table-responsive bs-example widget-shadow">
-                             <table class="table table-bordered" id="feesTermsWithFeesStructure">
-                              <thead>
-                                 <tr>
-                                    <th>Term Name</th>
-                                  	<th>Fees Structure</th>
-                                 </tr>
-                               </thead>
-                              	<tbody id="test">	
-                              		<c:if test="${!empty academicFeesTerms}">
-                                  	<c:forEach items="${academicFeesTerms}" var="academicFeesTerm">
-                                  		<tr>
-                                 			<td id="${academicFeesTerm.getAcademicYearFeesTermId()}">
-                                                          ${academicFeesTerm.getFeesTermTitle()}
-						                    </td>
-                                  			<td>
-                                  				 <select name="${academicFeesTerm.getFeesTermTitle()}" id="${academicFeesTerm.getAcademicYearFeesTermId()}" class="form-control1" required="required">
-                                  				  <option value="" disabled selected>Select Fees Structure</option>
-							                                  	<c:if test="${!empty feesTemplates}">
-							                                  		
-							                                      		<c:forEach items="${feesTemplates}" var="feesTemplate">
-							                                      		 	<option value="${feesTemplate.getTemplateId()}">${feesTemplate.getTemplateName()}</option>
-							                                      		 </c:forEach>
-							                                          </c:if>
-							                          </select>
-                                					 
-                                  			</td>
-                                 		</tr>
-                                     </c:forEach>
-                              		 </c:if>
-                              	</tbody>
-                           </table>
-                        </div>
-                        </div>
-	                       <div class="x_title">
-	                     		<div class="clearfix">
-	                     		</div>
-	                	  </div>
-                            <input id="selectedStudentIds" name="selectedStudentIds" type="hidden">
-             					<div class="row">
-                                 <div class="col-sm-offset-3">
-                                    <button style="float:right" type="button" id="generateinvoice" class="btn btn-success">Generate Invoice</button>
-								 </div>
-                                </div>
-                       </form>  
-       			</div>
-       
+
        
        
        
@@ -305,7 +270,7 @@
 	
 <!-- Bootstrap Core JavaScript -->
 <script src="${pageContext.request.contextPath}/resources/${theme}/js/bootstrap.js"> </script>
-<script src="${pageContext.request.contextPath}/resources/themes/script/invoice.js"></script>
+<script src="${pageContext.request.contextPath}/resources/themes/script/manageinvoice.js"></script>
 <script src="${pageContext.request.contextPath}/resources/themes/js/cbp_menu.js"></script> 
 <script src="${pageContext.request.contextPath}/resources/${theme}/js/classie.js"></script>
 <script src="${pageContext.request.contextPath}/resources/${theme}/js/jquery.nicescroll.js"></script>
