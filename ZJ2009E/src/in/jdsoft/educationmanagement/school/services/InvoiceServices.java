@@ -1,6 +1,7 @@
 package in.jdsoft.educationmanagement.school.services;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Hibernate;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import in.jdsoft.educationmanagement.school.dao.AcademicYearDAO;
 import in.jdsoft.educationmanagement.school.dao.AcademicYearFeesTermDAO;
 import in.jdsoft.educationmanagement.school.dao.FeesTemplateDAO;
 import in.jdsoft.educationmanagement.school.dao.InstitutionDAO;
@@ -38,6 +40,8 @@ public class InvoiceServices {
 	StudentInvoiceDetailDAO studentInvoiceDetailDAO;
 	@Autowired
 	InstitutionDAO institutionDAO;
+	@Autowired
+	AcademicYearDAO academicYearDAO;
 
 	@Autowired
 	AcademicYearFeesTermDAO academicYearFeesTermDAO;
@@ -283,6 +287,18 @@ public class InvoiceServices {
 		return studentInvoice;
 	}
 	
+	@Transactional
+	public void deleteStudentInvoicesByAcademicYear(Integer []studentIds,Integer academicYearId){
+		 AcademicYear academicYear=academicYearDAO.getAcademicYearById(academicYearId);
+		for (Integer studentId : studentIds) {
+			Student student=studentDAO.getStudentById(studentId);
+			List<StudentInvoice> studentInvoices=studentInvoiceDAO.getStudentInvoicesByAcademicYear(student, academicYear);
+			for (StudentInvoice studentInvoice : studentInvoices) {
+				studentInvoiceDAO.delete(studentInvoice);
+			}
+		}
+		
+	}
 
 	/*@Transactional
 	public String checkInvoicePayable(Integer studentInvoiceId){

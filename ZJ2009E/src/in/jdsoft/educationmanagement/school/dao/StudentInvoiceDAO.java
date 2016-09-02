@@ -120,5 +120,24 @@ public class StudentInvoiceDAO extends GenericDAO<StudentInvoice>{
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<StudentInvoice> getStudentInvoicesByAcademicYear(Student student,AcademicYear academicYear){
+		try {
+			Criteria invoicecriteria=sessionFactory.getCurrentSession().createCriteria(StudentInvoice.class);
+			Conjunction and=Restrictions.conjunction();
+			and.add(Restrictions.eq("student",student));
+			and.add(Restrictions.eq("academicYear",academicYear));
+			invoicecriteria.add(and);
+			ArrayList<StudentInvoice> studentInvoices =(ArrayList<StudentInvoice>) invoicecriteria.list();
+			if (studentInvoices == null) {
+			
+			} else {
+			
+			}
+			return studentInvoices;
+		} catch (RuntimeException re) {
+			throw re;
+		}
+	}
 	
 }

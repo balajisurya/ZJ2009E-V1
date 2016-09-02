@@ -941,6 +941,8 @@ public class StudentServices {
 		 return  student;
 	 }
 	 
+	 
+	 
 	 @Transactional
 	 public ArrayList<Student> getActiveStudentsFromAllClass(Integer instituteId){
 		 ArrayList<Student> students=new ArrayList<Student>();
