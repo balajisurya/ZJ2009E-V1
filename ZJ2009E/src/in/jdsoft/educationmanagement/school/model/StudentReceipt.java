@@ -37,6 +37,7 @@ public class StudentReceipt implements Serializable {
 	@Autowired
 	NumberGenerator numberGenerator;
 	
+	//cash
 	public StudentReceipt(Institution institution,AcademicYear academicYear,PaymentMode paymentMode,
 			Date paymentReceivedDate, Double amount, Student student,
 			PaymentStatus paymentStatus,String createdBy, String modifiedBy) {
@@ -53,6 +54,7 @@ public class StudentReceipt implements Serializable {
 		this.academicYear=academicYear;
 	}
 	
+	//cheque
 	public StudentReceipt(Institution institution,AcademicYear academicYear,PaymentMode paymentMode,
 			Date chequeReceivedDate,Double amount, Student student,
 			PaymentStatus paymentStatus, String chequeNumber, Date chequeDate,
@@ -74,6 +76,7 @@ public class StudentReceipt implements Serializable {
 		this.academicYear=academicYear;
 	}
 	
+	//dd
 	public StudentReceipt(Institution institution,AcademicYear academicYear,PaymentMode paymentMode,
 			Double amount, Student student,
 			PaymentStatus paymentStatus,String ddNumber, Date ddDate,

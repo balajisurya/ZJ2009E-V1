@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	var ctx= window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
+	var datatable;
 	$("#getdetails").click(function(event){
 		 $('#getDetailsForm').validate({
 				 submitHandler: function(form) {
@@ -14,7 +15,7 @@ $(document).ready(function() {
 					        dataType: "json",
 					        cache: false,
 					        success: function (data) {
-					        	var datatable = $('#studentInvoicesTable').DataTable();
+					        	datatable= $('#studentReceiptListTable').DataTable();
 					        	 $(".form-horizontal").trigger('reset'); 
 					        	  datatable.clear().draw();
 									$.each(data, function (i, item) {
@@ -37,36 +38,67 @@ $(document).ready(function() {
 		  });	 
 	});
 	
-	$('#studentInvoicesTable tbody').on( 'click', 'tr td input[class=case]:checkbox', function () {
-		$(this).prop('checked', false);
-		var studentInvoiceId= $(this).val();
-		alert(studentInvoiceId);
-		$.ajax(	
-				    {
-				        type: "GET",
-				        url:ctx+'',
-				        data:{studentInvoiceId:studentInvoiceId},
-				        contentType: "application/json; charset=utf-8",
-				        dataType: "json",
-				        cache: false,
-				        success: function (response) {
-				        	if(response.status=='true'){
-				        		
-				        		$(this).prop('checked', true);
-				        }
-				        	else{
-				        		
-				        		$(this).prop('checked', false);
-				        
-				        	}
-				    
-				        }
-				      
-				    });
-		   
-		});
 	
-	
+	 $("#proceedForPayment").click(function(event){
+		 var  invoiceForPayment=[];
+			var rowcollection =  datatable.$(".case:checked", {"page": "all"});
+			rowcollection.each(function(index,elem){
+				invoiceForPayment.push($(elem).val());
+			 });
+			
+			if(invoiceForPayment.length>0){
+				 $.post(ctx+'/invoice/invoiceValidation',{invoiceForPayment:invoiceForPayment},function(response){
+					 if(response==false){
+						 alert('Please Pay Lower Term Fees First');
+					 }
+					 else if(response==true){
+						 if(invoiceForPayment.length>0){
+							 var datatable = $('#finalPaymentDetailTable').DataTable();
+					           $(".form-horizontal").trigger('reset'); 
+					        	
+									var serialNo=0;
+									var amountToBePaid=0.0;
+									if(invoiceForPayment.length>0){
+										$.get(ctx+'/invoice/studentInvoice/finalStudentInvoices',{invoiceForPayment:invoiceForPayment},function(response){
+											$.each(response, function (i, finalStudentInvoices) {
+								        		serialNo=serialNo+1;
+								        		datatable.row.add([serialNo,finalStudentInvoices.academicYear.academicYearTitle,finalStudentInvoices.academicYearFeesTerm.feesTermTitle,finalStudentInvoices.invoiceAmount]).draw( false );
+								        		$("#hiddenPaidInvoices").append('<input type="hidden" value='+finalStudentInvoices.studentInvoiceId+' name="paidInvoiceId"/>');
+										       amountToBePaid=amountToBePaid+finalStudentInvoices.invoiceAmount;
+									      });
+											
+										});
+							    	 }
+							    	
+								alert(amountToBePaid);
+						    	 $('#amount').val(amountToBePaid);
+					    			$('#invoicedetailsdiv').hide();
+					    			$('#confirmedInvoiceFormDiv').show();
+					    			$("#generateFCR").click(function(){
+					    				if($("#paymentDetailsForm").valid()){
+					    					$('#paymentDetailsForm').submit();
+					    				}
+					    				
+					    			});
+						    
+							 
+						 }else{
+							 alert('Select atleast one term to proceed');
+						 }
+						 
+						 
+						 /*$.post(ctx+'/invoice/invoiceValidation',{invoiceForPayment:invoiceForPayment},function(response){
+							 
+						 }); */
+					 }
+		  		 })
+			}
+			else{
+				alert('Select atleast one term to proceed');
+			}
+	 });
+	 
+	 
 	 
 	
 	
@@ -155,69 +187,7 @@ function showFeesItemDiv(invoiceId){
 			        }
 			      
 			    });
-		
-		
-		
-		
-			 	 /* $("#proceedForPayment").click(function(event){
-			 		 var  feesitemidlists=[];
-					  $.each($("[name=invoiceFeesItem]:checked"), function(){
-						  feesitemidlists.push($(this).attr('value'));
-					   });
-					  
-					  
-						if(feesitemidlists.length>0){
-					    	var datatable = $('#finalPaymentDetailTable').DataTable();
-				        	 $(".form-horizontal").trigger('reset'); 
-				        	datatable.row('.even').remove().draw( false );  
-				        	datatable.row('.odd').remove().draw( false );  
-							if (!$.trim(feesItemJson) && $.trim(fineItemJson)){ 
-								datatable.row('.even').remove().draw( false );  
-								datatable.row('.odd').remove().draw( false );  
-						 	}
-							else
-						 	{
-								var serialNo=0;
-								var amountToBePaid=0.0;
-								if(feesitemidlists.length>0){
-						    		$.ajax({
-									        type: "GET",
-									        url:ctx+'/invoice/studentInvoice/finalitemdetails' ,
-									        data:{feesitemidlist:feesitemidlists},
-									        contentType: "application/json; charset=utf-8",
-									        dataType: "json",
-									        async:false,
-									        cache: false,
-									        success: function (response) {
-									        	$.each(response, function (i, feesitemRecord) {
-									        		serialNo=serialNo+1;
-									        		datatable.row.add([serialNo,feesitemRecord.feesTemplateItem.templateItemName,feesitemRecord.studentInvoiceElementTotalAmount]).draw( false );
-									        		$("#hiddenPaidItems").append('<input type="hidden" value='+feesitemRecord.studentInvoiceDetailId+' name="paidItemId"/>');
-											       amountToBePaid=amountToBePaid+feesitemRecord.studentInvoiceElementTotalAmount;
-										      });
-									        }
-									    });
-						    	   }
-						    	
-							
-					    	 $('#amount').val(amountToBePaid);
-				    			$('#feesItemFormDiv').hide();
-				    			$('#confirmedfeesItemFormDiv').show();
-				    			$("#generateFCR").click(function(){
-				    				if($("#paymentDetailsForm").valid()){
-				    					$('#paymentDetailsForm').submit();
-				    				}
-				    				
-				    			});
-					    }else{
-					    	alert("Please Select Atleast one");
-					    }
-			   
-				  });*/
-			
-		
-
-	}
+}
     
       
       

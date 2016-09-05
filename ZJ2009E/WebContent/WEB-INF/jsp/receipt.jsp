@@ -44,7 +44,7 @@
       <script src="${pageContext.request.contextPath}/resources/themes/printpage/js/jquery.printPage.js"></script>
      
       <script src="${pageContext.request.contextPath}/resources/cdntolocal/js/jquery-ui-1.10.3.js"></script>
-      <c:if test="${!empty receiptId}">
+      <c:if test="${!empty receiptId1}">
       <script>
          $(document).ready(function() {
         	 var receiptId='${receiptId}'
@@ -97,10 +97,10 @@
                </div>
                <br />
                                <h3 class="title1">Student Fees Details</h3>
-                  
+                   
                      <div class="tables">
                          <div class="table-responsive bs-example widget-shadow">
-                             <table class="table table-bordered" id="studentInvoicesTable">
+                             <table class="table table-bordered" id="studentReceiptListTable">
                               <thead>
                                  <tr>
                                     <th></th>
@@ -158,7 +158,7 @@
              
              
              
-             	<div id="confirmedfeesItemFormDiv" style="display:none;">
+             	<div id="confirmedInvoiceFormDiv" style="display:none;">
                          <div class="forms">
                   			<div class="row">
                     			<h3 class="title1">Payment Details</h3>
@@ -170,17 +170,16 @@
 							                              <thead>
 							                                 <tr>
 							                                    <th>Serial No</th>
-							                                  	<th>Selected Fees Item</th>
-							                                 	<th>Amount</th>
+							                                    <th>Academic Year</th>
+							                                  	<th>Selected Fees Term</th>
+							                                 	<th>Invoice Amount</th>
 							                                </tr>
 							                              </thead>
 							                           </table>
 							                        </div>
-							                        <div id="hiddenPaidItems">
+							                        <div id="hiddenPaidInvoices">
 							                        </div>
-							                        <div id="hiddenPaidFine">
-							                        </div>
-                        						</div>
+							                     </div>
                             					<br>   
                 <h3 class="title1">Payment Details</h3>
                                <br>
@@ -267,6 +266,12 @@
                                     <input type="text" class="form-control form-control-datepicker" id="receivedDate" name="receivedDate" placeholder="" required="required">
                                  </div>
                                  
+                              </div>
+                              <div class="form-group">
+                                 <label for="" class="col-sm-3 control-label">Fine</label> 
+                                 <div class="col-sm-6"> 
+                                    <input type="text" class="form-control" id="fineAmount" name="fineAmount" placeholder="">
+                                 </div>
                               </div>
                              
                                <div class="row">

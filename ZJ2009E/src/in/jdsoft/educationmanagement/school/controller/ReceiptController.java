@@ -77,28 +77,22 @@ public class ReceiptController {
 	public String generateReceipt(HttpServletRequest request,RedirectAttributes redirectAttributes) throws Exception{
 		try {
 			DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-			String paidItemIds[]=request.getParameterValues("paidItemId");
-			Integer paidItems[]=null;
-			String paidFineIds[]=request.getParameterValues("paidFineId");
-			Integer paidFines[]=null;
+			String paidInvoiceIds[]=request.getParameterValues("paidInvoiceId");
+			Integer paidInvoices[]=null;
+			double fineAmount=0.0;
+			if(!request.getParameter("fineAmount").isEmpty()){
+				fineAmount=Double.parseDouble(request.getParameter("fineAmount"));
+			}
 			
-			if(paidItemIds!=null){
-				paidItems=new Integer[paidItemIds.length];
+			if(paidInvoiceIds!=null){
+				paidInvoices=new Integer[paidInvoiceIds.length];
 				Integer i=0;
-				for (String paidItemId : paidItemIds) {
-					paidItems[i]=Integer.parseInt(paidItemId);
-					i++;
+				for (String paidInvoiceId : paidInvoiceIds) {
+					paidInvoices[i++]=Integer.parseInt(paidInvoiceId);
 				}
 			}
 			
-			if(paidFineIds!=null){
-				paidFines=new Integer[paidFineIds.length];
-				Integer j=0;
-				for (String paidFineId : paidFineIds) {
-					paidFines[j]=Integer.parseInt(paidFineId);
-					j++;
-				}
-			}
+			
 			
 			double totalPaidAmount=Double.parseDouble(request.getParameter("amount"));
 			Integer paymentModeId=Integer.parseInt(request.getParameter("paymentMode"));
@@ -108,7 +102,7 @@ public class ReceiptController {
 				Date receivedDate=formatter.parse(request.getParameter("receivedDate"));
 				String createdBy=request.getSession().getAttribute("username").toString();
 				String modifiedBy=request.getSession().getAttribute("username").toString();
-				Integer receiptId=receiptServices.receiptByCash(paidItems, paidFines,totalPaidAmount, paymentMode, receivedDate,createdBy,modifiedBy);
+				Integer []receiptId=receiptServices.receiptByCash(paidInvoices,fineAmount,totalPaidAmount, paymentMode, receivedDate,createdBy,modifiedBy);
 				redirectAttributes.addFlashAttribute("receiptId", receiptId);
 				return "redirect:/receipt";
 			}
@@ -121,7 +115,7 @@ public class ReceiptController {
 				String chequeBranchName=request.getParameter("chequeBranchName");
 				String createdBy=request.getSession().getAttribute("username").toString();
 				String modifiedBy=request.getSession().getAttribute("username").toString();
-				Integer receiptId=receiptServices.receiptByCheque(paidItems, paidFines,totalPaidAmount, paymentMode, chequeReceivedDate, chequeNo, chequeDate, chequeBankName, chequeBranchName,createdBy,modifiedBy);
+				Integer []receiptId=receiptServices.receiptByCheque(paidInvoices,fineAmount,totalPaidAmount, paymentMode, chequeReceivedDate, chequeNo, chequeDate, chequeBankName, chequeBranchName,createdBy,modifiedBy);
 				redirectAttributes.addFlashAttribute("receiptId", receiptId);
 				return "redirect:/receipt";
 			}
@@ -134,7 +128,7 @@ public class ReceiptController {
 				String ddBranchName=request.getParameter("ddBranchName");
 				String createdBy=request.getSession().getAttribute("username").toString();
 				String modifiedBy=request.getSession().getAttribute("username").toString();
-				Integer receiptId=receiptServices.receiptByDD(paidItems, paidFines,totalPaidAmount, paymentMode, ddReceivedDate, ddNo, ddDate, ddBankName, ddBranchName,createdBy,modifiedBy);
+				Integer []receiptId=receiptServices.receiptByDD(paidInvoices,fineAmount,totalPaidAmount, paymentMode, ddReceivedDate, ddNo, ddDate, ddBankName, ddBranchName,createdBy,modifiedBy);
 				redirectAttributes.addFlashAttribute("receiptId", receiptId);
 				return "redirect:/receipt";
 			}
