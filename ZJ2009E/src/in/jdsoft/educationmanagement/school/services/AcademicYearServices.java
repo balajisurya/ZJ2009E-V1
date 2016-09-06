@@ -1,6 +1,8 @@
 package in.jdsoft.educationmanagement.school.services;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -168,5 +170,21 @@ public class AcademicYearServices {
 				academicYear=null;
 			}
 			return academicYear;
+	}
+	
+	@Transactional
+	public ArrayList<AcademicYearFeesTerm> getAcademicYearFeesTermsByAcademicYear(Integer academicYearId){
+		AcademicYear academicYear=academicYearDAO.getAcademicYearById(academicYearId);
+		ArrayList<AcademicYearFeesTerm> feesTerms=new ArrayList<AcademicYearFeesTerm>();
+		if(academicYear!=null){
+			feesTerms.addAll(academicYear.getAcademicYearFeesTerms());
+		}
+		Collections.sort(feesTerms, new Comparator<AcademicYearFeesTerm>() {
+			@Override
+			public int compare(AcademicYearFeesTerm o1, AcademicYearFeesTerm o2) {
+				return o1.getFeesTermOrder().compareTo(o2.getFeesTermOrder());
+			}
+		});
+		return feesTerms;
 	}
 }

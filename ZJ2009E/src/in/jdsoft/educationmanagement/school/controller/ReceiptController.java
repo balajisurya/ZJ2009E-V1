@@ -315,4 +315,27 @@ public class ReceiptController {
 			throw e;
 		}
 	}
+	
+	@RequestMapping(value="/byAdmissionNo")
+	@ResponseBody
+	public ArrayList<StudentReceipt> getStudentReceiptsByAdmisionNo(HttpServletRequest request){
+		try {
+			 String admissionNo= request.getParameter("admissionNo");
+		     return	 receiptServices.getStudentReceiptsByAdmisssionNo(admissionNo);
+			 
+		} catch (Exception e) {
+		   throw e;
+		}
+	}
+	
+	@RequestMapping(value="/delete",method=RequestMethod.POST)
+	public String deleteReceipt(HttpServletRequest request){
+		try {
+			  Integer receiptId=Integer.parseInt(request.getParameter("deleteReceiptId"));
+			  receiptServices.deleteReceipt(receiptId);
+			  return "redirect:/receipt/manageReceipt";
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 }

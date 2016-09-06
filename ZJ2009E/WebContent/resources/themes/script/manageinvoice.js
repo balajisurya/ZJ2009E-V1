@@ -88,7 +88,7 @@ $(document).ready(function() {
 						    $.ajax(	
 							    {
 							        type: "GET",
-							        url:ctx+"/invoice/allStudent" ,
+							        url:ctx+"/invoice/allStudent",
 							        data: data,
 							        contentType: "application/json; charset=utf-8",
 							        dataType: "json",

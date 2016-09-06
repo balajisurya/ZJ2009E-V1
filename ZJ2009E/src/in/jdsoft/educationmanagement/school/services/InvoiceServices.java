@@ -160,129 +160,7 @@ public class InvoiceServices {
 		return studentInvoices;
 	}
 	
-	
-	
-	
-	/*@Transactional
-	public ArrayList<StudentInvoiceDetail> getStudentInvoiceDetailItemsFromIds(Integer []studentInvoiceDetailIds){
-		ArrayList<StudentInvoiceDetail> studentInvoiceDetails=new ArrayList<StudentInvoiceDetail>();
-		for (int i = 0; i < studentInvoiceDetailIds.length; i++) {
-			studentInvoiceDetails.add(studentInvoiceDetailDAO.getStudentInvoiceDetailById(studentInvoiceDetailIds[i]));
-		}
-		for (StudentInvoiceDetail studentInvoiceDetail : studentInvoiceDetails) {
-			Hibernate.initialize(studentInvoiceDetail.getStudentInvoice().getStudent());
-			Hibernate.initialize(studentInvoiceDetail.getStudentInvoice().getAcademicYear());
-			Hibernate.initialize(studentInvoiceDetail.getStudentInvoice().getInstitution());
-}
-		return studentInvoiceDetails;
-	}*/
-	
-/*	@Transactional
-	public ArrayList<SevenFieldReports> getInstitutionWiseInvoiceReport(){
-		    ArrayList<Institution> institutions=(ArrayList<Institution>) institutionDAO.getList();
-		    ArrayList<SevenFieldReports> sevenFieldReports=new ArrayList<SevenFieldReports>();
-		    for (Institution institution : institutions) {
-		    	Double totalInvoiceAmount=0.0;
-		    	Double totalInvoiceFine=0.0;
-		    	Double totalReceiptAmount=0.0;
-		    	Double totalReceiptFine=0.0;
-		    	Double totalPendingAmount=0.0;
-		    	Double totalPendingFine=0.0;
-		    	Set<Student> students=institution.getStudents();
-		    	for (Student student : students) {
-		    			Set<StudentInvoice> studentInvoices=student.getInvoices();
-			    		if(studentInvoices!=null){
-			    			for (StudentInvoice studentInvoice : studentInvoices) {
-				    			totalInvoiceAmount=totalInvoiceAmount+studentInvoice.getInvoiceAmount();
-				    			Set<StudentInvoiceFineDetail> studentInvoiceFineDetails=studentInvoice.getStudentInvoiceFineDetails();
-				    			if(studentInvoiceFineDetails!=null){
-				    				for (StudentInvoiceFineDetail studentInvoiceFineDetail : studentInvoiceFineDetails) {
-					    				totalInvoiceFine=totalInvoiceFine+studentInvoiceFineDetail.getFineAmount();
-									}
-				    			}
-				    		}
-			    		 }
-		    		
-			    		Set<StudentReceipt> studentReceipts=student.getStudentReceipts();
-			    		if(studentReceipts!=null){
-			    			 for (StudentReceipt studentReceipt : studentReceipts) {
-			    				 if(studentReceipt.getPaymentStatus().getPaymentStatusId()!=3){
-			    					 Set<StudentReceiptDetail> studentReceiptDetails=studentReceipt.getReceiptDetails();
-				    					if(studentReceiptDetails!=null){
-				    						for (StudentReceiptDetail studentReceiptDetail : studentReceiptDetails) {
-				    							totalReceiptAmount=totalReceiptAmount+studentReceiptDetail.getStudentInvoiceDetail().getStudentInvoiceElementTotalAmount();
-											}
-				    					}
-										Set<StudentReceiptFine> studentReceiptFines=studentReceipt.getReceiptFines();
-										if(studentReceiptFines!=null){
-											for (StudentReceiptFine studentReceiptFine : studentReceiptFines) {
-												totalReceiptFine=totalReceiptFine+studentReceiptFine.getStudentInvoiceFineDetail().getFineAmount();
-											}
-										}
-							
-			    				 }
-			    			 }
-			    		}
-		    		  
-				}
-		    	totalPendingAmount=totalInvoiceAmount-totalReceiptAmount;
-		    	totalPendingFine=totalInvoiceFine-totalReceiptFine;
-		    	sevenFieldReports.add(new SevenFieldReports(institution,totalInvoiceAmount,totalInvoiceFine, totalReceiptAmount,totalReceiptFine, totalPendingAmount,totalPendingFine));
-			}
-		    return sevenFieldReports; 
-	}*/
-	
-	
-	/*@Transactional
-	public ArrayList<SevenFieldReports> getAcademicYearWiseReport(Integer institutionId){
-		 Institution institution= institutionDAO.getInstitutionById(institutionId);
-		 ArrayList<SevenFieldReports> sevenFieldReports=new ArrayList<SevenFieldReports>();
-		 Set<AcademicYear> academicYears= institution.getAcademicYears();
-		 if(academicYears!=null){
-			 for (AcademicYear academicYear : academicYears) {
-				    Double totalInvoiceAmount=0.0;
-			    	Double totalInvoiceFine=0.0;
-			    	Double totalReceiptAmount=0.0;
-			    	Double totalReceiptFine=0.0;
-			    	Double totalPendingAmount=0.0;
-			    	Double totalPendingFine=0.0;
-			    	
-			    	Set<StudentInvoice> studentInvoices=academicYear.getStudentInvoices();
-				    if(studentInvoices!=null){
-						for (StudentInvoice studentInvoice : studentInvoices) {
-							
-						}
-				    }
-				    
-				    sevenFieldReports.add(new SevenFieldReports(institution,totalInvoiceAmount,totalInvoiceFine, totalReceiptAmount,totalReceiptFine, totalPendingAmount,totalPendingFine));
-		     }
-		 }
-		 return sevenFieldReports;
-	}
-	*/
-/*	@Transactional
-	public ArrayList<StudentInvoice> getPendingDuesOfRange(Date startDate,Date endDate,Integer institutionId){
-		Institution institution=institutionDAO.getInstitutionById(institutionId);
-		ArrayList<StudentInvoice> studentInvoices=(ArrayList<StudentInvoice>) studentInvoiceDAO.getStudentInvoicesForDueRange(startDate, endDate,institution);
-		for (StudentInvoice studentInvoice : studentInvoices) {
-			Hibernate.initialize(studentInvoice.getStudent().getStudentClass());
-			Hibernate.initialize(studentInvoice.getStudent().getSection());
-			Hibernate.initialize(studentInvoice.getStudentInvoiceDetails());
-			Hibernate.initialize(studentInvoice.getStudentInvoiceFineDetails());
-		}
-		return studentInvoices;
-	}*/
-	
-	/*@Transactional
-	public void applyPenaltyForInvoices(Integer invoicesId[],Date nextDueDate,double penaltyAmount,String fineName,String createdBy,String modifiedBy){
-		for (Integer invoiceId : invoicesId) {
-			StudentInvoice studentInvoice=studentInvoiceDAO.getStudentInvoiceById(invoiceId);
-			StudentInvoiceFineDetail studentInvoiceFine=new StudentInvoiceFineDetail(studentInvoice,studentInvoice.getDueDate(),studentInvoice.getStudent(), fineName,penaltyAmount,1, createdBy, modifiedBy);
-			studentInvoiceFineDetailDAO.persist(studentInvoiceFine);
-			studentInvoice.setDueDate(nextDueDate);
-			studentInvoiceDAO.update(studentInvoice);
-		}
-	}*/
+
 	@Transactional
 	public StudentInvoice getStudentInvoiceDetails(Integer invoiceId){
 		StudentInvoice studentInvoice=studentInvoiceDAO.getStudentInvoiceById(invoiceId);
@@ -358,5 +236,21 @@ public class InvoiceServices {
     	return valid;
     }
 
+	
+	@Transactional
+	public ArrayList<Student> getPendingFeesTermStudentList(Integer academicYear,Integer academicYearfeesTermId){
+		ArrayList<Student> students=new ArrayList<Student>();
+		AcademicYearFeesTerm academicYearFeesTerm= academicYearFeesTermDAO.getAcademicYearFeesTermById(academicYearfeesTermId);
+		AcademicYear academicYear1= academicYearDAO.getAcademicYearById(academicYear);
+		ArrayList<StudentInvoice> studentInvoices=(ArrayList<StudentInvoice>) studentInvoiceDAO.getPendingTermFeesStudentInvoice(academicYearFeesTerm, academicYear1);
+		for (StudentInvoice studentInvoice : studentInvoices) {
+			Student student=studentInvoice.getStudent();
+			Hibernate.initialize(student.getStudentClass());
+			Hibernate.initialize(student.getSection());
+			Hibernate.initialize(student.getSpecialCategory());
+			students.add(student);
+		}
+		return students;
+	}
 }
 

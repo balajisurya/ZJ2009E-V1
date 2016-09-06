@@ -602,6 +602,7 @@ public class Student implements java.io.Serializable {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
 	@ForeignKey(name="studentInStudentReceipts")
+	@JsonBackReference
 	public Set<StudentReceipt> getStudentReceipts() {
 		return studentReceipts;
 	}

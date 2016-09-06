@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import in.jdsoft.educationmanagement.dao.GenericDAO;
 import in.jdsoft.educationmanagement.school.model.AcademicYear;
+import in.jdsoft.educationmanagement.school.model.AcademicYearFeesTerm;
 import in.jdsoft.educationmanagement.school.model.Institution;
 import in.jdsoft.educationmanagement.school.model.Student;
 import in.jdsoft.educationmanagement.school.model.StudentInvoice;
@@ -145,6 +146,27 @@ public class StudentInvoiceDAO extends GenericDAO<StudentInvoice>{
 			return studentInvoices;
 		} catch (RuntimeException re) {
 			throw re;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<StudentInvoice> getPendingTermFeesStudentInvoice(AcademicYearFeesTerm academicYearFeesTerm,AcademicYear academicYear){
+		try {
+			Criteria invoicecriteria=sessionFactory.getCurrentSession().createCriteria(StudentInvoice.class);
+			Conjunction and=Restrictions.conjunction();
+			and.add(Restrictions.eq("academicYear",academicYear));
+			and.add(Restrictions.eq("academicYearFeesTerm",academicYearFeesTerm));
+			and.add(Restrictions.eq("invoiceStatus",1));
+			invoicecriteria.add(and);
+			ArrayList<StudentInvoice> studentInvoices =(ArrayList<StudentInvoice>) invoicecriteria.list();
+			if (studentInvoices == null) {
+			
+			} else {
+			
+			}
+			return studentInvoices;
+		} catch (Exception e) {
+			throw e;
 		}
 	}
 	

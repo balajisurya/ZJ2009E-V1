@@ -27,6 +27,7 @@ import org.hibernate.annotations.ForeignKey;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import in.jdsoft.educationmanagement.components.NumberGenerator;
 
@@ -233,6 +234,7 @@ public class StudentReceipt implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "student_id", nullable = false)
 	@ForeignKey(name="studentReceiptsInStudent")
+	@JsonManagedReference
 	public Student getStudent() {
 		return student;
 	}

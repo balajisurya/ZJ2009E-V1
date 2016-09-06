@@ -1,5 +1,7 @@
 package in.jdsoft.educationmanagement.school.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.exception.ConstraintViolationException;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import in.jdsoft.educationmanagement.components.ExceptionComparator;
 import in.jdsoft.educationmanagement.school.exceptions.AcademicYearException;
 import in.jdsoft.educationmanagement.school.model.AcademicYear;
+import in.jdsoft.educationmanagement.school.model.AcademicYearFeesTerm;
 import in.jdsoft.educationmanagement.school.model.Institution;
 import in.jdsoft.educationmanagement.school.model.Message;
 import in.jdsoft.educationmanagement.school.services.AcademicYearServices;
@@ -135,6 +138,17 @@ public class AcademicYearController {
 			  }
 	}
 		
+	}
+	
+	@RequestMapping(value="academicFeesTermsByacademicYear",method=RequestMethod.GET)
+	@ResponseBody
+	public ArrayList<AcademicYearFeesTerm> getAcademicYearFeesTerms(HttpServletRequest request){
+		try {
+			 Integer academicYearId=Integer.parseInt(request.getParameter("academicYearId"));
+			 return academicYearServices.getAcademicYearFeesTermsByAcademicYear(academicYearId);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	@RequestMapping(value="delete",method=RequestMethod.POST)

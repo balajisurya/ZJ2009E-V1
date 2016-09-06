@@ -100,6 +100,8 @@ public class StudentReceiptDAO extends GenericDAO<StudentReceipt> {
 	}
 	
 	
+	
+	
 	@SuppressWarnings("unchecked")
 	public List<StudentReceipt> getStudentReceiptInByDate(Date startDate,Date endDate,Institution institution){
 		try {

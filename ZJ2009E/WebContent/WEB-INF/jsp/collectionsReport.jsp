@@ -26,9 +26,10 @@
       <!--//webfonts--> 
       <!--animate-->
       <link href="${pageContext.request.contextPath}/resources/${theme}/css/animate.css" rel="stylesheet" type="text/css" media="all">
-      <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/${theme}/css/datatables.min.css"/>
+         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/${theme}/css/datatables.min.css"/>
       <script type="text/javascript" src="${pageContext.request.contextPath}/resources/${theme}/js/datatables.min.js"></script>
-      <script src="${pageContext.request.contextPath}/resources/themes/js/datatables.js"> </script>    
+      <link href="${pageContext.request.contextPath}/resources/datatable/css/jquery.dataTables.min.css" rel="stylesheet">
+      <link href="${pageContext.request.contextPath}/resources/datatable/css/buttons.dataTables.min.css" rel="stylesheet">   
       <!-- Metis Menu -->
       <script src="${pageContext.request.contextPath}/resources/${theme}/js/metisMenu.min.js"></script>
       <script src="${pageContext.request.contextPath}/resources/${theme}/js/custom.js"></script>
@@ -61,67 +62,57 @@
 		  <h3 class="title1">Fees and Fine Collection</h3>
 		<div class="main-page">
 		<div class="form-three widget-shadow">
-		   <form class="form-horizontal" id="getFeesDetailsForm">
-                    <div class="form-group">
-                                    <label for="" class="col-sm-4 control-label">Payment Received Date in Range <span class="at-required-highlight">*</span></label> 
-                                    <div class="col-md-6"> 
-                                       <input type="text"  class="form-control form-control-datepicker-range" id="startandenddate"  name="startandenddate" placeholder="" required="required">
-                                    </div>
-                                 </div>
-                              <div class="row">
-                                 <div class="col-sm-offset-3">
-                                    <button style="float:right" type="button"  id="getdetails" class="btn btn-success">Get Report</button>
-                                 </div>
-                              </div>
-            
-              </form>
-              </div>
+		
           <div class="x_title">
                      <div class="clearfix">
                      </div>
                   </div>
                 
-                <div class="tables" id="fessCollectionTableDiv" style="display: none">
-                <h3 class="title1">Fees Report</h3>
+                <div class="tables" id="fessCollectionTableDiv" style="display: block">
+                
                          <div class="table-responsive bs-example widget-shadow">
-                             <table class="table table-bordered" id="fessCollectionTable">
+                             <table class="table table-bordered" id="fineTable">
                               <thead>
                                  <tr>
                                  <th>Receipt No</th>
-                                 <th>Receipt Amount</th>
-                                 <th>Receipt Date</th>
+                                 <th>Admission No</th>
+                                 <th>Class</th>
+                                 <th>Section</th>
+                                 <th>Academic Year</th>
+                                 <th>Term</th>
+                                 <th>Fine Amount</th>
                                  </tr>
                               </thead>
                               <tbody >
+                              <c:if test="${!empty fineReceipts}">
+                              <c:forEach items="${fineReceipts}" var="fineReceipt">
+                                 <tr>
+                                   <c:set var="fineAmount" value="0"></c:set>
+                                    <td>${fineReceipt.getReceiptId()}</td>
+                                    <td>${fineReceipt.getStudent().getAdmissionNo()}</td>
+                                    <td>${fineReceipt.getStudent().getStudentClass().getClassName()}</td>
+                                    <td>${fineReceipt.getStudent().getSection().getSectionName()}</td>
+                                    <td>${fineReceipt.getAcademicYear().getAcademicYearTitle()}</td>
+                                    <td>${fineReceipt.getStudentInvoice().getAcademicYearFeesTerm().getFeesTermTitle()}</td>
+                                    <c:forEach items="${fineReceipt.getReceiptFines()}" var="receiptFineRecord">
+                                    <c:set var="fineAmount" value="${fineAmount+receiptFineRecord.fineAmount}"></c:set>
+                                    </c:forEach>
+                                    <td>${fineAmount}</td>
+                                 </tr>
+                              </c:forEach>
+                           </c:if>
                               </tbody>
                            </table>
                         </div>
                         </div>
                   <br>
                   
-                  
-                     <div class="tables" id="fineCollectionTableDiv" style="display: none">
-                     <h3 class="title1">Fine Report</h3>
-                         <div class="table-responsive bs-example widget-shadow">
-                             <table class="table table-bordered" id="fineCollectionTable">
-                              <thead>
-                                 <tr>
-                                 <th>Receipt No</th>
-                                 <th>Fine Amount</th>
-                                 <th>Receipt Date</th>
-                                 </tr>
-                              </thead>
-                              <tbody >
-                              </tbody>
-                           </table>
-                        </div>
-                        </div>
          
          </div>
 		</div>
 		
 	</div>
-		
+		</div>
 	
 	
 		
@@ -132,6 +123,14 @@
 <script src="${pageContext.request.contextPath}/resources/themes/script/collectionreport.js"></script>
 <script src="${pageContext.request.contextPath}/resources/themes/js/jscustom.js"></script> 
 <script src="${pageContext.request.contextPath}/resources/themes/js/cbp	_menu.js"></script> 
+<script src="${pageContext.request.contextPath}/resources/datatable/js/jquery.dataTables.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/datatable/js/dataTables.buttons.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/datatable/js/buttons.flash.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/datatable/js/jszip.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/datatable/js/pdfmake.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/datatable/js/vfs_fonts.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/datatable/js/buttons.html5.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/datatable/js/buttons.print.min.js"></script>
 <!-- Classie -->
 		<script src="${pageContext.request.contextPath}/resources/${theme}/js/classie.js"></script>
 <!--scrolling js-->
