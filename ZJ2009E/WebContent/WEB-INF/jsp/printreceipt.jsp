@@ -105,9 +105,9 @@
                      			<tr>
 						            <td class="service">${serialNumber}</td>
 						            <c:set var="serialNumber" value="${serialNumber + 1}" scope="page"/>
-						            <td class="desc">${receiptFine.getStudentInvoiceFineDetail().getFineName()}</td>
-						            <td class="total">${receiptFine.getStudentInvoiceFineDetail().getFineAmount()}</td>
-						            <c:set var="grandTotal"  value="${grandTotal+receiptFine.getStudentInvoiceFineDetail().getFineAmount()}"/>
+						            <td class="desc">${receiptFine.getFineTitle()}</td>
+						            <td class="total">${receiptFine.getFineAmount()}</td>
+						            <c:set var="grandTotal"  value="${grandTotal+receiptFine.getFineAmount()}"/>
 			          			</tr>
                             </c:forEach>
                       </c:if>

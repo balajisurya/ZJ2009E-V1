@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -40,7 +41,7 @@ public class StudentReceipt implements Serializable {
 	//cash
 	public StudentReceipt(Institution institution,AcademicYear academicYear,PaymentMode paymentMode,
 			Date paymentReceivedDate, Double amount, Student student,
-			PaymentStatus paymentStatus,String createdBy, String modifiedBy) {
+			PaymentStatus paymentStatus,String createdBy, String modifiedBy,StudentInvoice studentInvoice) {
 		this.institution = institution;
 		this.transactionNo = Long.toString(System.currentTimeMillis());
 		this.paymentMode = paymentMode;
@@ -50,6 +51,7 @@ public class StudentReceipt implements Serializable {
 		this.paymentStatus = paymentStatus;
 		this.createdBy = createdBy;
 		this.modifiedBy = modifiedBy;
+		this.studentInvoice=studentInvoice;
 		this.createdDate = new Timestamp(Calendar.getInstance().getTime().getTime());
 		this.academicYear=academicYear;
 	}
@@ -58,7 +60,7 @@ public class StudentReceipt implements Serializable {
 	public StudentReceipt(Institution institution,AcademicYear academicYear,PaymentMode paymentMode,
 			Date chequeReceivedDate,Double amount, Student student,
 			PaymentStatus paymentStatus, String chequeNumber, Date chequeDate,
-			String chequeBankName, String chequeBranchName,String createdBy, String modifiedBy) {
+			String chequeBankName, String chequeBranchName,String createdBy, String modifiedBy,StudentInvoice studentInvoice) {
 		this.institution = institution;
 		this.transactionNo = Long.toString(System.currentTimeMillis());
 		this.paymentMode = paymentMode;
@@ -73,6 +75,7 @@ public class StudentReceipt implements Serializable {
 		this.createdBy = createdBy;
 		this.modifiedBy = modifiedBy;
 		this.createdDate = new Timestamp(Calendar.getInstance().getTime().getTime());
+		this.studentInvoice=studentInvoice;
 		this.academicYear=academicYear;
 	}
 	
@@ -81,7 +84,7 @@ public class StudentReceipt implements Serializable {
 			Double amount, Student student,
 			PaymentStatus paymentStatus,String ddNumber, Date ddDate,
 			String ddBankName, String ddBranchName,Date ddReceivedDate,
-			String createdBy, String modifiedBy) {
+			String createdBy, String modifiedBy,StudentInvoice studentInvoice) {
 		this.institution = institution;
 		this.transactionNo = Long.toString(System.currentTimeMillis());
 		this.paymentMode = paymentMode;
@@ -96,13 +99,14 @@ public class StudentReceipt implements Serializable {
 		this.createdBy = createdBy;
 		this.modifiedBy = modifiedBy;
 		this.createdDate = new Timestamp(Calendar.getInstance().getTime().getTime());
+		this.studentInvoice=studentInvoice;
 		this.academicYear=academicYear;
 	}
 	
 	public StudentReceipt(Institution institution,String transactionNo, AcademicYear academicYear,PaymentMode paymentMode,
 			Date paymentReceivedDate, Double amount, Student student,
 			PaymentStatus paymentStatus,String paymentGateway, String paymentGatewayMode,
-			String createdBy, String modifiedBy) {
+			String createdBy, String modifiedBy,StudentInvoice studentInvoice) {
 		this.institution = institution;
 		this.transactionNo = transactionNo;
 		this.paymentMode = paymentMode;
@@ -115,6 +119,7 @@ public class StudentReceipt implements Serializable {
 		this.createdBy = createdBy;
 		this.modifiedBy = modifiedBy;
 		this.createdDate = new Timestamp(Calendar.getInstance().getTime().getTime());
+		this.studentInvoice=studentInvoice;
 		this.academicYear=academicYear;
 	}
 	
@@ -127,6 +132,7 @@ public class StudentReceipt implements Serializable {
 	
 	private Integer receiptId;
 	private Institution institution;
+	private StudentInvoice studentInvoice;
 	private String transactionNo;
 	private PaymentMode paymentMode;
 	private Date paymentReceivedDate;
@@ -387,6 +393,16 @@ public class StudentReceipt implements Serializable {
 
 	public void setReceiptFines(Set<StudentReceiptFine> receiptFines) {
 		this.receiptFines = receiptFines;
+	}
+
+	@OneToOne
+	@JoinColumn(name = "student_invoice_id", nullable =false)
+	public StudentInvoice getStudentInvoice() {
+		return studentInvoice;
+	}
+
+	public void setStudentInvoice(StudentInvoice studentInvoice) {
+		this.studentInvoice = studentInvoice;
 	}
 	
 }

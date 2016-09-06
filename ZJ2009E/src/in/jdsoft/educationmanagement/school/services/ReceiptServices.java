@@ -58,7 +58,7 @@ public class ReceiptServices {
 		 Integer persistedReceiptNo[]=new Integer[paidStudentInvoices.length];
 		for(Integer paidInvoice:paidStudentInvoices){
 			StudentInvoice studentInvoice=studentInvoiceDAO.getStudentInvoiceById(paidInvoice);
-			StudentReceipt receipt=new StudentReceipt(studentInvoice.getInstitution(),studentInvoice.getAcademicYear(), paymentMode,receivedDate,studentInvoice.getInvoiceAmount(),studentInvoice.getStudent(), paymentStatus, createdBy, modifiedBy);
+			StudentReceipt receipt=new StudentReceipt(studentInvoice.getInstitution(),studentInvoice.getAcademicYear(), paymentMode,receivedDate,studentInvoice.getInvoiceAmount(),studentInvoice.getStudent(), paymentStatus, createdBy, modifiedBy,studentInvoice);
 			for(StudentInvoiceDetail studentInvoiceDetail:studentInvoice.getStudentInvoiceDetails()){
 				StudentReceiptDetail receiptDetail=new StudentReceiptDetail(receipt, studentInvoiceDetail, createdBy, modifiedBy);
 				receipt.getReceiptDetails().add(receiptDetail);
@@ -86,7 +86,7 @@ public class ReceiptServices {
 		 Integer persistedReceiptNo[]=new Integer[paidStudentInvoices.length];
 		for(Integer paidInvoice:paidStudentInvoices){
 			StudentInvoice studentInvoice=studentInvoiceDAO.getStudentInvoiceById(paidInvoice);
-			StudentReceipt receipt=new StudentReceipt(studentInvoice.getInstitution(),studentInvoice.getAcademicYear(), paymentMode, chequeReceivedDate,studentInvoice.getInvoiceAmount(), studentInvoice.getStudent(), paymentStatus, chequeNo, chequeDate, chequeBankName, chequeBranchName, createdBy, modifiedBy);
+			StudentReceipt receipt=new StudentReceipt(studentInvoice.getInstitution(),studentInvoice.getAcademicYear(), paymentMode, chequeReceivedDate,studentInvoice.getInvoiceAmount(), studentInvoice.getStudent(), paymentStatus, chequeNo, chequeDate, chequeBankName, chequeBranchName, createdBy, modifiedBy,studentInvoice);
 			for(StudentInvoiceDetail studentInvoiceDetail:studentInvoice.getStudentInvoiceDetails()){
 				StudentReceiptDetail receiptDetail=new StudentReceiptDetail(receipt, studentInvoiceDetail, createdBy, modifiedBy);
 				receipt.getReceiptDetails().add(receiptDetail);
@@ -114,7 +114,7 @@ public class ReceiptServices {
 		 Integer persistedReceiptNo[]=new Integer[paidStudentInvoices.length];
 		for(Integer paidInvoice:paidStudentInvoices){
 			StudentInvoice studentInvoice=studentInvoiceDAO.getStudentInvoiceById(paidInvoice);
-			StudentReceipt receipt=new StudentReceipt(studentInvoice.getInstitution(),studentInvoice.getAcademicYear(), paymentMode,studentInvoice.getInvoiceAmount(), studentInvoice.getStudent(), paymentStatus,ddNo, ddDate, ddBankName, ddBranchName, ddReceivedDate, createdBy, modifiedBy);
+			StudentReceipt receipt=new StudentReceipt(studentInvoice.getInstitution(),studentInvoice.getAcademicYear(), paymentMode,studentInvoice.getInvoiceAmount(), studentInvoice.getStudent(), paymentStatus,ddNo, ddDate, ddBankName, ddBranchName, ddReceivedDate, createdBy, modifiedBy,studentInvoice);
 			for(StudentInvoiceDetail studentInvoiceDetail:studentInvoice.getStudentInvoiceDetails()){
 				StudentReceiptDetail receiptDetail=new StudentReceiptDetail(receipt, studentInvoiceDetail, createdBy, modifiedBy);
 				receipt.getReceiptDetails().add(receiptDetail);

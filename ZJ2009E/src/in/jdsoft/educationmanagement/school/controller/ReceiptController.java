@@ -281,6 +281,7 @@ public class ReceiptController {
 		}
 	}
 	
+	
 	@RequestMapping(value="ddRecon",method=RequestMethod.POST)
 	public String updateddReconcillation(HttpServletRequest request,RedirectAttributes redirectAttributes) throws Exception{
 		try {
@@ -302,6 +303,16 @@ public class ReceiptController {
 				throw e;
 			}
 			
+		}
+	}
+	
+	@RequestMapping(value="manageReceipt")
+	public ModelAndView displayManageReceiptPage(){
+		try{
+			ModelAndView mv=new ModelAndView("managereceipt");
+			return mv;
+		}catch(Exception e){
+			throw e;
 		}
 	}
 }
