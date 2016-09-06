@@ -2,7 +2,6 @@ package in.jdsoft.educationmanagement.school.services;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.hibernate.Hibernate;
@@ -21,7 +20,6 @@ import in.jdsoft.educationmanagement.school.exceptions.ReceiptException;
 import in.jdsoft.educationmanagement.school.exceptions.StudentReceiptException;
 import in.jdsoft.educationmanagement.school.model.AcademicYear;
 import in.jdsoft.educationmanagement.school.model.Class;
-import in.jdsoft.educationmanagement.school.model.Institution;
 import in.jdsoft.educationmanagement.school.model.Message;
 import in.jdsoft.educationmanagement.school.model.PaymentMode;
 import in.jdsoft.educationmanagement.school.model.PaymentStatus;
@@ -32,6 +30,7 @@ import in.jdsoft.educationmanagement.school.model.StudentInvoice;
 import in.jdsoft.educationmanagement.school.model.StudentInvoiceDetail;
 import in.jdsoft.educationmanagement.school.model.StudentReceipt;
 import in.jdsoft.educationmanagement.school.model.StudentReceiptDetail;
+import in.jdsoft.educationmanagement.school.model.StudentReceiptFine;
 
 @Service
 public class ReceiptServices {
@@ -53,223 +52,86 @@ public class ReceiptServices {
 	
 	
 	@Transactional
-	public Integer receiptByCash(Integer paidStudentInvoiceDetails[],Integer paidInvoiceFines[],Double totalAmountPaid,PaymentMode paymentMode,Date receivedDate,String createdBy,String modifiedBy) throws ReceiptException{
-		Student student=null;
-		Institution institution=null;
-		AcademicYear academicYear=null;
-		StudentInvoice studentInvoice=null;
-		PaymentStatus paymentStatus=paymentStatusDAO.getPaymentStatusById(1);
-		ArrayList<StudentInvoiceDetail> studentInvoiceDetails=new ArrayList<StudentInvoiceDetail>();
-		
-		
-		if(paidStudentInvoiceDetails!=null){
-			for (int i = 0; i < paidStudentInvoiceDetails.length; i++) {
-				studentInvoiceDetails.add(studentInvoiceDetailDAO.getStudentInvoiceDetailById(paidStudentInvoiceDetails[i]));
+	public Integer[] receiptByCash(Integer paidStudentInvoices[],Double fineAmount,Double totalAmountPaid,PaymentMode paymentMode,Date receivedDate,String createdBy,String modifiedBy) throws ReceiptException{
+		 PaymentStatus paymentStatus=paymentStatusDAO.getPaymentStatusById(1);
+		 Integer invoiceCount=0;
+		 Integer persistedReceiptNo[]=new Integer[paidStudentInvoices.length];
+		for(Integer paidInvoice:paidStudentInvoices){
+			StudentInvoice studentInvoice=studentInvoiceDAO.getStudentInvoiceById(paidInvoice);
+			StudentReceipt receipt=new StudentReceipt(studentInvoice.getInstitution(),studentInvoice.getAcademicYear(), paymentMode,receivedDate,studentInvoice.getInvoiceAmount(),studentInvoice.getStudent(), paymentStatus, createdBy, modifiedBy,studentInvoice);
+			for(StudentInvoiceDetail studentInvoiceDetail:studentInvoice.getStudentInvoiceDetails()){
+				StudentReceiptDetail receiptDetail=new StudentReceiptDetail(receipt, studentInvoiceDetail, createdBy, modifiedBy);
+				receipt.getReceiptDetails().add(receiptDetail);
+				studentInvoiceDetail.setStudentInvoiceElementPaymentStatus(0);
+				studentInvoiceDetailDAO.update(studentInvoiceDetail);
 			}
 			
-		}
-		
-		
-		
-		if(paidStudentInvoiceDetails!=null){
-			int count=1;
-			Iterator<StudentInvoiceDetail> studentInvoices=studentInvoiceDetails.iterator();
-			while(studentInvoices.hasNext()){
-				if(count==1){
-					StudentInvoiceDetail studentInvoiceDetail=studentInvoices.next();
-					studentInvoice= studentInvoiceDetail.getStudentInvoice();
-					Hibernate.initialize(studentInvoice.getStudentInvoiceDetails());
-				    student=studentInvoice.getStudent();
-				    academicYear=studentInvoice.getAcademicYear();
-				    institution=studentInvoice.getInstitution();
-				   break;
+			if(invoiceCount==paidStudentInvoices.length-1){
+				if(fineAmount>0){
+					receipt.getReceiptFines().add(new StudentReceiptFine(receipt, fineAmount, createdBy, modifiedBy));
 				}
 			}
-		}
-		
-		
-		
-		
-		StudentReceipt studentReceipt=new StudentReceipt(institution, academicYear, paymentMode, receivedDate, totalAmountPaid, student, paymentStatus, createdBy, modifiedBy);
-		
-		for (StudentInvoiceDetail studentInvoiceDetail : studentInvoiceDetails) {
-			studentInvoiceDetail.setStudentInvoiceElementPaymentStatus(2);
-			studentInvoiceDetailDAO.update(studentInvoiceDetail);
-			StudentReceiptDetail studentReceiptDetail=new StudentReceiptDetail(studentReceipt, studentInvoiceDetail, createdBy, modifiedBy);
-			studentReceipt.getReceiptDetails().add(studentReceiptDetail);
-		}
-		
-		
-		
-		 StudentReceipt persistedStudentReceipt=studentReceiptDAO.save(studentReceipt);
-		 
-		if (checKForInvoiceClosing(studentInvoice)) {
 			studentInvoice.setInvoiceStatus(0);
-			studentInvoiceDAO.update(studentInvoice);
+			StudentReceipt pesrsistedReceipt= studentReceiptDAO.save(receipt);
+			persistedReceiptNo[invoiceCount]=pesrsistedReceipt.getReceiptId();
+			invoiceCount++;
 		}
-		return persistedStudentReceipt.getReceiptId();
+		return persistedReceiptNo;
 	}
 	
 	@Transactional
-	public Integer receiptByCheque(Integer paidStudentInvoiceDetails[],Integer paidInvoiceFines[],Double totalAmountPaid,PaymentMode paymentMode,Date chequeReceivedDate,String chequeNo,Date chequeDate,String chequeBankName,String chequeBranchName,String createdBy,String modifiedBy){
-		Student student=null;
-		Institution institution=null;
-		AcademicYear academicYear=null;
-		StudentInvoice studentInvoice=null;
-		PaymentStatus paymentStatus=paymentStatusDAO.getPaymentStatusById(1);
-		ArrayList<StudentInvoiceDetail> studentInvoiceDetails=new ArrayList<StudentInvoiceDetail>();
-		/*ArrayList<StudentInvoiceFineDetail> studentInvoiceFineDetails=new ArrayList<StudentInvoiceFineDetail>();*/
-		
-		if(paidStudentInvoiceDetails!=null){
-			for (int i = 0; i < paidStudentInvoiceDetails.length; i++) {
-				studentInvoiceDetails.add(studentInvoiceDetailDAO.getStudentInvoiceDetailById(paidStudentInvoiceDetails[i]));
+	public Integer[] receiptByCheque(Integer paidStudentInvoices[],Double fineAmount, Double totalAmountPaid,PaymentMode paymentMode,Date chequeReceivedDate,String chequeNo,Date chequeDate,String chequeBankName,String chequeBranchName,String createdBy,String modifiedBy){
+		 PaymentStatus paymentStatus=paymentStatusDAO.getPaymentStatusById(1);
+		 Integer invoiceCount=0;
+		 Integer persistedReceiptNo[]=new Integer[paidStudentInvoices.length];
+		for(Integer paidInvoice:paidStudentInvoices){
+			StudentInvoice studentInvoice=studentInvoiceDAO.getStudentInvoiceById(paidInvoice);
+			StudentReceipt receipt=new StudentReceipt(studentInvoice.getInstitution(),studentInvoice.getAcademicYear(), paymentMode, chequeReceivedDate,studentInvoice.getInvoiceAmount(), studentInvoice.getStudent(), paymentStatus, chequeNo, chequeDate, chequeBankName, chequeBranchName, createdBy, modifiedBy,studentInvoice);
+			for(StudentInvoiceDetail studentInvoiceDetail:studentInvoice.getStudentInvoiceDetails()){
+				StudentReceiptDetail receiptDetail=new StudentReceiptDetail(receipt, studentInvoiceDetail, createdBy, modifiedBy);
+				receipt.getReceiptDetails().add(receiptDetail);
+				studentInvoiceDetail.setStudentInvoiceElementPaymentStatus(0);
+				studentInvoiceDetailDAO.update(studentInvoiceDetail);
 			}
-			
-		}
-		
-		/*if(paidInvoiceFines!=null){
-			for (int i = 0; i < paidInvoiceFines.length; i++) {
-				studentInvoiceFineDetails.add(studentInvoiceFineDetailDAO.getStudentInvoiceFineDetailById(paidInvoiceFines[i]));
-			}
-		}*/
-		
-		if(paidStudentInvoiceDetails!=null){
-			int count=1;
-			Iterator<StudentInvoiceDetail> studentInvoices=studentInvoiceDetails.iterator();
-			while(studentInvoices.hasNext()){
-				if(count==1){
-					StudentInvoiceDetail studentInvoiceDetail=studentInvoices.next();
-					studentInvoice= studentInvoiceDetail.getStudentInvoice();
-					Hibernate.initialize(studentInvoice.getStudentInvoiceDetails());
-				    student=studentInvoice.getStudent();
-				    academicYear=studentInvoice.getAcademicYear();
-				    institution=studentInvoice.getInstitution();
-				   break;
+			if(invoiceCount==paidStudentInvoices.length-1){
+				if(fineAmount>0){
+					receipt.getReceiptFines().add(new StudentReceiptFine(receipt, fineAmount, createdBy, modifiedBy));
 				}
+				
 			}
-		}
-		/*else if(studentInvoiceFineDetails!=null){
-			int count=1;
-			Iterator<StudentInvoiceFineDetail> studentInvoiceFineDetailIterator= studentInvoiceFineDetails.iterator();
-			while(studentInvoiceFineDetailIterator.hasNext()){
-				if(count==1){
-					StudentInvoiceFineDetail studentInvoiceFineDetail=studentInvoiceFineDetailIterator.next();
-					studentInvoice= studentInvoiceFineDetail.getStudentInvoice();
-					Hibernate.initialize(studentInvoice.getStudentInvoiceDetails());
-				    student=studentInvoice.getStudent();
-				    academicYear=studentInvoice.getAcademicYear();
-				    institution=studentInvoice.getInstitution();
-				   break;
-				}
-			}
-		}*/
-		
-		
-		StudentReceipt studentReceipt=new StudentReceipt(institution, academicYear, paymentMode, chequeReceivedDate,totalAmountPaid, student, paymentStatus, chequeNo, chequeDate, chequeBankName, chequeBranchName, createdBy, modifiedBy);
-		
-		
-		for (StudentInvoiceDetail studentInvoiceDetail : studentInvoiceDetails) {
-			studentInvoiceDetail.setStudentInvoiceElementPaymentStatus(2);
-			studentInvoiceDetailDAO.update(studentInvoiceDetail);
-			StudentReceiptDetail studentReceiptDetail=new StudentReceiptDetail(studentReceipt, studentInvoiceDetail, createdBy, modifiedBy);
-			studentReceipt.getReceiptDetails().add(studentReceiptDetail);
-		}
-		
-		/*for (StudentInvoiceFineDetail studentInvoiceFineDetail : studentInvoiceFineDetails) {
-			studentInvoiceFineDetail.setFineStatus(2);
-			studentInvoiceFineDetailDAO.update(studentInvoiceFineDetail);
-			StudentReceiptFine studentReceiptFine=new StudentReceiptFine(studentReceipt, studentInvoiceFineDetail, createdBy, modifiedBy);
-			studentReceipt.getReceiptFines().add(studentReceiptFine);
-		}*/
-
-		
-		
-		StudentReceipt persistedStudentReceipt=studentReceiptDAO.save(studentReceipt);
-		if (checKForInvoiceClosing(studentInvoice)) {
 			studentInvoice.setInvoiceStatus(0);
-			studentInvoiceDAO.update(studentInvoice);
+			StudentReceipt pesrsistedReceipt= studentReceiptDAO.save(receipt);
+			persistedReceiptNo[invoiceCount]=pesrsistedReceipt.getReceiptId();
+			invoiceCount++;
 		}
-		return persistedStudentReceipt.getReceiptId();
+		return persistedReceiptNo;
 	}
 	
 	@Transactional
-	public Integer receiptByDD(Integer paidStudentInvoiceDetails[],Integer paidInvoiceFines[],Double totalAmountPaid,PaymentMode paymentMode,Date ddReceivedDate,String ddNo,Date ddDate,String ddBankName,String ddBranchName,String createdBy,String modifiedBy){
-		Student student=null;
-		Institution institution=null;
-		AcademicYear academicYear=null;
-		StudentInvoice studentInvoice=null;
+	public Integer[] receiptByDD(Integer paidStudentInvoices[],Double fineAmount,Double totalAmountPaid,PaymentMode paymentMode,Date ddReceivedDate,String ddNo,Date ddDate,String ddBankName,String ddBranchName,String createdBy,String modifiedBy){
 		PaymentStatus paymentStatus=paymentStatusDAO.getPaymentStatusById(1);
-		ArrayList<StudentInvoiceDetail> studentInvoiceDetails=new ArrayList<StudentInvoiceDetail>();
-		/*ArrayList<StudentInvoiceFineDetail> studentInvoiceFineDetails=new ArrayList<StudentInvoiceFineDetail>();*/
-		
-		if(paidStudentInvoiceDetails!=null){
-			for (int i = 0; i < paidStudentInvoiceDetails.length; i++) {
-				studentInvoiceDetails.add(studentInvoiceDetailDAO.getStudentInvoiceDetailById(paidStudentInvoiceDetails[i]));
+		 Integer invoiceCount=0;
+		 Integer persistedReceiptNo[]=new Integer[paidStudentInvoices.length];
+		for(Integer paidInvoice:paidStudentInvoices){
+			StudentInvoice studentInvoice=studentInvoiceDAO.getStudentInvoiceById(paidInvoice);
+			StudentReceipt receipt=new StudentReceipt(studentInvoice.getInstitution(),studentInvoice.getAcademicYear(), paymentMode,studentInvoice.getInvoiceAmount(), studentInvoice.getStudent(), paymentStatus,ddNo, ddDate, ddBankName, ddBranchName, ddReceivedDate, createdBy, modifiedBy,studentInvoice);
+			for(StudentInvoiceDetail studentInvoiceDetail:studentInvoice.getStudentInvoiceDetails()){
+				StudentReceiptDetail receiptDetail=new StudentReceiptDetail(receipt, studentInvoiceDetail, createdBy, modifiedBy);
+				receipt.getReceiptDetails().add(receiptDetail);
+				studentInvoiceDetail.setStudentInvoiceElementPaymentStatus(0);
+				studentInvoiceDetailDAO.update(studentInvoiceDetail);
 			}
-			
-		}
-		
-		/*if(paidInvoiceFines!=null){
-			for (int i = 0; i < paidInvoiceFines.length; i++) {
-				studentInvoiceFineDetails.add(studentInvoiceFineDetailDAO.getStudentInvoiceFineDetailById(paidInvoiceFines[i]));
-			}
-		}*/
-		
-
-		if(paidStudentInvoiceDetails!=null){
-			int count=1;
-			Iterator<StudentInvoiceDetail> studentInvoices=studentInvoiceDetails.iterator();
-			while(studentInvoices.hasNext()){
-				if(count==1){
-					StudentInvoiceDetail studentInvoiceDetail=studentInvoices.next();
-					studentInvoice= studentInvoiceDetail.getStudentInvoice();
-					Hibernate.initialize(studentInvoice.getStudentInvoiceDetails());
-				    student=studentInvoice.getStudent();
-				    academicYear=studentInvoice.getAcademicYear();
-				    institution=studentInvoice.getInstitution();
-				   break;
+			if(invoiceCount==paidStudentInvoices.length-1){
+				if(fineAmount>0){
+					receipt.getReceiptFines().add(new StudentReceiptFine(receipt, fineAmount, createdBy, modifiedBy));
 				}
 			}
-		}
-		/*else if(studentInvoiceFineDetails!=null){
-			int count=1;
-			Iterator<StudentInvoiceFineDetail> studentInvoiceFineDetailIterator= studentInvoiceFineDetails.iterator();
-			while(studentInvoiceFineDetailIterator.hasNext()){
-				if(count==1){
-					StudentInvoiceFineDetail studentInvoiceFineDetail=studentInvoiceFineDetailIterator.next();
-					studentInvoice= studentInvoiceFineDetail.getStudentInvoice();
-					Hibernate.initialize(studentInvoice.getStudentInvoiceDetails());
-				    student=studentInvoice.getStudent();
-				    academicYear=studentInvoice.getAcademicYear();
-				    institution=studentInvoice.getInstitution();
-				   break;
-				}
-			}
-		}*/
-		
-		StudentReceipt studentReceipt=new StudentReceipt(institution, academicYear, paymentMode, totalAmountPaid, student, paymentStatus,ddNo, ddDate, ddBankName, ddBranchName, ddReceivedDate, createdBy, modifiedBy);
-
-		for (StudentInvoiceDetail studentInvoiceDetail : studentInvoiceDetails) {
-			studentInvoiceDetail.setStudentInvoiceElementPaymentStatus(2);
-			studentInvoiceDetailDAO.update(studentInvoiceDetail);
-			StudentReceiptDetail studentReceiptDetail=new StudentReceiptDetail(studentReceipt, studentInvoiceDetail, createdBy, modifiedBy);
-			studentReceipt.getReceiptDetails().add(studentReceiptDetail);
-		}
-		
-		/*for (StudentInvoiceFineDetail studentInvoiceFineDetail : studentInvoiceFineDetails) {
-			studentInvoiceFineDetail.setFineStatus(2);
-			studentInvoiceFineDetailDAO.update(studentInvoiceFineDetail);
-			StudentReceiptFine studentReceiptFine=new StudentReceiptFine(studentReceipt, studentInvoiceFineDetail, createdBy, modifiedBy);
-			studentReceipt.getReceiptFines().add(studentReceiptFine);
-		}
-*/
-		
-			StudentReceipt persistedStudentReceipt=studentReceiptDAO.save(studentReceipt);
-		if (checKForInvoiceClosing(studentInvoice)) {
 			studentInvoice.setInvoiceStatus(0);
-			studentInvoiceDAO.update(studentInvoice);
+			StudentReceipt pesrsistedReceipt= studentReceiptDAO.save(receipt);
+			persistedReceiptNo[invoiceCount]=pesrsistedReceipt.getReceiptId();
+			invoiceCount++;
 		}
-		return persistedStudentReceipt.getReceiptId();
+		return persistedReceiptNo;
 	}
 	
 	

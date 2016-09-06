@@ -77,10 +77,10 @@
                           
                      <button type="button" id="backup" class="btn btn-info col-md-3" >BACKUP</button>
                          </form>
-                          <form class="form-horizontal" action="${pageContext.request.contextPath}/BackupAndRestore/restore" method="post" id="restoreform">
+<%--                           <form class="form-horizontal" action="${pageContext.request.contextPath}/BackupAndRestore/restore" method="post" id="restoreform">
                           
                          <button type="button" id="restore"  class="btn btn-danger col-md-3" >RESTORE</button>
-                  </form>
+                  </form> --%>
                   </div>
                   </div>
                 <div class="modal fade" id="browse-file" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static" data-keyboard="false">

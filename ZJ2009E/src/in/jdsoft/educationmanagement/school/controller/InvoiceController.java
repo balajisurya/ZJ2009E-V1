@@ -302,31 +302,22 @@ public class InvoiceController {
 	}*/
 	
 	
-	/*@RequestMapping(value="studentInvoice/finalitemdetails",method=RequestMethod.GET)
+	@RequestMapping(value="studentInvoice/finalStudentInvoices",method=RequestMethod.GET)
 	@ResponseBody
-	public ArrayList<StudentInvoiceDetail> getStudentPendingInvoiceFeesItemsForPayment(HttpServletRequest request){
+	public ArrayList<StudentInvoice> getStudentPendingInvoicesForPayment(HttpServletRequest request){
 		try {
-			String ids[]=request.getParameterValues("feesitemidlist[]");
-			ArrayList<StudentInvoiceDetail> studentInvoiceDetails=null;
-			if(ids!=null){
-				Integer []intids=new Integer[ids.length];
-				int i=0;
-				for (String id : ids) {
-					intids[i]=Integer.parseInt(id.trim());
-					i++;
-				}
-				studentInvoiceDetails=invoiceServices.getStudentInvoiceDetailItemsFromIdsWithFeesTemplate(intids);
-				return studentInvoiceDetails;
+			String ids[]=request.getParameterValues("invoiceForPayment[]");
+			Integer []invoicesId=new Integer[ids.length];
+			Integer count=0;
+			for (String invoiceId : ids) {
+				invoicesId[count++]=Integer.parseInt(invoiceId);
 			}
-			else{
-				return studentInvoiceDetails;
-			}
-			
+			return invoiceServices.getStudentInvoicesFromIds(invoicesId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
-	}*/
+	}
 	
 /*	@RequestMapping(value="studentInvoice/finalFineitemdetails",method=RequestMethod.GET)
 	@ResponseBody
@@ -444,16 +435,32 @@ public class InvoiceController {
 	
 /*	@RequestMapping(value="invoicePayable")
 	@ResponseBody
-	public String checkInvoicePayable(HttpServletRequest request){
+	public Integer checkInvoicePayable(HttpServletRequest request) throws Exception{
 		try {
 			Integer studentInvoiceId=Integer.parseInt(request.getParameter("studentInvoiceId"));
+			return invoiceServices.checkInvoicePayable(studentInvoiceId);
 		} catch (Exception e) {
-			
+			throw e;
 		}
 		
 	}*/
 	
-
+	@RequestMapping(value="invoiceValidation",method=RequestMethod.POST)
+	@ResponseBody
+    public Boolean invoiceValidation(HttpServletRequest request){
+		try {
+			String invoiceIds[]= request.getParameterValues("invoiceForPayment[]");
+	    	Integer []invoicesId=new Integer[invoiceIds.length];
+	    	Integer count=0;
+	    	for (String invoiceId : invoiceIds) {
+	    		invoicesId[count++]=Integer.parseInt(invoiceId);
+	    	}
+	    	return invoiceServices.invoiceValidation(invoicesId);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
 	
 	@RequestMapping(value="manageInvoice")
 	public ModelAndView manageInvoicePage(HttpServletRequest request){

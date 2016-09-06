@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import in.jdsoft.educationmanagement.components.BackUpComponent;
+import in.jdsoft.educationmanagement.school.model.Message;
 
 
 @Controller
@@ -46,7 +48,7 @@ public class BackupAndRestoreController {
 
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value="backup",method=RequestMethod.POST)
-	public String Backup(HttpServletRequest request) throws Exception{
+	public String Backup(HttpServletRequest request,RedirectAttributes redirectAttributes) throws Exception{
 		BufferedOutputStream  stream=null;
 		try {
 			
@@ -56,6 +58,7 @@ public class BackupAndRestoreController {
 				stream = new BufferedOutputStream(new FileOutputStream(file));
 				stream.write(data);
 				stream.close();
+				redirectAttributes.addFlashAttribute("errorMessage", new Message("success", "BackUp Done"));
 				return "redirect:/BackupAndRestore";
 		} catch (Exception e) {
 			e.printStackTrace();

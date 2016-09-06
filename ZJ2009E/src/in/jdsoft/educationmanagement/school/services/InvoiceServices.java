@@ -1,6 +1,7 @@
 package in.jdsoft.educationmanagement.school.services;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -147,16 +148,19 @@ public class InvoiceServices {
 	}
 	
 	@Transactional
-	public ArrayList<StudentInvoiceDetail> getStudentInvoiceDetailItemsFromIdsWithFeesTemplate(Integer []studentInvoiceDetailIds){
-		ArrayList<StudentInvoiceDetail> studentInvoiceDetails=new ArrayList<StudentInvoiceDetail>();
-		for (int i = 0; i < studentInvoiceDetailIds.length; i++) {
-			studentInvoiceDetails.add(studentInvoiceDetailDAO.getStudentInvoiceDetailById(studentInvoiceDetailIds[i]));
+	public ArrayList<StudentInvoice> getStudentInvoicesFromIds(Integer []studentInvoiceIds){
+		ArrayList<StudentInvoice> studentInvoices=new ArrayList<StudentInvoice>();
+		for (int i = 0; i < studentInvoiceIds.length; i++) {
+			studentInvoices.add(studentInvoiceDAO.getStudentInvoiceById(studentInvoiceIds[i]));
 		}
-		for (StudentInvoiceDetail studentInvoiceDetail : studentInvoiceDetails) {
-			Hibernate.initialize(studentInvoiceDetail.getFeesTemplateItem());
+		for (StudentInvoice studentInvoice : studentInvoices) {
+			Hibernate.initialize(studentInvoice.getAcademicYear());
+			Hibernate.initialize(studentInvoice.getAcademicYearFeesTerm());
 		}
-		return studentInvoiceDetails;
+		return studentInvoices;
 	}
+	
+	
 	
 	
 	/*@Transactional
@@ -314,15 +318,45 @@ public class InvoiceServices {
 			}
 		
 		}
-		
 	
+	@Transactional
+    public boolean invoiceValidation(Integer invoiceIds[]){
+    	boolean valid=true;
+    	
+    	StudentInvoice studentInvoice = studentInvoiceDAO.getStudentInvoiceById(invoiceIds[0]);
+    	Student student=studentInvoice.getStudent();
+    	Set<StudentInvoice> studentInvoiceSet=student.getInvoices();
+    	Iterator<StudentInvoice> studentInvoices= studentInvoiceSet.iterator();
+    	while(studentInvoices.hasNext()){
+    		StudentInvoice studentInvoice1=studentInvoices.next();
+    		if(studentInvoice1.getInvoiceStatus()==0){
+    			studentInvoices.remove();
+    		}
+    	}
+    	
+    	for(Integer invoiceId:invoiceIds){
+    		StudentInvoice invoice= studentInvoiceDAO.getStudentInvoiceById(invoiceId);
+    		for (StudentInvoice studentInvoice2 : studentInvoiceSet) {
+    			if(studentInvoice2.getStudentInvoiceId()<=invoice.getStudentInvoiceId()){
+    				valid=false;
+    				Integer checkInArray=studentInvoice2.getStudentInvoiceId();
+    				for(Integer invoiceId1:invoiceIds){
+    					if(invoiceId1==checkInArray){
+    						valid=true;
+    						break;
+    					}
+    				}
+    				if(valid){
+    					continue;
+    				}
+    				else{
+    					return valid;
+    				}
+    			}
+    		}
+    	}
+    	return valid;
+    }
 
-	/*@Transactional
-	public String checkInvoicePayable(Integer studentInvoiceId){
-		if(studentInvoiceId!=null){
-		  StudentInvoice studentInvoice=studentInvoiceDAO.getStudentInvoiceById(studentInvoiceId);
-		  AcademicYear academicYear=studentInvoice.getAcademicYear();
-		}
-	}*/
 }
 

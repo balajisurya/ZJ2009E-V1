@@ -177,6 +177,7 @@ $(document).ready(function() {
 								  		  $.post(ctx+'/invoice/generate',{studentIds:selectedstudentid,
 								  			  academicTermIds:termfeeslists},function(){
 								  				 $('.loader').hide();
+								  				 alert("Invoice Generated")
 								  				location.reload();
 								  			  })
 								  	

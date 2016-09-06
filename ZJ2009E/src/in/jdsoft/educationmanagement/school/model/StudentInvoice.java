@@ -75,6 +75,7 @@ public class StudentInvoice implements Serializable{
 	private Set<StudentInvoiceDetail> studentInvoiceDetails=new HashSet<StudentInvoiceDetail>(0);
 	
 	
+	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
     @Column(name = "student_invoice_id", nullable = false)

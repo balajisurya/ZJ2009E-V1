@@ -1,6 +1,8 @@
 package in.jdsoft.educationmanagement.school.services;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -222,7 +224,17 @@ public class InstitutionServices {
 		
 		ArrayList<AcademicYearFeesTerm> academicYearFeesTerms=new ArrayList<AcademicYearFeesTerm>();
 		if(academicYear!=null){
-			academicYearFeesTerms.addAll(academicYear.getAcademicYearFeesTerms());	
+			
+		Set<AcademicYearFeesTerm> academicYearFeesTermsSet=academicYear.getAcademicYearFeesTerms();
+		ArrayList<AcademicYearFeesTerm> academicYearFeesTermList=new ArrayList<AcademicYearFeesTerm>();
+		academicYearFeesTermList.addAll(academicYearFeesTermsSet);
+		Collections.sort(academicYearFeesTermList, new Comparator<AcademicYearFeesTerm>() {
+			@Override
+			public int compare(AcademicYearFeesTerm o1, AcademicYearFeesTerm o2) {
+				return o1.getFeesTermOrder().compareTo(o2.getFeesTermOrder());
+			}
+		});
+		   academicYearFeesTerms.addAll(academicYearFeesTermList);	
 		}
 		else{
 			throw new AcademicYearException(new Message("nullpointer", "No Active Academic Year Found. Create Academic Year"));

@@ -1,6 +1,8 @@
 package in.jdsoft.educationmanagement.school.dao;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -45,6 +47,12 @@ public class StudentInvoiceDAO extends GenericDAO<StudentInvoice>{
 					.add(Restrictions.eq("student", student))
 					.add(Restrictions.eq("invoiceStatus",1)));
 			 ArrayList<StudentInvoice> studentInvoices =(ArrayList<StudentInvoice>) invoicecriteria.list();
+			 Collections.sort(studentInvoices,new Comparator<StudentInvoice>() {
+				 @Override
+				public int compare(StudentInvoice o1, StudentInvoice o2) {
+					return o1.getStudentInvoiceId().compareTo(o2.getStudentInvoiceId()) ;
+				}
+			});
 			if (studentInvoices == null) {
 				//logging
 			} else {
