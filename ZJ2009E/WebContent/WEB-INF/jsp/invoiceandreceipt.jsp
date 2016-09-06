@@ -292,7 +292,7 @@
 
 <script src="${pageContext.request.contextPath}/resources/${theme}/js/bootstrap.js"> </script>
 	<script src="${pageContext.request.contextPath}/resources/themes/script/invoiceandreceipt.js"></script>
-   <script src="${pageContext.request.contextPath}/resources/themes/js/jscustom.js" type="text/javascript"></script>
+   
 <script src="${pageContext.request.contextPath}/resources/${theme}/js/classie.js"></script>
 <script src="${pageContext.request.contextPath}/resources/themes/js/cbp_menu.js"></script> 
 <!--scrolling js-->
@@ -310,6 +310,6 @@
 <script src="${pageContext.request.contextPath}/resources/${theme}/js/underscore-min.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/resources/${theme}/js/moment-2.2.1.js" type="text/javascript"></script>
 
-<script src="${pageContext.request.contextPath}/resources/${theme}/js/site.js" type="text/javascript"></script>
+
 </body>
 </html>

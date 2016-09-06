@@ -8,10 +8,6 @@ $(document).ready(function() {
          buttons: [
              'csv', 'excel', 'pdf', 'print'
          ]
-		 
-		 
-		 
-		 
 	 });	
 	
 	

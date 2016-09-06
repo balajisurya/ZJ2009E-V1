@@ -89,14 +89,25 @@
                          
                               
                            
-                    <div id="invoicedetailsdiv" style="display:none;">          
+                 
+                      </div>
+                </div> </div>
+                               </div>
+                              
+    <div id="invoicedetailsdiv" style="display:none;">   
+     <h3 class="title1">Student Fees Details</h3>       
             
-               <div class="x_title">
-                  <div class="clearfix">
-                  </div>  
-               </div>
-               <br />
-                               <h3 class="title1">Student Fees Details</h3>
+                <h4 class="title1" style="color: black">STUDENT NAME&nbsp:&nbsp&nbsp&nbsp<label style="color:#8470FF" id="displayStudentName"></label></h4>
+                  <br>
+                  <h4 class="title1" style="color: black">CLASS NAME&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp&nbsp&nbsp<label style="color:#8470FF" id="displayClassName"></label></h4>
+                   <br>
+                  <h4 class="title1" style="color: black">SECTION NAME&nbsp:&nbsp&nbsp&nbsp<label style="color:#8470FF" id="displaySectionName"></label></h4>
+                <br>
+                
+                         <div class="x_title">
+                     <div class="clearfix">
+                     </div>
+                  </div>     
                    
                      <div class="tables">
                          <div class="table-responsive bs-example widget-shadow">
@@ -113,20 +124,22 @@
                       
                            </table>
                         </div>
+                        <br>
+                <div class="x_title">
+                     <div class="clearfix">
+                     </div>
+                  </div>
                          <div class="row">
                                  <div class="col-sm-offset-3">
+                                    
                                     <button style="float:right" type="button" id="proceedForPayment"  class="btn btn-success">Proceed For Payment</button>
+                                     <button style="float: right;margin-right: 10px" type="button" class="btn btn-danger" onclick="location.reload();">Back</button>
                                  </div>
                               </div>
                         </div>
                                
                
                </div>
-                      </div>
-                </div> </div>
-                               </div>
-                              
- 
                  
                  
                  
@@ -152,6 +165,16 @@
                         	 </div>
                         </div>
                 </div> </div>
+                <br>
+                <div class="x_title">
+                     <div class="clearfix">
+                     </div>
+                  </div>
+                   <div class="row">
+                                 <div class="col-sm-offset-3">
+                                    <button style="float:right" type="button" onclick="showStudentFeesDiv();"  class="btn btn-success">Back</button>
+                                 </div>
+                              </div>
              </div>
              
              
@@ -181,7 +204,7 @@
 							                        </div>
 							                     </div>
                             					<br>   
-                <h3 class="title1">Payment Details</h3>
+                
                                <br>
                                 <div class="form-group">
                                  <label for="" class="col-sm-3 control-label">Total Amount</label> 
@@ -328,9 +351,7 @@
 	<!-- Bootstrap Core JavaScript -->
 	<script src="${pageContext.request.contextPath}/resources/${theme}/js/bootstrap.js"> </script>
 		<script src="${pageContext.request.contextPath}/resources/themes/script/receipt.js"></script>
-
  <script src="${pageContext.request.contextPath}/resources/themes/script/geographicalLocation.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/resources/themes/js/jscustom.js"></script> 
 <script src="${pageContext.request.contextPath}/resources/themes/js/cbp_menu.js"></script> 
 <script src="${pageContext.request.contextPath}/resources/themes/js/select2.full.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/${theme}/js/classie.js"></script>
