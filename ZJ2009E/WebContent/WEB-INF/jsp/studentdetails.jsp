@@ -433,9 +433,11 @@
                                  <label for="studentProfilePic" class="col-sm-3 control-label">Student Photo</label> 
                                  <div class="col-sm-6">
                                     <input name="studentProfilePic" id="studentProfilePic" type="file" />
+                                    <br>
+                                    
                                     <div id="image-holder2" >
 
-                                    <img src="#" id="studentImage"></img>
+                                    <img src="#" id="studentImage" class="thumb-image"></img>
                                     </div>
                                  </div>
                               </div>

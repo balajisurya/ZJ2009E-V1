@@ -46,14 +46,27 @@
     height: 12px;
     margin-right: 5px;
 }
-</style>
+
+      
+      .loader {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url('${pageContext.request.contextPath}/resources/themes/images/page-loader.gif') 50% 50% no-repeat rgba(255, 255, 255, 0.71);
+}
+      
+      
+      </style>
 <!--//Metis Menu -->
 </head> 
                 <%@ include file="master_menu.jsp" %>
                 <%@ include file="master_header.jsp" %>
 <body class="cbp-spmenu-push">
 	<div class="main-content">
-		 
+		 <div class="loader"  style="display: none"></div>
 		<!-- main content start-->
 		<div id="page-wrapper">
 			
@@ -76,15 +89,23 @@
                                      </div>
                               </div>
                               <br>
+                              <br>
 						<div class="doughnut-grid" id="specialCategoryChart" style="display:block;">
 							<canvas id="doughnut1" style="width:400px; height: 250px;"></canvas>
 						</div>
 						<div id="d1-legend" class="chart-legend" style="display:block;"></div>
 						
-                                    <div id="specialCateoryImage" style="width:400px; height: 375px;display:none;">
-							        <div class="col-md-4 col-xs-3">
-                                   <img alt="" src="${pageContext.request.contextPath}/resources/themes/images/nda.png" >
-                  						</div>
+                                    <div id="specialCateoryImage" style="width:400px; height: 400px;display:none;">
+						<br><br><br>
+					<br><br><br><br>
+						<div class="col-sm-12 col-md-12 col-xs-8">
+						<div class="alert alert-info" style="margin-left: 50px">
+						
+                                    <p style="text-align: center;">No Data Available</p>
+                  							</div>
+						</div>
+						
+							   
                   							</div>
                               		   </div>
 					
@@ -103,21 +124,21 @@
                                     
                                      </div>
                               </div>
-                             
-                             
+                             <br>
+                             <br>
 						<div class="doughnut-grid"  id="categoryChart" style="display:block;" >
 							<canvas id="doughnut2" style="width:400px; height: 250px;"></canvas>
 						</div>
 						<div id="d1-legend2" class="chart-legend" style="display:block;"></div>
-						<div  id="cateoryImage" style="width:400px; height: 425px;display:none;">
-						<br><br><br>
-					<br><br><br><br><br>
-						
-						<div class="alert alert-info col-sm-12 col-md-12 col-xs-8" style="margin-left: 50px">
+						<div  id="cateoryImage" style="width:400px; height: 400px;display:none;">
+						<br><br><br><br><br><br>
+					<br>
+						<div class="col-sm-12 col-md-12 col-xs-8">
+						<div class="alert alert-info" style="margin-left: 50px">
 						
                                     <p style="text-align: center;">No Data Available</p>
                   							</div>
-							   
+							   </div>
                   							
                   							</div>
 					   </div>
@@ -130,9 +151,16 @@
 								<canvas id="pie" height="320" width="400" style="width: 400px; height: 250px;"></canvas>
 							</div>
 							<div id="p-legend" class="chart-legend" style="display:block;"></div>
-                                    <div id="bloodGroupImage" style="width:400px; height: 375px;display:none;">
-							        <div class="col-md-4 col-xs-3">
-                                   <img alt="" src="${pageContext.request.contextPath}/resources/themes/images/nda.png" >
+                                    <div id="bloodGroupImage" style="width:400px; height: 480px;display:none;">
+							        
+                                   <br><br><br>
+					<br><br><br><br><br>
+						<div class="col-sm-12 col-md-12 col-xs-8">
+						<div class="alert alert-info" style="margin-left: 50px">
+						
+                                    <p style="text-align: center;">No Data Available</p>
+                  							</div>
+							   
                   						</div>
                   							</div>
                               		   </div>
@@ -158,10 +186,15 @@
 						</div>
 						<div id="b1-legend" class="chart-legend"></div>
 						
-						<div id="classImage" style="width:400px; height: 375px;display:none;">
-							        <div class="col-md-4 col-xs-3">
-                                   <img alt="" src="${pageContext.request.contextPath}/resources/themes/images/nda.png" >
-                  						</div>
+						<div id="classImage" style="width:400px; height: 465px;display:none;">
+							        <br><br><br>
+					<br><br><br><br><br>
+						<div class="col-sm-12 col-md-12 col-xs-8">
+						<div class="alert alert-info" style="margin-left: 50px">
+						
+                                    <p style="text-align: center;">No Data Available</p>
+                  							</div>
+							   </div>
                   							</div>
 					</div>
 					
@@ -171,6 +204,7 @@
 			</div>
 			</div>
 			<div class="clearfix"> </div>
+			<br>
 				
 			</div>
 	

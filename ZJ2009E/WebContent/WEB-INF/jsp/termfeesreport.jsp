@@ -38,11 +38,10 @@
       <script src="${pageContext.request.contextPath}/resources/${theme}/js/Chart.js"></script>
       <script src="${pageContext.request.contextPath}/resources/themes/js/formHide.js"></script> 
       <script src="${pageContext.request.contextPath}/resources/themes/js/datepicker/js/datepicker.js"></script>
-       <script src="${pageContext.request.contextPath}/resources/themes/js/image.js"></script>  
+       
        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/themes/validator/css/validate.css">
       <script src="${pageContext.request.contextPath}/resources/themes/validator/js/jquery.validate.min.js"></script>
       <script src="${pageContext.request.contextPath}/resources/themes/validator/js/customvalidator.js"></script>
-      <script src="${pageContext.request.contextPath}/resources/themes/validator/js/validate.js"></script>
       
       <script src="${pageContext.request.contextPath}/resources/cdntolocal/js/jquery-ui-1.10.3.js"></script>
            	 <c:if test="${!empty errorMessage}">
@@ -158,15 +157,12 @@
 			
  
 		<!-- Bootstrap Core JavaScript -->
-		 <script src="${pageContext.request.contextPath}/resources/themes/js/image.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/${theme}/js/bootstrap.js"> </script>
 		<script src="${pageContext.request.contextPath}/resources/themes/script/termfeesreport.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/themes/js/cbp_menu.js"></script> 
-	
-		<script src="${pageContext.request.contextPath}/resources/${theme}/js/bootstrap.js"> </script>
 		<!--scrolling js-->
 		<script src="${pageContext.request.contextPath}/resources/${theme}/js/jquery.nicescroll.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/${theme}/js/scripts.js"></script>
-
 	<script src="${pageContext.request.contextPath}/resources/datatable/js/jquery.dataTables.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/datatable/js/dataTables.buttons.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/datatable/js/buttons.flash.min.js"></script>
@@ -175,11 +171,8 @@
 	<script src="${pageContext.request.contextPath}/resources/datatable/js/vfs_fonts.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/datatable/js/buttons.html5.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/datatable/js/buttons.print.min.js"></script>
-
 <!--//scrolling js-->
 <script src="${pageContext.request.contextPath}/resources/${theme}/js/underscore-min.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/resources/${theme}/js/moment-2.2.1.js" type="text/javascript"></script>
-
-<script src="${pageContext.request.contextPath}/resources/${theme}/js/site.js" type="text/javascript"></script>
 </body>
 </html>
