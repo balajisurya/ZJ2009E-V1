@@ -1,4 +1,4 @@
- <!DOCTYPE HTML>
+<!DOCTYPE HTML>
 <html>
 <head>
 <title>EMS</title>
@@ -129,8 +129,7 @@
                                       			 <option value="${specialCategory.getSpecialCategoryId()}">${specialCategory.getSpecialCategoryName()}</option>
                                             </c:forEach>
                                       </c:if>
-                                    </select>
-                                    
+                                    </select>  
                                  </div>
                               </div>
                               </div>
