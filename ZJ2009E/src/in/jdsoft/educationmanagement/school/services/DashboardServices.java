@@ -1,13 +1,11 @@
 package in.jdsoft.educationmanagement.school.services;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import in.jdsoft.educationmanagement.reports.model.FourFieldReport;
 import in.jdsoft.educationmanagement.reports.model.ThreeFieldReports;
 import in.jdsoft.educationmanagement.reports.model.TwoFieldReport;
 import in.jdsoft.educationmanagement.school.dao.BloodGroupDAO;
@@ -19,10 +17,7 @@ import in.jdsoft.educationmanagement.school.dao.StudentDAO;
 import in.jdsoft.educationmanagement.school.model.BloodGroup;
 import in.jdsoft.educationmanagement.school.model.Category;
 import in.jdsoft.educationmanagement.school.model.Class;
-import in.jdsoft.educationmanagement.school.model.FeesTemplateItem;
-import in.jdsoft.educationmanagement.school.model.InstituteLedgerAccount;
 import in.jdsoft.educationmanagement.school.model.SpecialCategory;
-import in.jdsoft.educationmanagement.school.model.StudentInvoiceDetail;
 
 @Service
 public class DashboardServices {
@@ -79,40 +74,7 @@ public class DashboardServices {
 		return twoFieldReports;
 	}
 	
-	@Transactional
-	public ArrayList<FourFieldReport> getFeesItemsReportByLedger(Integer ledgerId){
-		InstituteLedgerAccount ledgerAccount= institutionLedgerAccounDAO.getInstituteLedgerAccountById(ledgerId);
-		ArrayList<FourFieldReport> fourFieldsReports=new ArrayList<FourFieldReport>();
-		if(ledgerAccount!=null){
-			Set<FeesTemplateItem> feesTemplateItems = ledgerAccount.getFeesTemplateItems();
-			if(feesTemplateItems!=null){
-				for (FeesTemplateItem feesTemplateItem : feesTemplateItems) {
-					Double invoiceAmount=0.0;
-					Double receiptAmount=0.0;
-					  Set<StudentInvoiceDetail> invoicedStudentDetailItem=feesTemplateItem.getStudentInvoiceItems();
-					  if(invoicedStudentDetailItem!=null){
-						  for (StudentInvoiceDetail studentInvoiceDetail : invoicedStudentDetailItem) {
-							  invoiceAmount=invoiceAmount+studentInvoiceDetail.getStudentInvoiceElementTotalAmount();
-							  
-							  if(studentInvoiceDetail.getStudentInvoiceElementPaymentStatus()==2){
-								  receiptAmount=receiptAmount+studentInvoiceDetail.getStudentInvoiceElementTotalAmount();
-							  }
-						  }
-						  
-					  }
-					 
-					  fourFieldsReports.add(new FourFieldReport(feesTemplateItem,invoiceAmount,receiptAmount,invoiceAmount-receiptAmount));
-				}
-				return fourFieldsReports;
-			}
-			else{
-				return null;
-			}
-		}
-		else{
-			return null;
-		}
-	 }
+	
 	
 	
 }

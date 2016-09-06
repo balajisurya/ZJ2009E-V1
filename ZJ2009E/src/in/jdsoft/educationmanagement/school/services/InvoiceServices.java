@@ -84,6 +84,8 @@ public class InvoiceServices {
 			Hibernate.initialize(studentInvoice.getStudentInvoiceDetails());
 			Hibernate.initialize(studentInvoice.getAcademicYear());
 			Hibernate.initialize(studentInvoice.getAcademicYearFeesTerm());
+			Hibernate.initialize(studentInvoice.getStudent().getStudentClass());
+			Hibernate.initialize(studentInvoice.getStudent().getSection());
 		}
 		return students;
 	}

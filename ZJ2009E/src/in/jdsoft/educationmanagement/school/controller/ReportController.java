@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import in.jdsoft.educationmanagement.reports.model.FourFieldReport;
 import in.jdsoft.educationmanagement.school.model.Student;
 import in.jdsoft.educationmanagement.school.services.AcademicYearServices;
 import in.jdsoft.educationmanagement.school.services.DashboardServices;
@@ -35,27 +34,9 @@ public class ReportController {
 	
 
 	
-	@RequestMapping(value="/byFeesItem")	
-	public ModelAndView getFeesItemWiseReport(HttpServletRequest request){
-		try {
-			ModelAndView mv=new ModelAndView("feesitemwise");
-			mv.addObject("ledgerAccounts",institutionServices.getInstitutionLedgerAccountList(Integer.parseInt(request.getSession().getAttribute("instituteId").toString())));
-			return mv;
-		} catch (Exception e) {
-			throw e;
-		}
-	}
+
 	
-	@RequestMapping(value="/byFeesItem/ledger")	
-	@ResponseBody
-	public ArrayList<FourFieldReport> getFeesItemsReportByLedger(HttpServletRequest request){
-		try {
-			 Integer ledgerId=Integer.parseInt(request.getParameter("ledgerId"));
-			  return dashboardservices.getFeesItemsReportByLedger(ledgerId);
-		} catch (Exception e) {
-			throw e;
-		}
-	}
+	
 
 	@RequestMapping(value="/finecollections")	
 	public ModelAndView getPaidFees(HttpServletRequest request){

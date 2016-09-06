@@ -94,10 +94,10 @@
                                     <td>${fineReceipt.getStudent().getSection().getSectionName()}</td>
                                     <td>${fineReceipt.getAcademicYear().getAcademicYearTitle()}</td>
                                     <td>${fineReceipt.getStudentInvoice().getAcademicYearFeesTerm().getFeesTermTitle()}</td>
-                                    <c:forEach items="${fineReceipt.getReceiptFines()}" var="receiptFineRecord">
+                                    <%-- <c:forEach items="${fineReceipt.getReceiptFines()}" var="receiptFineRecord">
                                     <c:set var="fineAmount" value="${fineAmount+receiptFineRecord.fineAmount}"></c:set>
                                     </c:forEach>
-                                    <td>${fineAmount}</td>
+                                    <td>${fineAmount}</td> --%>
                                  </tr>
                               </c:forEach>
                            </c:if>

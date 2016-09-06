@@ -44,12 +44,13 @@
       <script src="${pageContext.request.contextPath}/resources/themes/printpage/js/jquery.printPage.js"></script>
      
       <script src="${pageContext.request.contextPath}/resources/cdntolocal/js/jquery-ui-1.10.3.js"></script>
-      <c:if test="${!empty receiptId1}">
+      <c:if test="${!empty receiptId}">
       <script>
          $(document).ready(function() {
         	 var receiptId='${receiptId}'
-        	$("#print").printPage();
-           $('#printreceipt').modal('show');
+        	 alert(receiptId);
+        	/* $("#print").printPage();
+           $('#printreceipt').modal('show'); */
          });
       </script>
       </c:if>
