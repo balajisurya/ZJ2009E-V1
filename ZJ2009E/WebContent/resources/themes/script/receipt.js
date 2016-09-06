@@ -6,6 +6,7 @@ $(document).ready(function() {
 				 submitHandler: function(form) {
 					var admissionNo= $("#admissionNo").val();
 					document.getElementById('invoicedetailsdiv').style.display="block";
+					document.getElementById('FormDiv').style.display="none";
 					  $.ajax(	
 					    {
 					        type: "GET",
@@ -19,6 +20,26 @@ $(document).ready(function() {
 					        	 $(".form-horizontal").trigger('reset'); 
 					        	  datatable.clear().draw();
 									$.each(data, function (i, item) {
+										if(i==0){
+											
+											var studentClassName=item.student.studentClass.className;
+											var studentSection=item.student.section.sectionName;
+											var studentName=null;
+											if(item.student.lastName!=null){
+												studentName=item.student.firstName+' '+item.student.lastName;
+											}
+											else{
+												studentName=item.student.firstName;
+												
+												
+											}
+											
+											$("#displayStudentName").text(studentName);
+											$("#displayClassName").text(studentClassName);
+											$("#displaySectionName").text(studentSection);
+											
+											
+										}
 										var totalInvoiceAmount=0.0;
 										$.each(item.studentInvoiceDetails, function (j, studentInvoiceDetail) {
 											totalInvoiceAmount+=studentInvoiceDetail.studentInvoiceElementTotalAmount;
@@ -66,12 +87,12 @@ $(document).ready(function() {
 								        		$("#hiddenPaidInvoices").append('<input type="hidden" value='+finalStudentInvoices.studentInvoiceId+' name="paidInvoiceId"/>');
 										       amountToBePaid=amountToBePaid+finalStudentInvoices.invoiceAmount;
 									      });
-											
+											 $('#amount').val(amountToBePaid);
 										});
 							    	 }
 							    	
-								alert(amountToBePaid);
-						    	 $('#amount').val(amountToBePaid);
+								
+						    	
 					    			$('#invoicedetailsdiv').hide();
 					    			$('#confirmedInvoiceFormDiv').show();
 					    			$("#generateFCR").click(function(){
@@ -154,6 +175,8 @@ function showFeesItemDiv(invoiceId){
 	if(document.getElementById('feesItemFormDiv').style.display=="none"){
 	document.getElementById('feesItemFormDiv').style.display="block";
 	document.getElementById('FormDiv').style.display="none";
+	document.getElementById('invoicedetailsdiv').style.display="none";
+
 	}
 	
 	
@@ -170,25 +193,27 @@ function showFeesItemDiv(invoiceId){
 			        	
 			          	var datatable = $('#studentInvoiceFeesItems').DataTable();
 			        	 $(".form-horizontal").trigger('reset'); 
-			        	datatable.row('.even').remove().draw( false );  
-			        	datatable.row('.odd').remove().draw( false );  
-						if (!$.trim(data)){ 
-							datatable.row('.even').remove().draw( false );  
-							datatable.row('.odd').remove().draw( false );  
-					 	}
-						else
-					 	{
+			        	 datatable.clear().draw();
+						
 							$.each(data, function (i, item) {
 								i=i+1;
 							   datatable.row.add([i,item.feesTemplateItem.templateItemName,item.studentInvoiceElementTotalAmount]).draw( false );
 						   });
-					}
+					
 					
 			        }
 			      
 			    });
 }
-    
-      
+function showStudentFeesDiv(){
+	
+	
+	if(document.getElementById('feesItemFormDiv').style.display=="block"){
+	document.getElementById('feesItemFormDiv').style.display="none";
+	document.getElementById('invoicedetailsdiv').style.display="block";
+	
+
+	}
+}  
       
     

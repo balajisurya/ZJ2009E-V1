@@ -92,8 +92,8 @@
 					   			<div class="col-md-6 charts chrt-page-grids chrt-right" style=" height:auto;">
 						<h4 class="title">Category Wise Student Count</h4>
 						<div class="form-group" id="categoryDiv" style="display:block;">
-                                 <div class="col-sm-6">
-                               <select name="Category" id="Category" class="form-control"  style="width: 410px;">
+                                 <div class="col-sm-12 col-xs-12">
+                               <select name="Category" id="Category" class="form-control">
                                     <c:if test="${!empty categories}">
                                     		<c:forEach items="${categories}" var="categories">
                                     			<option  value="${categories.getCategoryId()}">${categories.getCategoryName()}</option>
@@ -103,17 +103,22 @@
                                     
                                      </div>
                               </div>
-                              <br>
+                             
                              
 						<div class="doughnut-grid"  id="categoryChart" style="display:block;" >
 							<canvas id="doughnut2" style="width:400px; height: 250px;"></canvas>
 						</div>
 						<div id="d1-legend2" class="chart-legend" style="display:block;"></div>
-						<div  id="cateoryImage" style="width:400px; height: 400px;display:none;">
+						<div  id="cateoryImage" style="width:400px; height: 425px;display:none;">
 						<br><br><br>
-							   <div class="col-md-4 col-xs-3">
-                                   <img alt="" src="${pageContext.request.contextPath}/resources/themes/images/nda.png" style="margin-left: 80px">
-                                   </div>
+					<br><br><br><br><br>
+						
+						<div class="alert alert-info col-sm-12 col-md-12 col-xs-8" style="margin-left: 50px">
+						
+                                    <p style="text-align: center;">No Data Available</p>
+                  							</div>
+							   
+                  							
                   							</div>
 					   </div>
 					   

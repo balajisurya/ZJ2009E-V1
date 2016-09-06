@@ -61,6 +61,7 @@
 		<div id="page-wrapper">
 		  <h3 class="title1">Reconcillation</h3>
 		<div class="main-page">
+		<div class="form-three widget-shadow">
 		   <form class="form-horizontal" id="reconcillationCriteriaForm">
                           <div class="form-group">
                                  <label for="" class="col-sm-3 control-label">Payment Mode</label> 
@@ -91,11 +92,12 @@
                                   </div>
                               </div>
               </form>
-             <div class="x_title">
+              </div>
+               	        <div id="receiptdetailsdiv" style="display:none;">  
+               	        <div class="x_title">
                   				<div class="clearfix">
                   				</div>  
-               				</div>
-               	        <div id="receiptdetailsdiv" style="display:none;">          
+               				</div>        
             				   <h3 class="title1">Receipts</h3>
                   
                      <div class="tables" id="cashReconPendingTable" style="display:none;">

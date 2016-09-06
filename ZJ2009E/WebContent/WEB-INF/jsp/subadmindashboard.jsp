@@ -29,7 +29,6 @@
 		 new WOW().init();
 	</script>
 <!--//end-animate-->
-
 <!-- Metis Menu -->
 <script src="${pageContext.request.contextPath}/resources/${theme}/js/metisMenu.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/${theme}/js/custom.js"></script>
@@ -154,38 +153,12 @@
 			</div>	
 			</div>
 			</div>
-			<div class="clearfix"> </div>
-				
+			<div class="clearfix"> </div>	
 			</div>
-			
-	<!-- Classie -->
-		<script src="${pageContext.request.contextPath}/resources/${theme}/js/classie.js"></script>
-	<!-- 	<script type="text/javascript">
-				var pieData = [
-								{
-									value: 30,
-									color:"#4F52BA",
-									label: "Computer Science"
-								},
-								{
-									value : 50,
-									color : "#585858",
-									label: "Physics"
-								},
-								{
-									value : 100,
-									color : "#e94e02",
-									label: "Development Studies"
-								}
-							
-							];
-				var p=	new Chart(document.getElementById("pie").getContext("2d")).Pie(pieData);
-				document.getElementById('p-legend').innerHTML = p.generateLegend();
-		</script> -->
-		
 <!-- Bootstrap Core JavaScript -->
 <script src="${pageContext.request.contextPath}/resources/${theme}/js/bootstrap.js"> </script>
 <script src="${pageContext.request.contextPath}/resources/themes/script/dashboard.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/${theme}/js/classie.js"></script>
 <script src="${pageContext.request.contextPath}/resources/themes/js/cbp_menu.js"></script>
 <script src="${pageContext.request.contextPath}/resources/${theme}/js/jquery.nicescroll.js"></script>
 <script src="${pageContext.request.contextPath}/resources/${theme}/js/scripts.js"></script>

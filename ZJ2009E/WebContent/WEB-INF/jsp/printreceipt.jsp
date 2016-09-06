@@ -14,22 +14,31 @@
 	 <c:if test="${!empty studentReceipt}">
 	     <header class="clearfix">
 				  <div id="logo">
-			        <img src="${pageContext.request.contextPath}/resources/themes/printpage/images/logo.png">
+			         <img src="${pageContext.request.contextPath}${logo}"></img>
 			      </div>
       			   <h2 ><label style="margin-left:-120px">${studentReceipt.getInstitution().getInstitutionName()}</label></h2>
 				   <h3 ><label style="margin-left:-120px">(Affiliated to the Central Board Of Secondary Education)</label></h3>
 				   <h4 ><label style="margin-left:-120px">${studentReceipt.getInstitution().getInstitutionAddressline1().toLowerCase()}, <c:if test="${!empty studentReceipt.getInstitution().getInstitutionAddressline2()}">${studentReceipt.getInstitution().getInstitutionAddressline2().concat(",").toLowerCase()}</c:if>${studentReceipt.getInstitution().getInstitutionCity()} - ${studentReceipt.getInstitution().getInstitutionPostcode()}</label></h4>
 			       <div id="company">
-			         <div style="margin-top: -55px;margin-bottom: 4px;"> <span style="margin-left:-7px">RECEIPT NO&nbsp&nbsp:</span>${studentReceipt.getReceiptId()}<br></div>
-					 <div style="margin-bottom: 4px;"><span style="margin-right:10px">DATE&nbsp&nbsp:</span>${studentReceipt.getCreatedDate()}</div><br>
+			         <div style="margin-top: -30px;margin-bottom: 4px;"> <span style="margin-left:-7px">RECEIPT NO&nbsp&nbsp:</span>${studentReceipt.getReceiptId()}<br></div>
+					 <div style="margin-bottom: 0px;"><span style="margin-right:10px">DATE&nbsp&nbsp:</span>${studentReceipt.getCreatedDate()}</div>
+					
 			       </div>
 	  				<br>	  
 	  				<h1></h1>
 				     <div id="project">
-				        <div style="margin-bottom: 4px;"><span>NAME<label style="margin-left:68px;">:</label>  </span><label style="margin-left:0px;">${studentReceipt.getStudent().getFirstName()} ${studentReceipt.getStudent().getLastName()}</label></div>
-				        <div style="margin-bottom: 4px;"><span>ADMISSION.NO <label style="margin-left:28px;">:</label></span><label style="margin-left:0px;">${studentReceipt.getStudent().getAdmissionNo()}</label></div>
-				        <div ><span>SPECIAL CATEGORY&nbsp&nbsp:</span><label style="margin-left:5px;">${studentReceipt.getStudent().getSpecialCategory().getSpecialCategoryName()}</label></div>
-			        </div>
+				        <div style="margin-bottom: 4px;"><span>NAME<label style="margin-left:80px;">:</label>  </span><label style="margin-left:0px;">${studentReceipt.getStudent().getFirstName()} ${studentReceipt.getStudent().getLastName()}</label></div>
+				        <div style="margin-bottom: 4px;"><span>ADMISSION.NO <label style="margin-left:35px;">:</label></span><label style="margin-left:0px;">${studentReceipt.getStudent().getAdmissionNo()}</label></div>
+				        
+				        <div ><span>SPECIAL CATEGORY&nbsp&nbsp<label style="margin-left:7px;">:</label></span><label style="margin-left:0px;">${studentReceipt.getStudent().getSpecialCategory().getSpecialCategoryName()}</label></div>
+				        </div>
+				        <div id="company1">
+			         <div style="margin-bottom: 4px;" ><span>CLASS & SECTION&nbsp&nbsp <label>:</label></span><label>&nbsp&nbsp${""}CLASS I & A </label></div>
+					 <div style="margin-bottom: 4px;"><span>ACADEMIC YEAR&nbsp&nbsp:</span>&nbsp&nbsp${""}fsdfsdf</div>
+					 <div ><span>TERM&nbsp&nbsp:</span>${""}fdfsfsfsfss</div>
+			       </div>
+			        
+			        
            </header>
      		<main>
      		 <c:if test="${!empty studentReceipt.getPaymentMode()}">

@@ -15,24 +15,30 @@
 	 <c:if test="${!empty studentInvoice}">
 	     <header class="clearfix">
 				  <div id="logo">
-			        <img src="${pageContext.request.contextPath}/resources/themes/printpage/images/logo.png">
+				  <img src="${pageContext.request.contextPath}${logo}"></img>
 			      </div>
       			   <h2 ><label style="margin-left:-120px">${studentInvoice.getInstitution().getInstitutionName()}</label></h2>
 				   <h3 ><label style="margin-left:-120px">(Affiliated to the Central Board Of Secondary Education)</label></h3>
 				   <h4 ><label style="margin-left:-120px">${studentInvoice.getInstitution().getInstitutionAddressline1().toLowerCase()}, <c:if test="${!empty studentInvoice.getInstitution().getInstitutionAddressline2()}">${studentInvoice.getInstitution().getInstitutionAddressline2().concat(",").toLowerCase()}</c:if>${studentInvoice.getInstitution().getInstitutionCity()} - ${studentInvoice.getInstitution().getInstitutionPostcode()}</label></h4>
 			       <div id="company">
-			         <div style="margin-top: -55px;margin-bottom: 4px;"> <span style="margin-left:-7px">INVOICE NO&nbsp&nbsp:</span>${studentInvoice.getInvoiceNo()}<br></div>
-					 <div style="margin-bottom: 4px;"><span style="margin-right:15px">DATE&nbsp&nbsp:</span>${studentInvoice.getCreatedDate()}</div><br>
-					 <div style="margin-bottom: 4px;"><span style="margin-right:15px">Academic Year&nbsp&nbsp:</span>${studentInvoice.getAcademicYear().getAcademicYearTitle()}</div><br>
-					 <div style="margin-bottom: 10px;"><span style="margin-right:15px">Term&nbsp&nbsp:</span>${studentInvoice.getAcademicYearFeesTerm().getFeesTermTitle()}</div><br>
+			         <div style="margin-top: -30px;margin-bottom: 4px;"> <span style="margin-left:-7px">INVOICE NO&nbsp&nbsp:</span>${studentInvoice.getInvoiceNo()}<br></div>
+					 <div style="margin-bottom: 0px;"><span style="margin-right:15px">DATE&nbsp&nbsp:</span>${studentInvoice.getCreatedDate()}</div>
+					
 			       </div>
 	  				<br>	  
 	  				<h1></h1>
 				     <div id="project">
-				        <div style="margin-bottom: 4px;"><span>NAME<label style="margin-left:68px;">:</label>  </span><label style="margin-left:0px;">${studentInvoice.getStudent().getFirstName()} ${studentInvoice.getStudent().getLastName()}</label></div>
-				        <div style="margin-bottom: 4px;"><span>ADMISSION.NO <label style="margin-left:28px;">:</label></span><label style="margin-left:0px;">${studentInvoice.getStudent().getAdmissionNo()}</label></div>
-				        <div ><span>SPECIAL CATEGORY&nbsp&nbsp:</span><label style="margin-left:5px;">${studentInvoice.getStudent().getSpecialCategory().getSpecialCategoryName()}</label></div>
+				        <div style="margin-bottom: 4px;"><span>NAME<label style="margin-left:80px;">:</label>  </span><label style="margin-left:0px;">${studentInvoice.getStudent().getFirstName()} ${studentInvoice.getStudent().getLastName()}</label></div>
+				        <div style="margin-bottom: 4px;"><span>ADMISSION.NO <label style="margin-left:35px;">:</label></span><label style="margin-left:0px;">${studentInvoice.getStudent().getAdmissionNo()}</label></div>
+				        <div ><span>SPECIAL CATEGORY&nbsp&nbsp <label style="margin-left:5px;">:</label></span><label style="margin-left:0px;">${studentInvoice.getStudent().getSpecialCategory().getSpecialCategoryName()}</label></div>
+				    
 				    </div>
+				    <div id="company1">
+			         <div style="margin-bottom: 4px;" ><span>CLASS & SECTION&nbsp&nbsp <label>:</label></span><label>&nbsp&nbsp${""}CLASS I & A </label></div>
+					 <div style="margin-bottom: 4px;"><span>ACADEMIC YEAR&nbsp&nbsp:</span>&nbsp&nbsp${studentInvoice.getAcademicYear().getAcademicYearTitle()}</div>
+					 <div><span>TERM&nbsp&nbsp:</span>&nbsp&nbsp${studentInvoice.getAcademicYearFeesTerm().getFeesTermTitle()}</div>
+			       </div>
+				    
            </header>
      		<main>
   
@@ -72,11 +78,7 @@
         <br>
 		<br>
 		
-      <div id="notices">
-        <div>NOTE:</div>
-        <div class="notice">Receipt  is subject to realization of the payment made.</div>
-        
-      </div>
+      
     </main>
     
   </body>
