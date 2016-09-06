@@ -276,6 +276,9 @@ public class ReceiptServices {
 		Hibernate.initialize(studentReceipt.getStudent().getSpecialCategory());
 		Hibernate.initialize(studentReceipt.getPaymentMode());
 		Hibernate.initialize(studentReceipt.getInstitution());
+		Hibernate.initialize(studentReceipt.getAcademicYear());
+		Hibernate.initialize(studentReceipt.getStudentInvoice().getAcademicYearFeesTerm());
+		
 		return studentReceipt;
 	}
 	@Transactional
@@ -333,7 +336,15 @@ public class ReceiptServices {
 
 	@Transactional
 	public void deleteReceipt(Integer receiptId){
-		studentReceiptDAO.delete(studentReceiptDAO.getStudentReceiptById(receiptId));
+		StudentReceipt receipt=studentReceiptDAO.getStudentReceiptById(receiptId);
+	    StudentInvoice studentInvoice=receipt.getStudentInvoice();
+	    studentInvoice.setInvoiceStatus(1);
+	    Set<StudentInvoiceDetail> studentInvoiceDetails=studentInvoice.getStudentInvoiceDetails();
+	    for (StudentInvoiceDetail studentInvoiceDetail : studentInvoiceDetails) {
+			studentInvoiceDetail.setStudentInvoiceElementPaymentStatus(1);
+		}
+	    studentInvoiceDAO.update(studentInvoice);
+		studentReceiptDAO.delete(receipt);
 	}
 	
 	@Transactional

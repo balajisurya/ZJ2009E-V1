@@ -33,9 +33,8 @@
 				        <div ><span>SPECIAL CATEGORY&nbsp&nbsp<label style="margin-left:7px;">:</label></span><label style="margin-left:0px;">${studentReceipt.getStudent().getSpecialCategory().getSpecialCategoryName()}</label></div>
 				        </div>
 				        <div id="company1">
-			         <div style="margin-bottom: 4px;" ><span>CLASS & SECTION&nbsp&nbsp <label>:</label></span><label>&nbsp&nbsp${""}CLASS I & A </label></div>
-					 <div style="margin-bottom: 4px;"><span>ACADEMIC YEAR&nbsp&nbsp:</span>&nbsp&nbsp${""}fsdfsdf</div>
-					 <div ><span>TERM&nbsp&nbsp:</span>${""}fdfsfsfsfss</div>
+			         <div style="margin-bottom: 4px;"><span>ACADEMIC YEAR&nbsp&nbsp:</span>&nbsp&nbsp${studentReceipt.getAcademicYear().getAcademicYearTitle()}</div>
+					 <div ><span>TERM&nbsp&nbsp:</span>${studentReceipt.getStudentInvoice().getAcademicYearFeesTerm().getFeesTermTitle()}</div>
 			       </div>
 			        
 			        

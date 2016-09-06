@@ -294,17 +294,6 @@ public class InvoiceController {
 		}
 	}
 	
-	/*@RequestMapping(value="studentInvoice/fineitems",method=RequestMethod.GET)
-	@ResponseBody
-	public ArrayList<StudentInvoiceFineDetail> getStudentPendingInvoiceFineItems(HttpServletRequest request){
-		try {
-			Integer studentInvoiceId=Integer.parseInt(request.getParameter("studentInvoiceId"));
-			return invoiceServices.getStudentPendingInvoiceFineItems(studentInvoiceId);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
-	}*/
 	
 	
 	@RequestMapping(value="studentInvoice/finalStudentInvoices",method=RequestMethod.GET)
@@ -324,29 +313,7 @@ public class InvoiceController {
 		}
 	}
 	
-/*	@RequestMapping(value="studentInvoice/finalFineitemdetails",method=RequestMethod.GET)
-	@ResponseBody
-	public ArrayList<StudentInvoiceFineDetail> getStudentPendingInvoiceFineItemsForPayment(HttpServletRequest request){
-		try {
-			String ids[]=request.getParameterValues("fineItemList[]");
-			if(ids!=null){
-				Integer []intids=new Integer[ids.length];
-				int i=0;
-				for (String id : ids) {
-					intids[i]=Integer.parseInt(id.trim());
-					i++;
-				}
-				return invoiceServices.getStudentInvoiceFineItemByIds(intids);
-			}else{
-				return null;
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
-	}*/
-	
+
 	
 	@RequestMapping(value="invoiceAndReceipt")
 	public ModelAndView invoiceAndReceiptPage(HttpServletRequest request){

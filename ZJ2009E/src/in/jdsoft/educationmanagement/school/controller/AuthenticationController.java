@@ -1,16 +1,21 @@
 package in.jdsoft.educationmanagement.school.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import in.jdsoft.educationmanagement.components.BackUpComponent;
 import in.jdsoft.educationmanagement.customexceptions.UserServiceExceptions;
 import in.jdsoft.educationmanagement.school.model.MenuLevel1;
 import in.jdsoft.educationmanagement.school.model.Message;
@@ -28,7 +33,10 @@ public class AuthenticationController {
 	private UserService userService;
 	@Autowired
 	private MenuServices menuServices;
-	
+	@Autowired
+	private BackUpComponent backUpComponent;
+	@Autowired
+	BasicDataSource basicDataSource;
 	
 	@RequestMapping(value="login",method = RequestMethod.POST)
 	public String login(HttpServletRequest request,RedirectAttributes redirectAttributes){
@@ -81,11 +89,28 @@ public class AuthenticationController {
 	}
 	
 	
+	@SuppressWarnings("deprecation")
 	@RequestMapping(value="logout")
 	public String logout(HttpServletRequest request,RedirectAttributes redirectAttributes){
 		try{
 			if(request.getSession()!=null){
 			    request.getSession().invalidate();
+			    BufferedOutputStream  stream=null;
+				try {
+					
+						byte[] data = backUpComponent.getData("localhost", "3306",basicDataSource.getUsername(), basicDataSource.getPassword(), "edumaat_db").getBytes();
+						File f=backUpComponent.createFolderIfNotExist(request.getRealPath("/resources/backup/"));
+						File file=new File(f,backUpComponent.FileName());
+						stream = new BufferedOutputStream(new FileOutputStream(file));
+						stream.write(data);
+						stream.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw e;
+				}finally
+				{
+					stream.close();
+				}
 				redirectAttributes.addFlashAttribute("message",new Message("success","You Have Successfully Logged Out"));
 				return "redirect:/";
 			}

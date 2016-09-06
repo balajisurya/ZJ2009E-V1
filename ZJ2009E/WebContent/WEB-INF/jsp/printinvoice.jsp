@@ -34,8 +34,7 @@
 				    
 				    </div>
 				    <div id="company1">
-			         <div style="margin-bottom: 4px;" ><span>CLASS & SECTION&nbsp&nbsp <label>:</label></span><label>&nbsp&nbsp${""}CLASS I & A </label></div>
-					 <div style="margin-bottom: 4px;"><span>ACADEMIC YEAR&nbsp&nbsp:</span>&nbsp&nbsp${studentInvoice.getAcademicYear().getAcademicYearTitle()}</div>
+			         <div style="margin-bottom: 4px;"><span>ACADEMIC YEAR&nbsp&nbsp:</span>&nbsp&nbsp${studentInvoice.getAcademicYear().getAcademicYearTitle()}</div>
 					 <div><span>TERM&nbsp&nbsp:</span>&nbsp&nbsp${studentInvoice.getAcademicYearFeesTerm().getFeesTermTitle()}</div>
 			       </div>
 				    

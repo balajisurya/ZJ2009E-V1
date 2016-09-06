@@ -5,8 +5,6 @@ $(document).ready(function() {
 		 $('#getDetailsForm').validate({
 				 submitHandler: function(form) {
 					var admissionNo= $("#admissionNo").val();
-					document.getElementById('invoicedetailsdiv').style.display="block";
-					document.getElementById('FormDiv').style.display="none";
 					  $.ajax(	
 					    {
 					        type: "GET",
@@ -16,39 +14,48 @@ $(document).ready(function() {
 					        dataType: "json",
 					        cache: false,
 					        success: function (data) {
-					        	datatable= $('#studentReceiptListTable').DataTable();
-					        	 $(".form-horizontal").trigger('reset'); 
-					        	  datatable.clear().draw();
-									$.each(data, function (i, item) {
-										if(i==0){
-											
-											var studentClassName=item.student.studentClass.className;
-											var studentSection=item.student.section.sectionName;
-											var studentName=null;
-											if(item.student.lastName!=null){
-												studentName=item.student.firstName+' '+item.student.lastName;
-											}
-											else{
-												studentName=item.student.firstName;
+					        	if(data.length>0){
+					        		datatable= $('#studentReceiptListTable').DataTable();
+						        	 $(".form-horizontal").trigger('reset'); 
+						        	  datatable.clear().draw();
+										$.each(data, function (i, item) {
+											if(i==0){
+												
+												var studentClassName=item.student.studentClass.className;
+												var studentSection=item.student.section.sectionName;
+												var studentName=null;
+												if(item.student.lastName!=null){
+													studentName=item.student.firstName+' '+item.student.lastName;
+												}
+												else{
+													studentName=item.student.firstName;
+													
+													
+												}
+												
+												$("#displayStudentName").text(studentName);
+												$("#displayClassName").text(studentClassName);
+												$("#displaySectionName").text(studentSection);
 												
 												
 											}
+											var totalInvoiceAmount=0.0;
+											$.each(item.studentInvoiceDetails, function (j, studentInvoiceDetail) {
+												totalInvoiceAmount+=studentInvoiceDetail.studentInvoiceElementTotalAmount;
+											});
 											
-											$("#displayStudentName").text(studentName);
-											$("#displayClassName").text(studentClassName);
-											$("#displaySectionName").text(studentSection);
-											
-											
-										}
-										var totalInvoiceAmount=0.0;
-										$.each(item.studentInvoiceDetails, function (j, studentInvoiceDetail) {
-											totalInvoiceAmount+=studentInvoiceDetail.studentInvoiceElementTotalAmount;
-										});
-										
-										datatable.row.add(['<input type="checkbox" unchecked name="studentInvoice" value='+item.studentInvoiceId+' class="case"></input>',item.academicYear.academicYearTitle,item.academicYearFeesTerm.feesTermTitle,totalInvoiceAmount,'<a href="#" id="feesitem"  type="button" data-href="#" data-id='+item.studentInvoiceId+' data-toggle="modal" onclick="showFeesItemDiv('+item.studentInvoiceId+')" >'
-				                                           +'<span class="glyphicon glyphicon-list-alt"></span>'
-			                                                +'</a>']).draw( false );
-								});
+											datatable.row.add(['<input type="checkbox" unchecked name="studentInvoice" value='+item.studentInvoiceId+' class="case"></input>',item.academicYear.academicYearTitle,item.academicYearFeesTerm.feesTermTitle,totalInvoiceAmount,'<a href="#" id="feesitem"  type="button" data-href="#" data-id='+item.studentInvoiceId+' data-toggle="modal" onclick="showFeesItemDiv('+item.studentInvoiceId+')" >'
+					                                           +'<span class="glyphicon glyphicon-list-alt"></span>'
+				                                                +'</a>']).draw( false );
+									});
+										document.getElementById('invoicedetailsdiv').style.display="block";
+										document.getElementById('FormDiv').style.display="none";
+					        	}
+					        	
+					        	else{
+					        		alert("No Receipts Found");
+					        	}
+					        
 					      
 					        }
 					      
