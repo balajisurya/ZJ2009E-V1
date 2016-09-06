@@ -87,8 +87,7 @@
                                 <div class="row">
                                  <div class="col-sm-offset-3">
                                    <button style="float:right" type="submit"  id="getAllReceipts" class="btn btn-success">Get Student Receipts</button>
-                                 <button style="float:right; margin-right: 20px " type="button" class="btn btn-danger" onclick="location.reload(true)">Back</button>
-                                  
+                                                            
                                   </div>
                               </div>
             

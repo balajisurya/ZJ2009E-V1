@@ -41,6 +41,7 @@ function categoryWiseComponentData(categoryId)
 {
 	if(categoryId!=null)
 	{
+		
 		$.ajax({
 			   url:ctx+'/dashboard/studentRatioFromCategory',
 			   data:{categoryId:categoryId},

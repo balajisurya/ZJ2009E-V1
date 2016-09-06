@@ -132,7 +132,6 @@
       <!-- Bootstrap Core JavaScript -->
       <script src="${pageContext.request.contextPath}/resources/${theme}/js/bootstrap.js"> </script>
       <script src="${pageContext.request.contextPath}/resources/themes/script/backupandrestore.js" type="text/javascript"></script>
-       <script src="${pageContext.request.contextPath}/resources/themes/js/jscustom.js" type="text/javascript"></script>
        <script src="${pageContext.request.contextPath}/resources/themes/js/cbp_menu.js"></script> 
       <script src="${pageContext.request.contextPath}/resources/themes/js/select2.full.js"></script>
                <script src="${pageContext.request.contextPath}/resources/${theme}/js/classie.js"></script>

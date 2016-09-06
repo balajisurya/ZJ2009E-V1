@@ -47,7 +47,7 @@ public class DashboardController {
 				}
 				
 				else{
-					return "forward:/subadmindashboard";
+					return "forward:/dashboard";
 				}
 			}
 			else{

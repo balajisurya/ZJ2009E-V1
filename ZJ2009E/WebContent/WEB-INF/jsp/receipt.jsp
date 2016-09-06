@@ -47,7 +47,7 @@
       <c:if test="${!empty receiptId}">
       <script>
          $(document).ready(function() {
-        	 var receiptId='${receiptId}'
+        	 var receiptId='[${receiptId}'
         	 alert(receiptId);
         	/* $("#print").printPage();
            $('#printreceipt').modal('show'); */
