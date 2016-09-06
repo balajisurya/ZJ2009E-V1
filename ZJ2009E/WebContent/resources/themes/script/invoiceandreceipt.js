@@ -137,18 +137,21 @@ $(document).ready(function() {
 										        	 $(".form-horizontal").trigger('reset'); 
 														      datatable.clear().draw();
 														  $.each(receipts, function (i,receipts) {
-														
-															  
-															  
+														 
 													        	var name;
+													        	var fineAmount=0.0;
 													        	if(receipts.student.lastName!=null){
 													        		name=receipts.student.firstName+' '+receipts.student.lastName;
 													        	}else{
 													        		name=receipts.student.firstName;
 													        	}
 													        	
+													        	
+													        	$.each(receipts.receiptFines, function (i,receiptfines) {
+													        		fineAmount=fineAmount+receiptfines.fineAmount;
+													        	});
 													        	var url=ctx+"/receipt/print?receiptId="+receipts.receiptId;
-													            datatable.row.add([receipts.receiptId,receipts.student.admissionNo,name,receipts.paymentReceivedDate,receipts.paymentMode.paymentModeTitle,receipts.paymentStatus.paymentStatusTitle,receipts.amount,'<a href='+url+' id="viewreceipt"  class="receipt" target="_blank" type="button"data-href="#" data-id="" data-toggle="modal">'
+													            datatable.row.add([receipts.receiptId,receipts.student.admissionNo,name,receipts.paymentReceivedDate,receipts.paymentMode.paymentModeTitle,receipts.paymentStatus.paymentStatusTitle,receipts.amount,fineAmount,'<a href='+url+' id="viewreceipt"  class="receipt" target="_blank" type="button"data-href="#" data-id="" data-toggle="modal">'
 									                               +'<span class="glyphicon glyphicon-eye-open"></span></a>'
 										                              + '<a href="" class="print" id="receiptprint" data-toggle="modal" type="button"  data-id='+receipts.receiptId+' data-target="#recprint">'
 										                                   +'<span class="glyphicon glyphicon-print"></span></a> '

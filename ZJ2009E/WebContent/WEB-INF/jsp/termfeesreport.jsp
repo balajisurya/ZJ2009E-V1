@@ -158,12 +158,13 @@
  
 		<!-- Bootstrap Core JavaScript -->
 		<script src="${pageContext.request.contextPath}/resources/${theme}/js/bootstrap.js"> </script>
-		<script src="${pageContext.request.contextPath}/resources/themes/script/termfeesreport.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/themes/js/cbp_menu.js"></script> 
-		<!--scrolling js-->
-		<script src="${pageContext.request.contextPath}/resources/${theme}/js/jquery.nicescroll.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/${theme}/js/scripts.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/datatable/js/jquery.dataTables.min.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/themes/script/termfeesreport.js"></script>   
+<script src="${pageContext.request.contextPath}/resources/${theme}/js/classie.js"></script>
+<script src="${pageContext.request.contextPath}/resources/themes/js/cbp_menu.js"></script> 
+<!--scrolling js-->
+<script src="${pageContext.request.contextPath}/resources/${theme}/js/jquery.nicescroll.js"></script>
+<script src="${pageContext.request.contextPath}/resources/${theme}/js/scripts.js"></script>
+<script src="${pageContext.request.contextPath}/resources/datatable/js/jquery.dataTables.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/datatable/js/dataTables.buttons.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/datatable/js/buttons.flash.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/datatable/js/jszip.min.js"></script>
@@ -174,5 +175,7 @@
 <!--//scrolling js-->
 <script src="${pageContext.request.contextPath}/resources/${theme}/js/underscore-min.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/resources/${theme}/js/moment-2.2.1.js" type="text/javascript"></script>
+
+
 </body>
 </html>

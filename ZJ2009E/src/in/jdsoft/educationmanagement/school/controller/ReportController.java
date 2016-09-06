@@ -38,25 +38,6 @@ public class ReportController {
 	
 	
 
-	@RequestMapping(value="/finecollections")	
-	public ModelAndView getPaidFees(HttpServletRequest request){
-		try {
-			if(request.getSession().getAttribute("authenticated")!=null && request.getSession().getAttribute("authenticated").equals("true")){
-				ModelAndView mv=new ModelAndView("collectionsReport");
-				Integer instituteId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
-				mv.addObject("fineReceipts", receiptServices.institutionFineReceipts(instituteId));
-				return mv;
-			}
-			else{
-				return new ModelAndView("redirect:/");
-			}
-			
-		} catch (Exception e) {
-			throw e;
-		}
-		
-	}
-	
 	
 	@RequestMapping(value="termFeesReport")
 	public ModelAndView displayTermFeesReportPage(HttpServletRequest request){

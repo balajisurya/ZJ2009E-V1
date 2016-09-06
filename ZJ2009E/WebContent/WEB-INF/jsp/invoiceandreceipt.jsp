@@ -221,6 +221,7 @@
                                     <th>Payment Mode</th>
                                     <th>Payment Status</th>
                                		<th>Fees Amount</th>
+                               		<th>Fine Amount</th>
                                		<th>Action</th>
                                		
                                  </tr>

@@ -242,7 +242,7 @@
                             <input id="selectedStudentIds" name="selectedStudentIds" type="hidden">
              					<div class="row">
                                  <div class="col-sm-offset-3">
-                                    <button style="float:right" type="button" id="generateinvoice" class="btn btn-success">Generate Invoice</button>
+                                    <button style="float:right" type="button" id="generateinvoice" class="btn btn-success">Generate Fees</button>
 								 </div>
                                 </div>
                        </form>  

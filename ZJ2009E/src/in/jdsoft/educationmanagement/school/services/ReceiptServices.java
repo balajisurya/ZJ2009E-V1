@@ -2,7 +2,6 @@ package in.jdsoft.educationmanagement.school.services;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.hibernate.Hibernate;
@@ -21,7 +20,6 @@ import in.jdsoft.educationmanagement.school.exceptions.ReceiptException;
 import in.jdsoft.educationmanagement.school.exceptions.StudentReceiptException;
 import in.jdsoft.educationmanagement.school.model.AcademicYear;
 import in.jdsoft.educationmanagement.school.model.Class;
-import in.jdsoft.educationmanagement.school.model.Institution;
 import in.jdsoft.educationmanagement.school.model.Message;
 import in.jdsoft.educationmanagement.school.model.PaymentMode;
 import in.jdsoft.educationmanagement.school.model.PaymentStatus;
@@ -291,6 +289,7 @@ public class ReceiptServices {
 			for (StudentReceipt studentReceipt : studentReceipts1) {
 				Hibernate.initialize(studentReceipt.getPaymentMode());
 				Hibernate.initialize(studentReceipt.getPaymentStatus());
+				Hibernate.initialize(studentReceipt.getReceiptFines());
 			}
 			
 			studentReceipts.addAll(studentReceipts1);
@@ -307,6 +306,7 @@ public class ReceiptServices {
 			for (StudentReceipt studentReceipt : receipts) {
 				Hibernate.initialize(studentReceipt.getPaymentMode());
 				Hibernate.initialize(studentReceipt.getPaymentStatus());
+				Hibernate.initialize(studentReceipt.getReceiptFines());
 			}
 			studentReceipts.addAll(receipts);
 		}
@@ -324,6 +324,7 @@ public class ReceiptServices {
 				Hibernate.initialize(studentReceipt.getPaymentStatus());
 				Hibernate.initialize(studentReceipt.getStudent().getStudentClass());
 				Hibernate.initialize(studentReceipt.getStudent().getSection());
+				Hibernate.initialize(studentReceipt.getReceiptFines());
 			}
 			studentReceipts=new ArrayList<StudentReceipt>();
 			studentReceipts.addAll(receipts);
@@ -347,35 +348,5 @@ public class ReceiptServices {
 		studentReceiptDAO.delete(receipt);
 	}
 	
-	@Transactional
-	public ArrayList<StudentReceipt> institutionFineReceipts(Integer instituteId){
-		Institution institution=institutionDAO.getInstitutionById(instituteId);
-		ArrayList<StudentReceipt> studentReceiptList=new ArrayList<StudentReceipt>();
-		Set<StudentReceipt> receipts=institution.getStudentReceipts();
-		Iterator<StudentReceipt> studentReceiptIterator=receipts.iterator();
-		while(studentReceiptIterator.hasNext()){
-			StudentReceipt studentReceipt= studentReceiptIterator.next();
-			if(studentReceipt.getStudent().getStudentStatus().getStudentStatusId()!=1){
-				studentReceiptIterator.remove();
-			}
-			else{
-				Set<StudentReceiptFine> fineReceipts=studentReceipt.getReceiptFines();
-				if(fineReceipts==null){
-					studentReceiptIterator.remove();
-				}
-				else{
-					for (StudentReceipt studentReceipt1 : receipts) {
-						Hibernate.initialize(studentReceipt1.getAcademicYear());
-						Hibernate.initialize(studentReceipt1.getStudent().getStudentClass());
-						Hibernate.initialize(studentReceipt1.getStudent().getSection());
-						Hibernate.initialize(studentReceipt1.getStudentInvoice().getAcademicYearFeesTerm());
-					}
-					studentReceiptList.addAll(receipts);
-				}
-			}
-			
-			
-		}
-		return studentReceiptList;
-	}
+
 }
