@@ -12,8 +12,8 @@
         org.springframework.web.context.ContextLoaderListener
    </listener-class>
   </listener>
-  <!-- 
-  <filter>
+  
+<!--   <filter>
         <filter-name>MyFilter</filter-name>
         <filter-class>in.jdsoft.educationmanagement.components.SessionFilter</filter-class>
     </filter>
@@ -36,7 +36,7 @@
   </servlet-mapping>
   
   <session-config>
-  	<session-timeout>5</session-timeout>
+  	<session-timeout>1</session-timeout>
   </session-config>
   
   

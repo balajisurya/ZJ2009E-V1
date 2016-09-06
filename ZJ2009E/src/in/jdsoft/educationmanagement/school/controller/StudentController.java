@@ -79,6 +79,7 @@ public class StudentController {
 	@RequestMapping 
 	public ModelAndView displayStudentRegistrationPage(HttpServletRequest request){
 		try {
+			if(request.getSession().getAttribute("authenticated")!=null && request.getSession().getAttribute("authenticated").equals("true")){
 				Integer instituteId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
 				ModelAndView modelandview=new ModelAndView("studentRegistration");
 				modelandview.addObject("specialCategories", institutionServices.getInstitutionSpecialCategory(instituteId));
@@ -88,6 +89,11 @@ public class StudentController {
 				modelandview.addObject("academicYear", academicYearServices.getInstitutionCurrentAcademicYear(instituteId));
 				modelandview.addObject("bloodGroups", bloodGroupServices.getBloodGroupList());
 			    return modelandview;
+			}
+			else{
+				return new ModelAndView("redirect:/");
+			}
+				
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -275,19 +281,24 @@ public class StudentController {
 	@RequestMapping (value="studentdetails")
 	public ModelAndView displayStudentDetailsPage(HttpServletRequest request){
 		try {
-			Integer instituteId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
-			ModelAndView modelandview=new ModelAndView("studentdetails");
-			modelandview.addObject("specialCategories", institutionServices.getInstitutionSpecialCategory(instituteId));
-			modelandview.addObject("classes", institutionServices.getInstitutionClasses(instituteId));
-			modelandview.addObject("sections", institutionServices.getInstitutionSections(instituteId));
-			modelandview.addObject("categories", categoryServices.getCategoryList());
-			modelandview.addObject("academicYear", academicYearServices.getInstitutionCurrentAcademicYear(instituteId));
-			modelandview.addObject("bloodGroups", bloodGroupServices.getBloodGroupList());
-			modelandview.addObject("countryList",geographicalServices.getCountryList());
-			modelandview.addObject("stateList", geographicalServices.getStateList());
-			modelandview.addObject("cityList", geographicalServices.getCityList());
-			modelandview.addObject("studentStatusList", studentServices.getStudentStatusList());
-			return modelandview;
+			if(request.getSession().getAttribute("authenticated")!=null && request.getSession().getAttribute("authenticated").equals("true")){
+				Integer instituteId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
+				ModelAndView modelandview=new ModelAndView("studentdetails");
+				modelandview.addObject("specialCategories", institutionServices.getInstitutionSpecialCategory(instituteId));
+				modelandview.addObject("classes", institutionServices.getInstitutionClasses(instituteId));
+				modelandview.addObject("sections", institutionServices.getInstitutionSections(instituteId));
+				modelandview.addObject("categories", categoryServices.getCategoryList());
+				modelandview.addObject("academicYear", academicYearServices.getInstitutionCurrentAcademicYear(instituteId));
+				modelandview.addObject("bloodGroups", bloodGroupServices.getBloodGroupList());
+				modelandview.addObject("countryList",geographicalServices.getCountryList());
+				modelandview.addObject("stateList", geographicalServices.getStateList());
+				modelandview.addObject("cityList", geographicalServices.getCityList());
+				modelandview.addObject("studentStatusList", studentServices.getStudentStatusList());
+				return modelandview;
+			}
+			else{
+				return new ModelAndView("redirect:/");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

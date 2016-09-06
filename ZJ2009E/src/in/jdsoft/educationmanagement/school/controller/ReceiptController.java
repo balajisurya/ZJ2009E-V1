@@ -59,13 +59,17 @@ public class ReceiptController {
 	@RequestMapping 
 	public ModelAndView displayReceiptPage(HttpServletRequest request){
 		try {
-			ModelAndView modelandview=new ModelAndView("receipt");
-			
-			modelandview.addObject("geographicallocationList", geographicallocationService.getCountryList());
-			modelandview.addObject("geographicallocationStateList", geographicallocationService.getStateList());
-			modelandview.addObject("geographicallocationCityList", geographicallocationService.getCityList());
-		    modelandview.addObject("paymentmodes",paymentServices.getActivePaymentModes());
-			return modelandview;
+			if(request.getSession().getAttribute("authenticated")!=null && request.getSession().getAttribute("authenticated").equals("true")){
+				ModelAndView modelandview=new ModelAndView("receipt");
+				modelandview.addObject("geographicallocationList", geographicallocationService.getCountryList());
+				modelandview.addObject("geographicallocationStateList", geographicallocationService.getStateList());
+				modelandview.addObject("geographicallocationCityList", geographicallocationService.getCityList());
+			    modelandview.addObject("paymentmodes",paymentServices.getActivePaymentModes());
+				return modelandview;
+			}
+			else{
+				return new ModelAndView("redirect:/");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -145,14 +149,19 @@ public class ReceiptController {
 	@RequestMapping(value="reconcillation",method=RequestMethod.GET) 
 	public ModelAndView displayReconcillationPage(HttpServletRequest request){
 		try {
-			ModelAndView modelandview=new ModelAndView("reconcillation");
-			modelandview.addObject("paymentModes",paymentServices.getPaymentModeList());
-			return modelandview;
+			if(request.getSession().getAttribute("authenticated")!=null && request.getSession().getAttribute("authenticated").equals("true")){
+				ModelAndView modelandview=new ModelAndView("reconcillation");
+				modelandview.addObject("paymentModes",paymentServices.getPaymentModeList());
+				return modelandview;
+			}
+			else{
+				return new ModelAndView("redirect:/");
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
-		
 	}
 	
 	@RequestMapping(value="print") 
@@ -307,10 +316,22 @@ public class ReceiptController {
 	}
 	
 	@RequestMapping(value="manageReceipt")
-	public ModelAndView displayManageReceiptPage(){
+	public ModelAndView displayManageReceiptPage(HttpServletRequest request){
 		try{
-			ModelAndView mv=new ModelAndView("managereceipt");
-			return mv;
+			if(request.getSession().getAttribute("authenticated")!=null && request.getSession().getAttribute("authenticated").equals("true")){
+				if(request.getSession().getAttribute("type").equals("Admin")){
+					ModelAndView mv=new ModelAndView("managereceipt");
+					return mv;
+				}
+				else{
+					ModelAndView modelandview=new ModelAndView("redirect:/home");
+					return modelandview;
+				}
+			}
+			else{
+				return new ModelAndView("redirect:/");
+			}
+			
 		}catch(Exception e){
 			throw e;
 		}

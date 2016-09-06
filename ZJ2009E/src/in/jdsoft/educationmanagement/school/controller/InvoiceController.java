@@ -62,13 +62,18 @@ public class InvoiceController {
 	@RequestMapping 
 	public ModelAndView displayGenerateInvoicePage(HttpServletRequest request,RedirectAttributes attributes) throws Exception{
 		try {
-			Integer instituteId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
-			ModelAndView modelandview=new ModelAndView("generateinvoice");
-			modelandview.addObject("classes", classAndSectionServices.getInstitutionClassList(instituteId));
-			modelandview.addObject("specialCategories",specialCategoryServices.getInstitutionSpecialCategoryList(instituteId));
-			modelandview.addObject("feesTemplates",feesStructureServices.getInstitutionFeesTemplate(instituteId));
-			modelandview.addObject("academicFeesTerms",institutionServices.getCurrentAcademicYearFeesTerms(instituteId));
-			return modelandview;
+			if(request.getSession().getAttribute("authenticated")!=null && request.getSession().getAttribute("authenticated").equals("true")){
+				Integer instituteId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
+				ModelAndView modelandview=new ModelAndView("generateinvoice");
+				modelandview.addObject("classes", classAndSectionServices.getInstitutionClassList(instituteId));
+				modelandview.addObject("specialCategories",specialCategoryServices.getInstitutionSpecialCategoryList(instituteId));
+				modelandview.addObject("feesTemplates",feesStructureServices.getInstitutionFeesTemplate(instituteId));
+				modelandview.addObject("academicFeesTerms",institutionServices.getCurrentAcademicYearFeesTerms(instituteId));
+				return modelandview;
+			}
+			else{
+				return new ModelAndView("redirect:/");
+			}
 		} catch (Exception e) {
 			if(e.getClass().equals(AcademicYearException.class)){
 				ModelAndView modelandview=new ModelAndView("redirect:/academicYear");
@@ -346,12 +351,18 @@ public class InvoiceController {
 	@RequestMapping(value="invoiceAndReceipt")
 	public ModelAndView invoiceAndReceiptPage(HttpServletRequest request){
 		try {
-			Integer instituteId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
-			ModelAndView modelandview=new ModelAndView("invoiceandreceipt");
-			modelandview.addObject("classes", classAndSectionServices.getInstitutionClassList(instituteId));
-			modelandview.addObject("specialCategories",specialCategoryServices.getInstitutionSpecialCategoryList(instituteId));
-			modelandview.addObject("academicYears", academicYearServices.getInstitutionAcademicYearList(instituteId));
-			return modelandview;
+			if(request.getSession().getAttribute("authenticated")!=null && request.getSession().getAttribute("authenticated").equals("true")){
+				Integer instituteId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
+				ModelAndView modelandview=new ModelAndView("invoiceandreceipt");
+				modelandview.addObject("classes", classAndSectionServices.getInstitutionClassList(instituteId));
+				modelandview.addObject("specialCategories",specialCategoryServices.getInstitutionSpecialCategoryList(instituteId));
+				modelandview.addObject("academicYears", academicYearServices.getInstitutionAcademicYearList(instituteId));
+				return modelandview;
+			}
+			else{
+				return new ModelAndView("redirect:/");
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -465,12 +476,23 @@ public class InvoiceController {
 	@RequestMapping(value="manageInvoice")
 	public ModelAndView manageInvoicePage(HttpServletRequest request){
 		try {
-			ModelAndView modelandview=new ModelAndView("manageinvoice");
-			Integer instituteId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
-			modelandview.addObject("academicYears", academicYearServices.getInstitutionAcademicYearList(instituteId));
-			modelandview.addObject("classes", classAndSectionServices.getInstitutionClassList(instituteId));
-			modelandview.addObject("specialCategories",specialCategoryServices.getInstitutionSpecialCategoryList(instituteId));
-			return modelandview;
+			if(request.getSession().getAttribute("authenticated")!=null && request.getSession().getAttribute("authenticated").equals("true")){
+				if(request.getSession().getAttribute("type").equals("Admin")){
+					ModelAndView modelandview=new ModelAndView("manageinvoice");
+					Integer instituteId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
+					modelandview.addObject("academicYears", academicYearServices.getInstitutionAcademicYearList(instituteId));
+					modelandview.addObject("classes", classAndSectionServices.getInstitutionClassList(instituteId));
+					modelandview.addObject("specialCategories",specialCategoryServices.getInstitutionSpecialCategoryList(instituteId));
+					return modelandview;
+				}
+				else{
+					ModelAndView modelandview=new ModelAndView("redirect:/home");
+					return modelandview;
+				}
+			}
+			else{
+				return new ModelAndView("redirect:/");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

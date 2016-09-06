@@ -43,11 +43,22 @@ public class FeesStructureController {
 	@RequestMapping 
 	public ModelAndView displayFeesTemplatePage(HttpServletRequest request){
 		try {
-			ModelAndView modelandview=new ModelAndView("fees-structure");
-			Integer instituteId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
-			modelandview.addObject("feesstructurelist",institutionServices.getInstituteFeesTemplates(instituteId));
-			modelandview.addObject("feesstructureitemlist",institutionServices.getInstituteFeesTemplateItems(instituteId));
-			return modelandview;
+			if(request.getSession().getAttribute("authenticated")!=null && request.getSession().getAttribute("authenticated").equals("true")){
+				if(request.getSession().getAttribute("type").equals("Admin")){
+					ModelAndView modelandview=new ModelAndView("fees-structure");
+					Integer instituteId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
+					modelandview.addObject("feesstructurelist",institutionServices.getInstituteFeesTemplates(instituteId));
+					modelandview.addObject("feesstructureitemlist",institutionServices.getInstituteFeesTemplateItems(instituteId));
+					return modelandview;
+				}
+				else{
+					ModelAndView modelandview=new ModelAndView("redirect:/home");
+					return modelandview;
+				}
+			}
+			else{
+				return new ModelAndView("redirect:/");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -187,11 +198,22 @@ public class FeesStructureController {
 	@RequestMapping(value="item") 
 	public ModelAndView displayFeesTemplateItemPage(HttpServletRequest request){
 		try {
-			ModelAndView modelandview=new ModelAndView("templateitem");
-			Integer instituteId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
-			modelandview.addObject("feesstructureitemlist",institutionServices.getInstituteFeesTemplateItems(instituteId));
-			modelandview.addObject("ledgerAccounts", institutionServices.getInstitutionLedgerAccountList(instituteId));
-			return modelandview;
+			if(request.getSession().getAttribute("authenticated")!=null && request.getSession().getAttribute("authenticated").equals("true")){
+				if(request.getSession().getAttribute("type").equals("Admin")){
+					ModelAndView modelandview=new ModelAndView("templateitem");
+					Integer instituteId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
+					modelandview.addObject("feesstructureitemlist",institutionServices.getInstituteFeesTemplateItems(instituteId));
+					modelandview.addObject("ledgerAccounts", institutionServices.getInstitutionLedgerAccountList(instituteId));
+					return modelandview;
+				}
+				else{
+					ModelAndView modelandview=new ModelAndView("redirect:/home");
+					return modelandview;
+				}
+			}
+			else{
+				return new ModelAndView("redirect:/");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -299,10 +321,22 @@ public class FeesStructureController {
 	@RequestMapping(value="/feesterm")
 	public ModelAndView  displayFeesTermPage(HttpServletRequest request){
 		try {
-			ModelAndView mv=new ModelAndView("feesterm");
-			Integer institutionId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
-			mv.addObject("feesTerms", institutionServices.getInstitutionFeesTerms(institutionId));
-			return mv;
+			if(request.getSession().getAttribute("authenticated")!=null && request.getSession().getAttribute("authenticated").equals("true")){
+				if(request.getSession().getAttribute("type").equals("Admin")){
+					ModelAndView mv=new ModelAndView("feesterm");
+					Integer institutionId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
+					mv.addObject("feesTerms", institutionServices.getInstitutionFeesTerms(institutionId));
+					return mv;
+				}
+				else{
+					ModelAndView modelandview=new ModelAndView("redirect:/home");
+					return modelandview;
+				}
+			}
+			else{
+				return new ModelAndView("redirect:/");
+			}
+			
 		} catch (Exception e) {
 			throw e;
 		}

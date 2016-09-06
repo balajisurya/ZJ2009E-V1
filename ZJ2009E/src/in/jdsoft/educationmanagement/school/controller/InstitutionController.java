@@ -70,16 +70,27 @@ public class InstitutionController {
 	@RequestMapping(value="editInstitution")
 	public ModelAndView displayEditInstitutionPage(HttpServletRequest request){
 		try {
-			ModelAndView modelandview=new ModelAndView("editinstitution");
-			Integer institutionId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
-			modelandview.addObject("institutionDetails", institutionService.getInstitutionById(institutionId));
-			modelandview.addObject("institutionList", institutionService.getInstitutionsList());
-			modelandview.addObject("geographicallocationList", geographicallocationService.getCountryList());
-			modelandview.addObject("geographicallocationStateList", geographicallocationService.getStateList());
-			modelandview.addObject("geographicallocationCityList", geographicallocationService.getCityList());
-			modelandview.addObject("geographicallocationService", geographicallocationService);
-			modelandview.addObject("currencyList",currencyServices.getCurrecyList());
-			return modelandview;
+			if(request.getSession().getAttribute("authenticated")!=null && request.getSession().getAttribute("authenticated").equals("true")){
+						if(request.getSession().getAttribute("type").equals("Admin")){
+							ModelAndView modelandview=new ModelAndView("editinstitution");
+							Integer institutionId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
+							modelandview.addObject("institutionDetails", institutionService.getInstitutionById(institutionId));
+							modelandview.addObject("institutionList", institutionService.getInstitutionsList());
+							modelandview.addObject("geographicallocationList", geographicallocationService.getCountryList());
+							modelandview.addObject("geographicallocationStateList", geographicallocationService.getStateList());
+							modelandview.addObject("geographicallocationCityList", geographicallocationService.getCityList());
+							modelandview.addObject("geographicallocationService", geographicallocationService);
+							modelandview.addObject("currencyList",currencyServices.getCurrecyList());
+							return modelandview;
+						}
+						else{
+							ModelAndView modelandview=new ModelAndView("redirect:/home");
+							return modelandview;
+						}
+					
+				}else{
+					return new ModelAndView("redirect:/");
+				}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -212,10 +223,22 @@ public class InstitutionController {
 	@RequestMapping(value="ledgerAccounts") 
 	public ModelAndView displayInstitutionLedgerAccountPage(HttpServletRequest request){
 		try {
-			Integer institutionId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
-			ModelAndView modelandview=new ModelAndView("institutionLedgerAccount");
-			modelandview.addObject("institutionAccountsList",institutionService.getInstitutionLedgerAccountList(institutionId));
-			return modelandview;
+			if(request.getSession().getAttribute("authenticated")!=null && request.getSession().getAttribute("authenticated").equals("true")){
+				if(request.getSession().getAttribute("type").equals("Admin")){
+					Integer institutionId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
+					ModelAndView modelandview=new ModelAndView("institutionLedgerAccount");
+					modelandview.addObject("institutionAccountsList",institutionService.getInstitutionLedgerAccountList(institutionId));
+					return modelandview;
+				}
+				else{
+					ModelAndView modelandview=new ModelAndView("redirect:/home");
+					return modelandview;
+				}
+			}
+			else{
+				return new ModelAndView("redirect:/");
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

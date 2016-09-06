@@ -41,10 +41,16 @@ public class ReportController {
 	@RequestMapping(value="/finecollections")	
 	public ModelAndView getPaidFees(HttpServletRequest request){
 		try {
-			ModelAndView mv=new ModelAndView("collectionsReport");
-			Integer instituteId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
-			mv.addObject("fineReceipts", receiptServices.institutionFineReceipts(instituteId));
-			return mv;
+			if(request.getSession().getAttribute("authenticated")!=null && request.getSession().getAttribute("authenticated").equals("true")){
+				ModelAndView mv=new ModelAndView("collectionsReport");
+				Integer instituteId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
+				mv.addObject("fineReceipts", receiptServices.institutionFineReceipts(instituteId));
+				return mv;
+			}
+			else{
+				return new ModelAndView("redirect:/");
+			}
+			
 		} catch (Exception e) {
 			throw e;
 		}
@@ -55,10 +61,15 @@ public class ReportController {
 	@RequestMapping(value="termFeesReport")
 	public ModelAndView displayTermFeesReportPage(HttpServletRequest request){
 		try {
-			Integer instituteId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
-			ModelAndView mv=new ModelAndView("termfeesreport");
-			mv.addObject("academicYears",academicYearServices.getInstitutionAcademicYearList(instituteId));
-			return mv;
+			if(request.getSession().getAttribute("authenticated")!=null && request.getSession().getAttribute("authenticated").equals("true")){
+				Integer instituteId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
+				ModelAndView mv=new ModelAndView("termfeesreport");
+				mv.addObject("academicYears",academicYearServices.getInstitutionAcademicYearList(instituteId));
+				return mv;
+			}
+			else{
+				return new ModelAndView("redirect:/");
+			}
 		} catch (Exception e) {
 			throw e;
 		}

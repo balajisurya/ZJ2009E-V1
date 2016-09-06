@@ -39,11 +39,22 @@ public class ClassAndSectionController {
 	@RequestMapping 
 	public ModelAndView displayClassAndSectionPage(HttpServletRequest request){
 		try {
-			 Integer institutionId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
-			ModelAndView modelandview=new ModelAndView("classAndSection");
-			modelandview.addObject("sectionList",classAndSectionServices.getInstitutionSectionList(institutionId));
-			modelandview.addObject("classList",classAndSectionServices.getInstitutionClassList(institutionId));
-			return modelandview;
+			if(request.getSession().getAttribute("authenticated")!=null && request.getSession().getAttribute("authenticated").equals("true")){
+				if(request.getSession().getAttribute("type").equals("Admin")){
+					Integer institutionId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
+					ModelAndView modelandview=new ModelAndView("classAndSection");
+					modelandview.addObject("sectionList",classAndSectionServices.getInstitutionSectionList(institutionId));
+					modelandview.addObject("classList",classAndSectionServices.getInstitutionClassList(institutionId));
+					return modelandview;
+				}
+				else{
+					ModelAndView modelandview=new ModelAndView("redirect:/home");
+					return modelandview;
+				}
+			}
+			else{
+				return new ModelAndView("redirect:/");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

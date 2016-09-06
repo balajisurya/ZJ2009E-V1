@@ -36,9 +36,14 @@ public class BackupAndRestoreController {
 	@RequestMapping
 	public ModelAndView displayBackupAndRestore(HttpServletRequest request){
 		try {
-			ModelAndView modelandview=new ModelAndView("backupandrestore");
+			if(request.getSession().getAttribute("authenticated")!=null && request.getSession().getAttribute("authenticated").equals("true")){
+				ModelAndView modelandview=new ModelAndView("backupandrestore");
+				return modelandview;
+			}
+			else{
+				return new ModelAndView("redirect:/");
+			}
 			
-			return modelandview;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

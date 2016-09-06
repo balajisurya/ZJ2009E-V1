@@ -46,9 +46,20 @@ public class UserManagementController {
 	@RequestMapping
 	public ModelAndView displayUserPage(HttpServletRequest request){
 		try {
-			ModelAndView modelandview=new ModelAndView("schoolusermanagement");
-			modelandview.addObject("userList",userService.getUserList());
-			return modelandview;
+			if(request.getSession().getAttribute("authenticated")!=null && request.getSession().getAttribute("authenticated").equals("true")){
+				if(request.getSession().getAttribute("type").equals("Admin")){
+					ModelAndView modelandview=new ModelAndView("schoolusermanagement");
+					modelandview.addObject("userList",userService.getUserList());
+					return modelandview;
+				}
+				else{
+					ModelAndView modelandview=new ModelAndView("redirect:/home");
+					return modelandview;
+				}
+			}
+			else{
+				return new ModelAndView("redirect:/");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

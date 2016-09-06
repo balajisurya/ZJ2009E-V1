@@ -34,10 +34,22 @@ public class SpecialCategoryController {
 	@RequestMapping 
 	public ModelAndView displaySpecialCategoryPage(HttpServletRequest request){
 		try {
-			Integer institutionId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
-			ModelAndView modelandview=new ModelAndView("speCategory");
-			modelandview.addObject("specialCategoryList",specialCategoryServices.getInstitutionSpecialCategoryList(institutionId));
-			return modelandview;
+			
+			if(request.getSession().getAttribute("authenticated")!=null && request.getSession().getAttribute("authenticated").equals("true")){
+				if(request.getSession().getAttribute("type").equals("Admin")){
+					Integer institutionId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
+					ModelAndView modelandview=new ModelAndView("speCategory");
+					modelandview.addObject("specialCategoryList",specialCategoryServices.getInstitutionSpecialCategoryList(institutionId));
+					return modelandview;
+				}
+				else{
+					ModelAndView modelandview=new ModelAndView("redirect:/home");
+					return modelandview;
+				}
+			}
+			else{
+				return new ModelAndView("redirect:/");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

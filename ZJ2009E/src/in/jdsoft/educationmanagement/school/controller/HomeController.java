@@ -90,26 +90,7 @@ public class HomeController {
 				String password=request.getParameter("adminPassword");
 				String profilePath="com.png";
 				Integer institutionStatus=1;
-				
-				/*//institution setup
-				String institutionName="igce";
-				String institutionAddressline1="addressLine1";
-				String institutionAddressline2="addressLine2";
-				String institutionCountry="India";
-				String institutionState="Tamilnadu";
-				String institutionCity="Trichy";
-				String institutionContact="7871122783";
-				String institutionEmail="igce@gmail.com";
-				String institutionLogo="a.png";
-				String institutionPostcode="620008";
-				String currencyCode="INR";
-				
-				//user setup
-				String userName="nikil";
-				String userEmail="nikil@jdsoft.in";
-				String password="password";
-				String profilePath="a.png";
-				Integer institutionStatus=1;*/
+			
 				Institution institution=new Institution(institutionName, institutionAddressline1, institutionAddressline2, institutionCountry, institutionState, institutionCity, institutionContact, institutionEmail, institutionLogo, institutionPostcode, currencyCode, institutionStatus);
 				institutionServices.setUpInstitutionWithAdmin(institution, userName, userEmail, password, profilePath);
 			return "redirect:/";

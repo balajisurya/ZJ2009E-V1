@@ -189,10 +189,8 @@
              
                     <div class="row">
                                  <div class="col-sm-offset-3">
-                                                                      <button style="float:right" type="button" id="deleteStudents" class="btn btn-success">Delete Selected Student</button>
-
-                                 
-                                                                     </div>
+                                   <button style="float:right" type="button" id="deleteStudents" class="btn btn-success">Delete Selected Student</button>
+                                 </div>
                               </div>
                          
                     </form>

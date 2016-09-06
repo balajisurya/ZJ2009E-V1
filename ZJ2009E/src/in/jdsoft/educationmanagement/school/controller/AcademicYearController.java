@@ -37,11 +37,22 @@ public class AcademicYearController {
 	@RequestMapping 
 	public ModelAndView displayAcademicYearPage(HttpServletRequest request){
 		try {
-			Integer institutionId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
-			ModelAndView modelandview=new ModelAndView("schoolAcademicYear");
-			modelandview.addObject("academicYearList",academicYearServices.getInstitutionAcademicYearList(institutionId));
-			modelandview.addObject("feesTermList",institutionServices.getInstitutionFeesTerms(institutionId));
-			return modelandview;
+			if(request.getSession().getAttribute("authenticated")!=null && request.getSession().getAttribute("authenticated").equals("true")){
+				if(request.getSession().getAttribute("type").equals("Admin")){
+					Integer institutionId=Integer.parseInt(request.getSession().getAttribute("instituteId").toString());
+					ModelAndView modelandview=new ModelAndView("schoolAcademicYear");
+					modelandview.addObject("academicYearList",academicYearServices.getInstitutionAcademicYearList(institutionId));
+					modelandview.addObject("feesTermList",institutionServices.getInstitutionFeesTerms(institutionId));
+					return modelandview;
+				}
+				else{
+					ModelAndView modelandview=new ModelAndView("redirect:/home");
+					return modelandview;
+				}
+			}
+			else{
+				return new ModelAndView("redirect:/");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
