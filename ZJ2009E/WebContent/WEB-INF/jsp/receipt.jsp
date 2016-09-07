@@ -44,16 +44,30 @@
       <script src="${pageContext.request.contextPath}/resources/themes/printpage/js/jquery.printPage.js"></script>
      
       <script src="${pageContext.request.contextPath}/resources/cdntolocal/js/jquery-ui-1.10.3.js"></script>
-      <c:if test="${!empty receiptId}">
+      
+    <%--    <c:if test="${!empty receiptId}">
+       <c:forEach items="${receiptId}" var="receipt">
+       <c:set var="printReceipt" value="${receipt}"></c:set>
+       		<script type="text/javascript">
+       		var modalId='${receipt}';
+       		alert(modalId);
+	       		$(document).ready(function(){
+	       			$("#print").printPage(); 
+	       			$('#'+modalId).modal('show');
+	            });
+       		</script>
+       </c:forEach>
+      </c:if> --%>
+     <%--  <c:if test="${!empty receiptId}">
       <script>
          $(document).ready(function() {
-        	 var receiptId='[${receiptId}'
+        	 var receiptId='${receiptId}'
         	 alert(receiptId);
         	/* $("#print").printPage();
            $('#printreceipt').modal('show'); */
          });
       </script>
-      </c:if>
+      </c:if> --%>
        
 </head> 
                 <%@ include file="master_menu.jsp" %>
@@ -325,7 +339,7 @@
              
            
             
-       <div class="modal fade" id="printreceipt" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static" data-keyboard="false">
+       <div class="modal fade" id="${printReceipt}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static" data-keyboard="false">
                <div class="modal-dialog" role="document">
                   <div class="modal-content">
                      <div class="modal-header">
@@ -336,8 +350,7 @@
                         <h5>You want to print this receipt ??</h5>
                      </div>
                      <div class="modal-footer">
-                     <a type="button" class="btn btn-primary" id="print" href="${pageContext.request.contextPath}/receipt/print?receiptId=${receiptId}">Print</a>
-                        
+                     	<a type="button" class="btn btn-primary" id="print" href="${pageContext.request.contextPath}/receipt/print?receiptId=${printReceipt}">Print</a>
                      </div>
                  </div>
                </div>

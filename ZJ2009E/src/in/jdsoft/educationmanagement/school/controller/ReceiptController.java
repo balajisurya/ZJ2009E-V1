@@ -107,7 +107,11 @@ public class ReceiptController {
 				String createdBy=request.getSession().getAttribute("username").toString();
 				String modifiedBy=request.getSession().getAttribute("username").toString();
 				Integer []receiptId=receiptServices.receiptByCash(paidInvoices,fineAmount,totalPaidAmount, paymentMode, receivedDate,createdBy,modifiedBy);
-				redirectAttributes.addFlashAttribute("receiptId", receiptId);
+				ArrayList<Integer> receiptIds=new ArrayList<Integer>();
+				for (Integer receiptId1 : receiptId) {
+					receiptIds.add(receiptId1);
+				}
+				redirectAttributes.addFlashAttribute("receiptId", receiptIds);
 				return "redirect:/receipt";
 			}
 			else if(paymentModeId==2){
@@ -120,7 +124,11 @@ public class ReceiptController {
 				String createdBy=request.getSession().getAttribute("username").toString();
 				String modifiedBy=request.getSession().getAttribute("username").toString();
 				Integer []receiptId=receiptServices.receiptByCheque(paidInvoices,fineAmount,totalPaidAmount, paymentMode, chequeReceivedDate, chequeNo, chequeDate, chequeBankName, chequeBranchName,createdBy,modifiedBy);
-				redirectAttributes.addFlashAttribute("receiptId", receiptId);
+				ArrayList<Integer> receiptIds=new ArrayList<Integer>();
+				for (Integer receiptId1 : receiptId) {
+					receiptIds.add(receiptId1);
+				}
+				redirectAttributes.addFlashAttribute("receiptId", receiptIds);
 				return "redirect:/receipt";
 			}
 			else if(paymentModeId==3){
@@ -133,7 +141,11 @@ public class ReceiptController {
 				String createdBy=request.getSession().getAttribute("username").toString();
 				String modifiedBy=request.getSession().getAttribute("username").toString();
 				Integer []receiptId=receiptServices.receiptByDD(paidInvoices,fineAmount,totalPaidAmount, paymentMode, ddReceivedDate, ddNo, ddDate, ddBankName, ddBranchName,createdBy,modifiedBy);
-				redirectAttributes.addFlashAttribute("receiptId", receiptId);
+				ArrayList<Integer> receiptIds=new ArrayList<Integer>();
+				for (Integer receiptId1 : receiptId) {
+					receiptIds.add(receiptId1);
+				}
+				redirectAttributes.addFlashAttribute("receiptId", receiptIds);
 				return "redirect:/receipt";
 			}
 			else{
